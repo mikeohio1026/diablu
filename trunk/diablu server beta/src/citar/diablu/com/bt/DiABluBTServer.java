@@ -24,9 +24,9 @@ public class DiABluBTServer extends Thread {
     DiABluBC parent;
     boolean DONE = false;
     
-    /* Service Name & Description */
+    /* Service Name*/
     String serviceName = "DiABluServer";
-    String serviceDesc = "Simple messaging service that allows you to interact with this digital art installation";
+
     
     StreamConnectionNotifier server = null;     // the connection notifier
     RemoteDevice clientDevice = null;
@@ -42,13 +42,12 @@ public class DiABluBTServer extends Thread {
         byte[] dataOUT = new byte[256];
     
     /** Creates a new instance of DiABluBTServer */
-    public DiABluBTServer(DiABluBC classBC,String sName,String sDesc) {
+    public DiABluBTServer(DiABluBC classBC,String sName) {
         
         // initialize vars
         this.parent = classBC;                      // this class gui
         this.serviceName = sName;                   // service name
-        this.serviceDesc = sDesc;                   // service description
-     
+  
 
         
        

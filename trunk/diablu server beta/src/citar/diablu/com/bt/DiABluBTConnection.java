@@ -17,6 +17,8 @@ import citar.diablu.classes.DiABluMsg;
 import citar.diablu.classes.DiABluID;
 import citar.diablu.classes.DiABluKey;
 
+import citar.diablu.com.bt.DiABluBTCONSTANTS.*;
+
 /**
  *
  * @author nrodrigues
@@ -31,7 +33,7 @@ public class DiABluBTConnection extends Thread {
     RemoteDevice clientDevice = null;
     INWatcher outInfo;   
     Thread btClient;
-    
+    DiABluBTCONSTANTS mKeys;
     
     /** Creates a new instance of DiABluBTConnection */
     public DiABluBTConnection (StreamConnection conn,INWatcher out, String clientID){
@@ -145,6 +147,10 @@ public class DiABluBTConnection extends Thread {
             log(4,"Keypressed:"+keys[0]);
             log(4,"Game Action:"+keys[1]);
             
+            // process the keys
+            String keyPressed = getKeyJavaString(keys[0]);
+            String gACtion = getKeyJavaString(keys[1]);
+            
             // Create the DiABluKey
             DiABluKey dbK = new DiABluKey(dID,keys[0],keys[1]);
             
@@ -158,6 +164,45 @@ public class DiABluBTConnection extends Thread {
         
         }
         
+    }
+    /**
+     * This method returns the corresponding String of a given String(int(keycode))
+     * The constants values used by this method are defined in the DiABluBTCONSTANTS
+     * TODO:use enum(?) instead of if-then-else
+     *
+     */
+    private String getKeyJavaString(String keyCode){
+        
+        String javaString = "unknowned";
+        // convert the string
+      try {
+            
+        int kC = Integer.parseInt(keyCode);    
+                
+        if (kC==mKeys.DOWN){ javaString = mKeys.SDOWN; } else
+            if (kC==mKeys.FIRE){ javaString = mKeys.SFIRE; } else
+                if (kC==mKeys.GAME_A){ javaString = mKeys.SGAME_A; } else
+                    if (kC==mKeys.GAME_B){ javaString = mKeys.SGAME_B; } else
+                        if (kC==mKeys.GAME_C){ javaString = mKeys.SGAME_C; } else
+                            if (kC==mKeys.GAME_D){ javaString = mKeys.SGAME_D; } else
+                                if (kC==mKeys.KEY_NUM0){ javaString = mKeys.SKEY_NUM0; } else                                   
+                                        if (kC==mKeys.KEY_NUM1){ javaString = mKeys.SKEY_NUM1; } else
+                                            if (kC==mKeys.KEY_NUM2){ javaString = mKeys.SKEY_NUM2; } else
+                                                if (kC==mKeys.KEY_NUM3){ javaString = mKeys.SKEY_NUM3; } else
+                                                    if (kC==mKeys.KEY_NUM4){ javaString = mKeys.SKEY_NUM4; } else
+                                                        if (kC==mKeys.KEY_NUM5){ javaString = mKeys.SKEY_NUM5; } else
+                                                            if (kC==mKeys.KEY_NUM6){ javaString = mKeys.SKEY_NUM6; } else
+                                                                if (kC==mKeys.KEY_NUM7){ javaString = mKeys.SKEY_NUM7; } else
+                                                                    if (kC==mKeys.KEY_NUM8){ javaString = mKeys.SKEY_NUM8; } else
+                                                                        if (kC==mKeys.KEY_NUM9){ javaString = mKeys.SKEY_NUM9; } else
+                                                                            if (kC==mKeys.KEY_STAR){ javaString = mKeys.SKEY_STAR; } else
+                                                                                if (kC==mKeys.KEY_POUND){ javaString = mKeys.SKEY_POUND; } 
+                                                    
+                                                                        
+        } catch (Exception e){
+            log(3,"BTConnection:Error parsing key:"+keyCode);
+        }
+        return javaString;
     }
     
     private void createMsg(String msg,String id){
