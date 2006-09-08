@@ -1091,14 +1091,7 @@ public class DiABluUI extends javax.swing.JFrame {
     public String getServiceName () {
         
         return service_jtf.getText();
-    }
-    
-    public String getServiceDescription() {
-        
-        return serviceDesc_jtf.getText();
-        
-    }
-    
+    }    
     
     // Target Address
     /**

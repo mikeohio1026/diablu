@@ -524,9 +524,9 @@ public class DiABluBC implements INWatcher {
       System.out.println("Calling Server Service Class");
      
       String sName = DBui.getServiceName();             
-      String sDesc = DBui.getServiceDescription();
+
       System.out.println("[DiABluBC]Calling service provider class...");
-      DiABluBTServer dBTs = new DiABluBTServer(this,sName,sDesc);
+      DiABluBTServer dBTs = new DiABluBTServer(this,sName);
       dBTs.start();
       //DiABluBTrfcommJSR82b DBspp = new DiABluBTrfcommJSR82b();
       //DBspp.start();
