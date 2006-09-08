@@ -535,7 +535,7 @@ public class DiABluUI extends javax.swing.JFrame {
         DBbc.sendMsg(msgin,addr);
         
         // Log - debug mode only since the log is processed in DBbc class
-        //newLog(0,"[Send Text Message]:"+msgin.getText());
+        //newLog(4,"[Send Text Message]:"+msgin.getText());
                      
     }//GEN-LAST:event_sendTextMsg_jbMouseClicked
 
@@ -546,7 +546,7 @@ public class DiABluUI extends javax.swing.JFrame {
 
     private void sendKeys_jbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendKeys_jbActionPerformed
         
-        newLog(0,"[SIMULATED MESSAGING]Processing Keys...");
+        newLog(4,"[SIMULATED MESSAGING]Processing Keys...");
                
         // Data collect: get the game action & key code
         String gActionT = getGAction();
@@ -570,7 +570,7 @@ public class DiABluUI extends javax.swing.JFrame {
         // Send the keys 
         DBbc.sendKeys(DBkey,addr);
         
-        newLog(0,"[SIMULATED MESSAGING]Keys sended to Business Core...");
+        newLog(4,"[SIMULATED MESSAGING]Keys sended to Business Core...");
             
     }//GEN-LAST:event_sendKeys_jbActionPerformed
 
@@ -603,7 +603,7 @@ public class DiABluUI extends javax.swing.JFrame {
                 // We need to get the data in order to send it to /deviceout
                 uuidT = modelT.getValueAt(detectedTable_jt.getSelectedRow(),0).toString();
                 fnameT = modelT.getValueAt(detectedTable_jt.getSelectedRow(),1).toString();
-                newLog(0,"[REMOVE SIMULATED DEVICE]Removing the device...");          
+                newLog(4,"[REMOVE SIMULATED DEVICE]Removing the device...");          
                 //modelT.removeRow(detectedTable_jt.getSelectedRow());                
                 
                 // Create the corresponding DiABlu Device to be removed
@@ -613,7 +613,7 @@ public class DiABluUI extends javax.swing.JFrame {
                 // Add the device to the Vector of removed devices
                 dDevicesRemove.addElement(DBdvT);
          
-                newLog(0,"[REMOVE SIMULATED DEVICES]UUID:"+uuidT+"|FNAME:"+fnameT);
+                newLog(4,"[REMOVE SIMULATED DEVICES]UUID:"+uuidT+"|FNAME:"+fnameT);
                 
             } else {
                     // We have multiple remove selections                    
@@ -621,7 +621,7 @@ public class DiABluUI extends javax.swing.JFrame {
                     // Let's get the index of them all
                     int[] mR = new int[mRemove];
                     mR = detectedTable_jt.getSelectedRows();
-                    newLog(0,"[REMOVE SIMULATED DEVICES]Selected "+ mRemove +" devices...");
+                    newLog(4,"[REMOVE SIMULATED DEVICES]Selected "+ mRemove +" devices...");
                 
                     for (int i=0; i < mRemove; i++){
                     
@@ -644,7 +644,7 @@ public class DiABluUI extends javax.swing.JFrame {
                 }
                 
                 // Update the tabel model
-                newLog(0,"[REMOVE SIMULATED DEVICES]Updating table model..."); 
+                newLog(4,"[REMOVE SIMULATED DEVICES]Updating table model..."); 
                 //detectedTable_jt.setModel( (TableModel) modelT );
             
                 /**
@@ -655,29 +655,29 @@ public class DiABluUI extends javax.swing.JFrame {
                  *
                  */                                                               
                 
-                newLog(0,"[REMOVE SIMULATED DEVICES]Sending OSC Information...");
+                newLog(4,"[REMOVE SIMULATED DEVICES]Sending OSC Information...");
                 
                 // Send the list of removed devices
-                newLog(0,"[DiABluUI-remove_jb()]Sending list("+dDevicesRemove.size()+") of devices to be removed");
+                newLog(4,"[DiABluUI-remove_jb()]Sending list("+dDevicesRemove.size()+") of devices to be removed");
                 
                 for (int i=0;i<dDevicesRemove.size();i++){
                     uuidT=((DiABluDevice)dDevicesRemove.elementAt(i)).getID().getUUID();
                     fnameT=((DiABluDevice)dDevicesRemove.elementAt(i)).getID().getFName();
-                    newLog(0,"[DiABluUI-remove_jb()]Device:"+fnameT+"@"+uuidT);
+                    newLog(4,"[DiABluUI-remove_jb()]Device:"+fnameT+"@"+uuidT);
                 }
                 
                 DBbc.sendRemoveDevices(dDevicesRemove,addr);
-                newLog(0,"[REMOVE SIMULATED DEVICE][OSC /device(s)out]:"+ dDevicesRemove.size());
+                newLog(4,"[REMOVE SIMULATED DEVICE][OSC /device(s)out]:"+ dDevicesRemove.size());
                 
                 // Update counter
                 int dc = detectedTable_jt.getRowCount();                    
                 DBbc.sendDeviceCount(dc,addr);                
-                newLog(0,"[REMOVE SIMULATED DEVICE][OSC /devicecount]:"+ dc );
+                newLog(4,"[REMOVE SIMULATED DEVICE][OSC /devicecount]:"+ dc );
                 
                 // Update devicelist
                 dDevicesList = modelTOvector (detectedTable_jt.getModel());
                 DBbc.sendDeviceList(dDevicesList, addr);
-                newLog(0,"[REMOVE SIMULATED DEVICES]Updating list /devicelist");                                            
+                newLog(4,"[REMOVE SIMULATED DEVICES]Updating list /devicelist");                                            
                 
         }
     }//GEN-LAST:event_remove_jbActionPerformed
@@ -700,19 +700,19 @@ public class DiABluUI extends javax.swing.JFrame {
             int rowT = detectedTable_jt.getSelectedRow();
             String msg = "";
             
-            newLog(0,"[EDIT SIMULATED DEVICE]Selected row index:"+rowT);
+            newLog(4,"[EDIT SIMULATED DEVICE]Selected row index:"+rowT);
             
             // old values
-            //newLog(0,"[EDIT SIMULATED DEVICE]Copying old values...");
+            //newLog(4,"[EDIT SIMULATED DEVICE]Copying old values...");
             //String uuidO = detectedTable_jt.getValueAt(rowT,0).toString();
             //String fnameO = detectedTable_jt.getValueAt(rowT,1).toString();
                        
             // new values
-            newLog(0,"[EDIT SIMULATED DEVICE]Copying new values...");
+            newLog(4,"[EDIT SIMULATED DEVICE]Copying new values...");
             String uuidN = getUUID();
             String fnameN = getFName();
            
-            //newLog(0,"[EDIT SIMULATED DEVICE]Setting new values...");
+            //newLog(4,"[EDIT SIMULATED DEVICE]Setting new values...");
             //detectedTable_jt.setValueAt(uuidN,rowT,0);
             //detectedTable_jt.setValueAt(fnameN,rowT,1);
             Vector namesEdited = new Vector();
@@ -727,7 +727,7 @@ public class DiABluUI extends javax.swing.JFrame {
             dDevicesList = modelTOvector (detectedTable_jt.getModel());
             DBbc.sendNamesChanged(namesEdited,addr);
             DBbc.sendDeviceList(dDevicesList,addr);            
-            newLog(0,"[EDIT SIMULATED DEVICES]Updating list /devicelist");
+            newLog(4,"[EDIT SIMULATED DEVICES]Updating list /devicelist");
      
         }
         
@@ -760,12 +760,12 @@ public class DiABluUI extends javax.swing.JFrame {
         Vector dDeviceList = new Vector();
         dDeviceList.addElement(DBdv);
         DBbc.sendAddDevices(dDeviceList,addr);
-        newLog(0,"[ADD SIMULATED DEVICE][OSC /devicein]: "+uuidT+" | "+fnameT);
+        newLog(4,"[ADD SIMULATED DEVICE][OSC /devicein]: "+uuidT+" | "+fnameT);
         
         // update the device count                       
         int dc = detectedTable_jt.getRowCount();                    
         DBbc.sendDeviceCount(dc,addr);                
-        newLog(0,"[ADD SIMULATED DEVICE][OSC /devicecount]:"+ dc );
+        newLog(4,"[ADD SIMULATED DEVICE][OSC /devicecount]:"+ dc );
                
     }//GEN-LAST:event_add_jbActionPerformed
             
@@ -806,7 +806,7 @@ public class DiABluUI extends javax.swing.JFrame {
             return;
         }
         
-        newLog(0,"[DiABluUI-newDeviceList()]A new device list with "+
+        newLog(4,"[DiABluUI-newDeviceList()]A new device list with "+
                 newDeviceList.size()+"elements has entered the GUI");
         // empty the previous list
         //detectedTable_jt.removeAll();
@@ -1018,7 +1018,7 @@ public class DiABluUI extends javax.swing.JFrame {
     private String getGAction () {
         
         String gaT = gaction_jcb.getSelectedItem().toString();
-        newLog(0,"[SIMULATED MESSAGING]Game Action Pressed:"+gaT);
+        newLog(4,"[SIMULATED MESSAGING]Game Action Pressed:"+gaT);
         return  gaT;
        
     }
@@ -1040,7 +1040,7 @@ public class DiABluUI extends javax.swing.JFrame {
     private String getKeyPressed () {
     
         String keyT = key_jcb.getSelectedItem().toString();
-        newLog(0,"[SIMULATED MESSAGING]Key Pressed:"+keyT);
+        newLog(4,"[SIMULATED MESSAGING]Key Pressed:"+keyT);
         return  keyT;
        
     }
@@ -1051,7 +1051,7 @@ public class DiABluUI extends javax.swing.JFrame {
     private DiABluMsg getTextMessage () {
         
         // Info & Debug Log
-        newLog(0,"[getTextMessage][Assembling a DiABlu Message...]");
+        newLog(4,"[getTextMessage][Assembling a DiABlu Message...]");
         
         // Construct the DiABlu ID of the sender
         String sendersUUID = getUUID();
@@ -1157,11 +1157,11 @@ public class DiABluUI extends javax.swing.JFrame {
         String deviceT = newDD.getStringDevice();
         //String statusT = newDD.getStringStatus();
                         
-        newLog(0,"[DiABluUI-addDevice()]UUID:"+uuidT+"|FNAME:"+fnameT);
+        newLog(4,"[DiABluUI-addDevice()]UUID:"+uuidT+"|FNAME:"+fnameT);
         DefaultTableModel modelT = (DefaultTableModel) detectedTable_jt.getModel();
         
         modelT.addRow(new Object[] { uuidT, fnameT, deviceT, "" });
-        //newLog(0,"[DiABluUI-addDevice()]Updating table...");
+        //newLog(4,"[DiABluUI-addDevice()]Updating table...");
         detectedTable_jt.setModel( (TableModel) modelT );        
         
     }
@@ -1210,7 +1210,7 @@ public class DiABluUI extends javax.swing.JFrame {
             // if We've found a match let's remove the device            
             if (locatedRow!=-1) {
                 
-                newLog(0,"[DiABluUI-removing device @"+locatedRow); 
+                newLog(4,"[DiABluUI-removing device @"+locatedRow); 
                 // remove the row
                 currentTable.removeRow(locatedRow);    
                 // update the table
