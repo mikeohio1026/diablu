@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : diABluScoutDefaultMap.xml
+    Created on : 7 de Setembro de 2006, 1:43
+    Author     : Nuno Rodrigues
+    Description:
+        Purpose of the document follows.
+-->
+
+<map>
+
+    <!-- Map's name   -->
+    <name>Citar</name>
+    
+    <landmark>
+        
+        <landname>Laboratorio</landname>
+        <anchorpoint>12QW1234qw</anchorpoint>
+        <anchorpoint>12321WDSA8</anchorpoint>
+                
+    </landmark>
+    
+    <landmark>
+        
+        <landname>JC Office</landname>
+        <anchorpoint>12QW123423</anchorpoint>
+        <anchorpoint>12321W45RT</anchorpoint>
+                
+    </landmark>
+            
+</map>
