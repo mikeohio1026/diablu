@@ -60,7 +60,7 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
     public void log(String logMsg) {
         
         // simple info
-        dbBC.newLog(0,"[BT-discovery]:"+logMsg);
+        dbBC.newLog(4,"[BT-discovery]:"+logMsg);
       
     }
     

@@ -47,7 +47,7 @@ public class DiABluBTConnection extends Thread {
     // DEPRECATED
     public void log(String s){
         
-        outInfo.newLog(0,s);
+        outInfo.newLog(4,s);
         
     }
     
