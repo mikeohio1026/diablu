@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MVDData version="1.2">
+    <DesignDocument designVersion="MIDP-2" uidCounter="156">
+        <DesignComponent id="$MobileDevice" typeid="MIDP:$MobileDevice" uid="0"/>
+        <DesignComponent id="$StartPoint" typeid="MIDP:$StartPoint" uid="1">
+            <Property name="targetDisplayable" value="diabluSearchForm"/>
+            <Property name="targetForwardDisplayable"/>
+        </DesignComponent>
+        <DesignComponent id="exitCommand" typeid="MIDP:javax.microedition.lcdui.Command" uid="5">
+            <Property name="label" value="STRING:Exit"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="EXIT"/>
+        </DesignComponent>
+        <DesignComponent id="msg" typeid="MIDP:javax.microedition.lcdui.Form" uid="14">
+            <Property name="title" value="STRING:DiABlu Mobile"/>
+            <ContainerProperty name="commands">
+                <ContainerPropertyItem value="$CommandAction1"/>
+                <ContainerPropertyItem value="$CommandAction4"/>
+                <ContainerPropertyItem value="$CommandAction9"/>
+                <ContainerPropertyItem value="$CommandAction8"/>
+                <ContainerPropertyItem value="$CommandAction13"/>
+                <ContainerPropertyItem value="$CommandAction14"/>
+            </ContainerProperty>
+            <ContainerProperty name="items">
+                <ContainerPropertyItem value="spacer2"/>
+                <ContainerPropertyItem value="choiceDiABlu"/>
+                <ContainerPropertyItem value="spacer1"/>
+                <ContainerPropertyItem value="spacer3"/>
+                <ContainerPropertyItem value="spacer4"/>
+                <ContainerPropertyItem value="diabluMsg"/>
+            </ContainerProperty>
+        </DesignComponent>
+        <DesignComponent id="alertDiABlu" typeid="MIDP:javax.microedition.lcdui.Alert" uid="16">
+            <Property name="title" value="STRING:DiAblu ALERT!"/>
+            <ContainerProperty name="commands">
+                <ContainerPropertyItem value="$CommandAction11"/>
+                <ContainerPropertyItem value="$CommandAction12"/>
+            </ContainerProperty>
+            <Property name="string" value="CODE:ALERT_MESSAGE"/>
+            <Property name="timeout" value="10"/>
+            <Property name="type" value="WARNING"/>
+            <Property name="image" value="alertDB"/>
+        </DesignComponent>
+        <DesignComponent id="help" typeid="MIDP:javax.microedition.lcdui.Form" uid="17">
+            <Property name="title" value="STRING:DiABlu Mobile Help"/>
+            <Property name="ticker" value="helpTicker"/>
+            <ContainerProperty name="commands">
+                <ContainerPropertyItem value="$CommandAction6"/>
+            </ContainerProperty>
+            <ContainerProperty name="items"/>
+        </DesignComponent>
+        <DesignComponent id="sendKeys" typeid="MIDP:javax.microedition.lcdui.Command" uid="18">
+            <Property name="label" value="STRING:Send Keys"/>
+            <Property name="longLabel" value="STRING:Send Keys"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="SCREEN"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction1" typeid="MIDP:CommandAction" uid="19">
+            <Property name="targetDisplayable" value="keyboardSensor"/>
+            <Property name="targetForwardDisplayable"/>
+            <Property name="actionSource" value="sendKeys"/>
+            <Property name="actionOrigin" value="msg"/>
+        </DesignComponent>
+        <DesignComponent id="exitDiABlu" typeid="MIDP:javax.microedition.lcdui.Command" uid="25">
+            <Property name="label" value="STRING:Exit"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="EXIT"/>
+        </DesignComponent>
+        <DesignComponent id="exitCommand2" typeid="MIDP:javax.microedition.lcdui.Command" uid="27">
+            <Property name="label" value="STRING:Exit"/>
+            <Property name="longLabel" value="STRING:Exits the DiABlu Mobile"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="EXIT"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction4" typeid="MIDP:CommandAction" uid="28">
+            <Property name="targetDisplayable" value="$MobileDevice"/>
+            <Property name="targetForwardDisplayable"/>
+            <Property name="actionSource" value="exitDiABlu"/>
+            <Property name="actionOrigin" value="msg"/>
+        </DesignComponent>
+        <DesignComponent id="choiceDiABlu" typeid="MIDP:javax.microedition.lcdui.ChoiceGroup" uid="29">
+            <Property name="label" value="STRING:Choose DiABlu Server"/>
+            <Property name="choiceType" value="POPUP"/>
+            <ContainerProperty name="commands"/>
+            <ContainerProperty name="elements"/>
+        </DesignComponent>
+        <DesignComponent id="backCommand1" typeid="MIDP:javax.microedition.lcdui.Command" uid="31">
+            <Property name="label" value="STRING:Back"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="BACK"/>
+        </DesignComponent>
+        <DesignComponent id="helpKeys" typeid="MIDP:javax.microedition.lcdui.Command" uid="33">
+            <Property name="label" value="STRING:Help"/>
+            <Property name="longLabel" value="STRING:Do you need some assistance ?"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="HELP"/>
+        </DesignComponent>
+        <DesignComponent id="backCommand2" typeid="MIDP:javax.microedition.lcdui.Command" uid="35">
+            <Property name="label" value="STRING:Back"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="BACK"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction6" typeid="MIDP:CommandAction" uid="36">
+            <Property name="targetDisplayable"/>
+            <Property name="targetForwardDisplayable"/>
+            <Property name="actionSource" value="backCommand2"/>
+            <Property name="actionOrigin" value="help"/>
+        </DesignComponent>
+        <DesignComponent id="exitHelp" typeid="MIDP:javax.microedition.lcdui.Command" uid="38">
+            <Property name="label" value="STRING: Exit DiABlu"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="EXIT"/>
+        </DesignComponent>
+        <DesignComponent id="helpMain" typeid="MIDP:javax.microedition.lcdui.Command" uid="40">
+            <Property name="label" value="STRING:Help"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="HELP"/>
+        </DesignComponent>
+        <DesignComponent id="itemCommand1" typeid="MIDP:javax.microedition.lcdui.Command" uid="42">
+            <Property name="label" value="STRING:Item"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="ITEM"/>
+        </DesignComponent>
+        <DesignComponent id="helpMain2" typeid="MIDP:javax.microedition.lcdui.Command" uid="45">
+            <Property name="label" value="STRING:Help"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="HELP"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction9" typeid="MIDP:CommandAction" uid="46">
+            <Property name="targetDisplayable" value="help"/>
+            <Property name="targetForwardDisplayable" value="msg"/>
+            <Property name="actionSource" value="helpMain"/>
+            <Property name="actionOrigin" value="msg"/>
+        </DesignComponent>
+        <DesignComponent id="spacer1" typeid="MIDP-2:javax.microedition.lcdui.Spacer" uid="47">
+            <Property name="minWidth" value="1000"/>
+            <Property name="minHeight" value="1"/>
+        </DesignComponent>
+        <DesignComponent id="diabluMsg" typeid="MIDP:javax.microedition.lcdui.TextField" uid="48">
+            <Property name="label" value="STRING:Type your message"/>
+            <Property name="maxSize" value="120"/>
+            <ContainerProperty name="commands"/>
+        </DesignComponent>
+        <DesignComponent id="okCommand1" typeid="MIDP:javax.microedition.lcdui.Command" uid="51">
+            <Property name="label" value="STRING:Command"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="OK"/>
+        </DesignComponent>
+        <DesignComponent id="sendMsg" typeid="MIDP:javax.microedition.lcdui.Command" uid="53">
+            <Property name="label" value="STRING:Message"/>
+            <Property name="longLabel" value="STRING:Send Message"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="SCREEN"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction8" typeid="MIDP:CommandAction" uid="54">
+            <Property name="targetDisplayable"/>
+            <Property name="targetForwardDisplayable"/>
+            <Property name="actionSource" value="sendMsg"/>
+            <Property name="actionOrigin" value="msg"/>
+        </DesignComponent>
+        <DesignComponent id="spacer2" typeid="MIDP-2:javax.microedition.lcdui.Spacer" uid="58">
+            <Property name="minWidth" value="1000"/>
+            <Property name="minHeight" value="1"/>
+        </DesignComponent>
+        <DesignComponent id="spacer3" typeid="MIDP-2:javax.microedition.lcdui.Spacer" uid="59">
+            <Property name="minWidth" value="1000"/>
+            <Property name="minHeight" value="1"/>
+        </DesignComponent>
+        <DesignComponent id="spacer4" typeid="MIDP-2:javax.microedition.lcdui.Spacer" uid="60">
+            <Property name="minWidth" value="1000"/>
+            <Property name="minHeight" value="1"/>
+        </DesignComponent>
+        <DesignComponent id="backException" typeid="MIDP:javax.microedition.lcdui.Command" uid="62">
+            <Property name="label" value="STRING:Back"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="BACK"/>
+        </DesignComponent>
+        <DesignComponent id="exceptionFound" typeid="MIDP:javax.microedition.lcdui.Command" uid="64">
+            <Property name="label" value="STRING:Screen"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="SCREEN"/>
+        </DesignComponent>
+        <DesignComponent id="searchDBTicker" typeid="MIDP:javax.microedition.lcdui.Ticker" uid="66">
+            <Property name="string" value="STRING:Searching DiABlu Servers..."/>
+        </DesignComponent>
+        <DesignComponent id="backAlert" typeid="MIDP:javax.microedition.lcdui.Command" uid="67">
+            <Property name="label" value="STRING:Back"/>
+            <Property name="longLabel" value="STRING:"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="BACK"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction11" typeid="MIDP:CommandAction" uid="68">
+            <Property name="targetDisplayable"/>
+            <Property name="targetForwardDisplayable"/>
+            <Property name="actionSource" value="backAlert"/>
+            <Property name="actionOrigin" value="alertDiABlu"/>
+        </DesignComponent>
+        <DesignComponent id="exitCommand1" typeid="MIDP:javax.microedition.lcdui.Command" uid="69">
+            <Property name="label" value="STRING:Exit DiABlu"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="EXIT"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction12" typeid="MIDP:CommandAction" uid="70">
+            <Property name="targetDisplayable" value="$MobileDevice"/>
+            <Property name="targetForwardDisplayable"/>
+            <Property name="actionSource" value="exitCommand1"/>
+            <Property name="actionOrigin" value="alertDiABlu"/>
+        </DesignComponent>
+        <DesignComponent id="helpTicker" typeid="MIDP:javax.microedition.lcdui.Ticker" uid="71">
+            <Property name="string" value="STRING:For more information, please visit http://soundserver.porto.ucp.pt/diablu"/>
+        </DesignComponent>
+        <DesignComponent id="logTB" typeid="MIDP:javax.microedition.lcdui.TextBox" uid="79">
+            <Property name="title" value="STRING:DiABlu Log"/>
+            <Property name="string" value="STRING:"/>
+            <Property name="maxSize" value="600"/>
+            <ContainerProperty name="commands">
+                <ContainerPropertyItem value="$CommandAction7"/>
+                <ContainerPropertyItem value="$CommandAction10"/>
+            </ContainerProperty>
+        </DesignComponent>
+        <DesignComponent id="exitCommand4" typeid="MIDP:javax.microedition.lcdui.Command" uid="80">
+            <Property name="label" value="STRING:Exit"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="EXIT"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction7" typeid="MIDP:CommandAction" uid="81">
+            <Property name="targetDisplayable" value="$MobileDevice"/>
+            <Property name="targetForwardDisplayable"/>
+            <Property name="actionSource" value="exitCommand4"/>
+            <Property name="actionOrigin" value="logTB"/>
+        </DesignComponent>
+        <DesignComponent id="backCommand4" typeid="MIDP:javax.microedition.lcdui.Command" uid="82">
+            <Property name="label" value="STRING:Back"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="BACK"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction10" typeid="MIDP:CommandAction" uid="83">
+            <Property name="targetDisplayable"/>
+            <Property name="targetForwardDisplayable"/>
+            <Property name="actionSource" value="backCommand4"/>
+            <Property name="actionOrigin" value="logTB"/>
+        </DesignComponent>
+        <DesignComponent id="logCommand" typeid="MIDP:javax.microedition.lcdui.Command" uid="84">
+            <Property name="label" value="STRING:Log"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="SCREEN"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction13" typeid="MIDP:CommandAction" uid="85">
+            <Property name="targetDisplayable" value="logTB"/>
+            <Property name="targetForwardDisplayable" value="msg"/>
+            <Property name="actionSource" value="logCommand"/>
+            <Property name="actionOrigin" value="msg"/>
+        </DesignComponent>
+        <DesignComponent id="searchDBCommand" typeid="MIDP:javax.microedition.lcdui.Command" uid="86">
+            <Property name="label" value="STRING:Search Again"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="SCREEN"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction14" typeid="MIDP:CommandAction" uid="87">
+            <Property name="targetDisplayable" value="diabluSearchForm"/>
+            <Property name="targetForwardDisplayable" value="msg"/>
+            <Property name="actionSource" value="searchDBCommand"/>
+            <Property name="actionOrigin" value="msg"/>
+        </DesignComponent>
+        <DesignComponent id="searchLogCommand" typeid="MIDP:javax.microedition.lcdui.Command" uid="92">
+            <Property name="label" value="STRING:Log"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="SCREEN"/>
+        </DesignComponent>
+        <DesignComponent id="logKeys" typeid="MIDP:javax.microedition.lcdui.Command" uid="97">
+            <Property name="label" value="STRING:Log"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="SCREEN"/>
+        </DesignComponent>
+        <DesignComponent id="logCommand1" typeid="MIDP:javax.microedition.lcdui.Command" uid="108">
+            <Property name="label" value="STRING:Screen"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="SCREEN"/>
+        </DesignComponent>
+        <DesignComponent id="logoDB" typeid="MIDP:javax.microedition.lcdui.Image" uid="111">
+            <Property name="imageResourcePath" value="/res/diablumobileWAIT00.png"/>
+        </DesignComponent>
+        <DesignComponent id="alertDB" typeid="MIDP:javax.microedition.lcdui.Image" uid="113">
+            <Property name="imageResourcePath" value="/res/dmALERT.png"/>
+        </DesignComponent>
+        <DesignComponent id="backKeys" typeid="MIDP:javax.microedition.lcdui.Command" uid="127">
+            <Property name="label" value="STRING:BACK"/>
+            <Property name="longLabel" value="STRING:Return to previous screen"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="BACK"/>
+        </DesignComponent>
+        <DesignComponent id="keyboardSensor" typeid="MIDP:bc.pressedKeys" uid="129">
+            <Property name="title" value="STRING:DiABlu Mobile Key Sensor"/>
+            <ContainerProperty name="commands">
+                <ContainerPropertyItem value="$CommandAction2"/>
+                <ContainerPropertyItem value="$CommandAction5"/>
+            </ContainerProperty>
+        </DesignComponent>
+        <DesignComponent id="backCommand3" typeid="MIDP:javax.microedition.lcdui.Command" uid="130">
+            <Property name="label" value="STRING:Back"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="BACK"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction2" typeid="MIDP:CommandAction" uid="131">
+            <Property name="targetDisplayable" value="msg"/>
+            <Property name="targetForwardDisplayable" value="keyboardSensor"/>
+            <Property name="actionSource" value="backCommand3"/>
+            <Property name="actionOrigin" value="keyboardSensor"/>
+        </DesignComponent>
+        <DesignComponent id="helpCommand1" typeid="MIDP:javax.microedition.lcdui.Command" uid="132">
+            <Property name="label" value="STRING:Help"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="HELP"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction5" typeid="MIDP:CommandAction" uid="133">
+            <Property name="targetDisplayable" value="help"/>
+            <Property name="targetForwardDisplayable" value="keyboardSensor"/>
+            <Property name="actionSource" value="helpCommand1"/>
+            <Property name="actionOrigin" value="keyboardSensor"/>
+        </DesignComponent>
+        <DesignComponent id="diabluSearchForm" typeid="MIDP:javax.microedition.lcdui.Form" uid="137">
+            <Property name="title" value="CODE:DIABLU_TITLE"/>
+            <ContainerProperty name="commands">
+                <ContainerPropertyItem value="$CommandAction3"/>
+            </ContainerProperty>
+            <ContainerProperty name="items">
+                <ContainerPropertyItem value="logoInit"/>
+            </ContainerProperty>
+        </DesignComponent>
+        <DesignComponent id="okCommand2" typeid="MIDP:javax.microedition.lcdui.Command" uid="138">
+            <Property name="label" value="STRING:Ok"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="OK"/>
+        </DesignComponent>
+        <DesignComponent id="reSearchDS" typeid="MIDP:javax.microedition.lcdui.Command" uid="140">
+            <Property name="label" value="STRING:ReSearch"/>
+            <Property name="longLabel" value="STRING:Search Again"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="ITEM"/>
+        </DesignComponent>
+        <DesignComponent id="logoInit" typeid="MIDP:javax.microedition.lcdui.ImageItem" uid="144">
+            <Property name="label" value="STRING:"/>
+            <Property name="image" value="logoDiABlu"/>
+            <Property name="altText" value="STRING:"/>
+            <Property name="layout" value="31795"/>
+            <ContainerProperty name="commands"/>
+        </DesignComponent>
+        <DesignComponent id="logoDiABlu" typeid="MIDP:javax.microedition.lcdui.Image" uid="148">
+            <Property name="imageResourcePath" value="/res/diablumobile.png"/>
+        </DesignComponent>
+        <DesignComponent id="okCommand3" typeid="MIDP:javax.microedition.lcdui.Command" uid="149">
+            <Property name="label" value="STRING:Ok"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="OK"/>
+        </DesignComponent>
+        <DesignComponent id="exitCommand3" typeid="MIDP:javax.microedition.lcdui.Command" uid="151">
+            <Property name="label" value="STRING:Exit"/>
+            <Property name="priority" value="1"/>
+            <Property name="type" value="EXIT"/>
+        </DesignComponent>
+        <DesignComponent id="$CommandAction3" typeid="MIDP:CommandAction" uid="152">
+            <Property name="targetDisplayable" value="$MobileDevice"/>
+            <Property name="targetForwardDisplayable"/>
+            <Property name="actionSource" value="exitCommand3"/>
+            <Property name="actionOrigin" value="diabluSearchForm"/>
+        </DesignComponent>
+    </DesignDocument>
+    <FlowDocument version="1.1">
+        <Node id="$MobileDevice" location="272,128" order=",$StartPoint,,,,,,,,,$ExitPoint,,,,,"/>
+        <Node id="msg" location="256,488" order="$CommandAction1,$CommandAction9,$CommandAction4,$CommandAction8,$CommandAction13,$CommandAction14,,,,,$Default,,,,,"/>
+        <Node id="alertDiABlu" location="520,320" order="$CommandAction11,$CommandAction12,,,,,,,,,$Default,,,,,"/>
+        <Node id="help" location="528,584" order="$CommandAction6,,,,,,,,,,$Default,,,,,"/>
+        <Node id="logTB" location="512,432" order="$CommandAction7,$CommandAction10,,,,,,,,,$Default,,,,,"/>
+        <Node id="keyboardSensor" location="256,656" order="$CommandAction2,$CommandAction5,,,,,,,,,$Default,,,,,"/>
+        <Node id="diabluSearchForm" location="264,304" order="$CommandAction3,,,,,,,,,,$Default,,,,,"/>
+        <Link id="$StartPoint$ActionLink" path="312,104,506,104,506,206,175,206,175,280,224,280"/>
+        <Link id="$CommandAction1$ActionLink" path="296,480,393,480,393,568,154,568,154,632,216,632"/>
+        <Link id="$CommandAction4$ActionLink" path="296,448,380,448,380,176,159,176,159,104,232,104"/>
+        <Link id="$CommandAction9$ActionLink" path="296,464,377,464,377,560,488,560"/>
+        <Link id="$CommandAction12$ActionLink" path="560,296,641,296,641,163,159,163,159,104,232,104"/>
+        <Link id="$CommandAction7$ActionLink" path="552,424,633,424,633,48,159,48,159,104,232,104"/>
+        <Link id="$CommandAction13$ActionLink" path="280,416,280,330,456,408,472,408"/>
+        <Link id="$CommandAction14$ActionLink" path="264,416,264,330,181,280,224,280"/>
+        <Link id="$CommandAction2$ActionLink" path="296,648,361,648,361,540,197,540,197,464,216,464"/>
+        <Link id="$CommandAction5$ActionLink" path="296,632,425,632,425,560,488,560"/>
+        <Link id="$CommandAction3$ActionLink" path="304,296,403,296,403,179,159,179,159,104,232,104"/>
+    </FlowDocument>
+</MVDData>
