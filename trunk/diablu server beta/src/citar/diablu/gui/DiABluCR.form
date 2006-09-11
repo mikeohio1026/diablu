@@ -88,7 +88,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="version_jl">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Alpha Version 0.22"/>
+            <Property name="text" type="java.lang.String" value="Version 1.0"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="development_jl">
