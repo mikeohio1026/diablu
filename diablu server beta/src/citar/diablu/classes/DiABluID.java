@@ -3,6 +3,11 @@
  *
  * Created on 12 de Maio de 2006, 15:38
  *
+ * Copyright (C) 2006 CITAR
+ * This is part of the DiABlu Project
+ * http://diablu.jorgecardoso.org
+ * Created by Jorge Cardoso(jccardoso@porto.ucp.pt) & Nuno Rodrigues(nunoalexandre.rodrigues@gmail.com)
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the 
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the 
  * License, or (at your option) any later version.
