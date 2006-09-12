@@ -1092,7 +1092,7 @@ public class DiABluUI extends javax.swing.JFrame {
     /**
      * Sets the DiABlu's Server Service Name
      */
-    private void setServiceName (String newServiceName) {
+    public void setServiceName (String newServiceName) {
         
         service_jtf.setText(newServiceName);
     }
@@ -1109,7 +1109,7 @@ public class DiABluUI extends javax.swing.JFrame {
     /**
      * Sets the DiABlu's Server Target Address
      */
-    private void setTargetAddress (String newTargetAddress){
+    public void setTargetAddress (String newTargetAddress){
         
         adress_jtf.setText(newTargetAddress);
     }
@@ -1469,28 +1469,17 @@ public class DiABluUI extends javax.swing.JFrame {
         
     }
 
-    
-    /** 
-     *  Sends the list of present devices
-     *
-     */
-    
-    
-    /**
-     * @param args the command line arguments
-     *
-    public static void main(String args[]) {
-        // TODO: Parse the ARGS
-        // TODO: Put a help situation /?
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-        
-            public void run() {
-                new DiABluUI().setVisible(true);
-            }
-        });
-    }
-    */
+ public void setPort(String np) {
+     
+     port_jtf.setText(np);
+     
+ }
+
+ public void setBTdelay(String nbtd){
+     
+     delay_jtf.setText(nbtd);
+     
+ }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu about_jm;
