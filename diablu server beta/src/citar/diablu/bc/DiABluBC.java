@@ -117,8 +117,7 @@ public class DiABluBC implements INWatcher {
      *
      * TODO:further improve this method, it should be possible to reduce 
      * the target list while searching and finding
-     */
-    
+     */  
     public void newDeviceList(Vector newDeviceList, int type){
                        
         Vector finalDeviceList = new Vector();   // The final list with all the devices
@@ -560,25 +559,25 @@ public class DiABluBC implements INWatcher {
                     
                     if (temp.equalsIgnoreCase("servicename")) {
                         
-                        sName = commandLineParameters[2];
+                        sName = commandLineParameters[1];
                         DBui.setServiceName(sName);
                         System.out.println("Service Name = "+sName);
                         
                     } else if (temp.equalsIgnoreCase("port")){
                         
-                        DBui.setPort(commandLineParameters[2]);
-                        System.out.println("Target Port = "+commandLineParameters[2]);
+                        DBui.setPort(commandLineParameters[1]);
+                        System.out.println("Target Port = "+commandLineParameters[1]);
                        
                     } else if (temp.equalsIgnoreCase("address")){
                         
-                        DBui.setTargetAddress(commandLineParameters[2]);
-                        System.out.println("Target Address = "+commandLineParameters[2]);
+                        DBui.setTargetAddress(commandLineParameters[1]);
+                        System.out.println("Target Address = "+commandLineParameters[1]);
                         
                         
                     } else if (temp.equalsIgnoreCase("btdelay")){
                         
-                        DBui.setBTdelay(commandLineParameters[2]);
-                        System.out.println("Delay between Bluetooth Discoverys = "+commandLineParameters[2]);
+                        DBui.setBTdelay(commandLineParameters[1]);
+                        System.out.println("Delay between Bluetooth Discoverys = "+commandLineParameters[1]);
                                                 
                     }
                 
