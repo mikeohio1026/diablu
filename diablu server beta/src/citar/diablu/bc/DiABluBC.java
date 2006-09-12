@@ -29,7 +29,6 @@ import citar.diablu.gui.DiABluUI;
 import citar.diablu.com.osc.DiABluOSC;
 import citar.diablu.com.bt.DiABluBTDeviceDiscovery;
 import citar.diablu.com.bt.*;
-import citar.diablu.com.bt.tests.DiABluBTrfcommJSR82b;
 
 /**
  *
@@ -530,17 +529,81 @@ public class DiABluBC implements INWatcher {
     /**
      * Creates a new instance of DiABluBC
      */
-    public DiABluBC() {
+    public DiABluBC(String args[]) {
     
       // Get our ui
       DBui = new DiABluUI(this);
+      String sName = DBui.getServiceName();
+      
+      // Process the args if any
+      int cla = args.length;
+      if ( cla > 0 ){
+        
+        String commandLineParameter = "";
+        String temp = "";
+        for (int i=0;i<cla;i++){
+            
+            
+            temp = args[i];
+            if (temp.equalsIgnoreCase("/?")||temp.equalsIgnoreCase("/help")) {
+                
+                displayCommandLineHelp();
+                
+            } else {
+            
+                String commandLineParameters[] = temp.split(":",3);
+                temp = commandLineParameters[0];
+                
+                // validate the command line parameter
+                if (commandLineParameters.length==2) {
+                
+                    
+                    if (temp.equalsIgnoreCase("servicename")) {
+                        
+                        sName = commandLineParameters[2];
+                        DBui.setServiceName(sName);
+                        System.out.println("Service Name = "+sName);
+                        
+                    } else if (temp.equalsIgnoreCase("port")){
+                        
+                        DBui.setPort(commandLineParameters[2]);
+                        System.out.println("Target Port = "+commandLineParameters[2]);
+                       
+                    } else if (temp.equalsIgnoreCase("address")){
+                        
+                        DBui.setTargetAddress(commandLineParameters[2]);
+                        System.out.println("Target Address = "+commandLineParameters[2]);
+                        
+                        
+                    } else if (temp.equalsIgnoreCase("btdelay")){
+                        
+                        DBui.setBTdelay(commandLineParameters[2]);
+                        System.out.println("Delay between Bluetooth Discoverys = "+commandLineParameters[2]);
+                                                
+                    }
+                
+                
+                } else {
+                
+                    System.out.println("Invalid command:"+temp);
+                    System.out.println("Type /help or /? for more help");                
+                
+                }
+            }
+            
+        }  
+          
+      }
+        
+        
+
       // Get our osc
       DBosc = new DiABluOSC(); 
       
       
       System.out.println("Calling Server Service Class");
      
-      String sName = DBui.getServiceName();             
+             
 
       System.out.println("[DiABluBC]Calling service provider class...");
       DiABluBTServer dBTs = new DiABluBTServer(this,sName);
@@ -571,6 +634,26 @@ public class DiABluBC implements INWatcher {
         
     }
     
+    
+    // This method prints on the console information on the command line parameters
+    public void displayCommandLineHelp() {
+        
+        System.out.println("DiABlu Server 1");
+        System.out.println("---------------");
+        System.out.println("Command usage:");
+        System.out.println("/help or /? for this screen");
+        System.out.println("");
+        System.out.println("btdelay:xxxx - This specifies the Bluetooth Device Discovery delay in xxxx milliseconds");
+        System.out.println("servicename:xxxxx - This specifies the Bluetooth Service Server Name to xxxxx");
+        System.out.println("address:xxx.xxx.xxx.xxx - Specify the Target Machine Address to xxx.xxx.xxx.xxx");
+        System.out.println("port:xxxx - Specify the Target Machine Listening Port to xxxx");
+        
+        
+        
+        
+    }
+    
+    
    /**
      * @param args the command line arguments
      */
@@ -578,12 +661,15 @@ public class DiABluBC implements INWatcher {
         // TODO: Parse the ARGS
         // ASK JC THE ARGS
         
-        // TODO: Put a help situation /?      
-         
-            DiABluBC mainDiABlu = new DiABluBC();                        
+        // TODO: Put a help situation /?    
+     
+
+            DiABluBC mainDiABlu = new DiABluBC(args);                        
                           
        
     }
+    
+    
     
     
 }
