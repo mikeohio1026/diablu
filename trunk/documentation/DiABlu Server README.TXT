@@ -26,7 +26,7 @@ Our project requires two libraries:
 
 	WIN SP2 with Windows Bluetooth Stack
 	BlueCove Bluetooth Stack - http://bluecove.sourceforge.net/
-	Open Source under GNU Library or Lesser General Public License (LGPL) 	
+	Open Source under GNU Library or Lesser General Public License (LGPL)
 
 
 2 - OSC Api
