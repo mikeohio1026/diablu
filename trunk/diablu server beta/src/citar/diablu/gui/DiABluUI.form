@@ -60,7 +60,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" value="DiABlu Server 0.90"/>
+    <Property name="title" type="java.lang.String" value="DiABlu Server 0.91"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menubar_jmb"/>
