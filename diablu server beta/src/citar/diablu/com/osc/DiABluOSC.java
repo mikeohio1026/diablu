@@ -79,7 +79,7 @@ public class DiABluOSC {
         
         // paranoid check
         if (aDevices == null || aDevices.size() == 0){
-            System.out.println("[DiABluOSC-sendAddDevices()]Error!Received an empty list!!");
+            // System.out.println("[DiABluOSC-sendAddDevices()]Error!Received an empty list!!");
             return;
         }
         
@@ -192,13 +192,13 @@ public class DiABluOSC {
         // paranoid :P
         if ( nDevices == null || nDevices.size() == 0 ) {
             
-            System.out.println("[DiABluOSC-sendNamesChanged()]Names changed error!!!Null vector found!!");
+            // System.out.println("[DiABluOSC-sendNamesChanged()]Names changed error!!!Null vector found!!");
             return;
         }
         
         int totalNamesChanged = nDevices.size();
         
-        System.out.println("[DiABluOSC-sendNamesChanged()]Vector size:"+totalNamesChanged);
+        // System.out.println("[DiABluOSC-sendNamesChanged()]Vector size:"+totalNamesChanged);
         
         DiABluDevice dbT = null;
         String uuidT = "";
@@ -279,7 +279,7 @@ public class DiABluOSC {
         
         if ( xDevices == null || xDevices.size() == 0 ) {
             
-            System.out.println("[DiABluOSC-vectorTOobject()]ERROR!!vectorTOobject Method has received an empty list!!");
+            // System.out.println("[DiABluOSC-vectorTOobject()]ERROR!!vectorTOobject Method has received an empty list!!");
             return null;
             
         }
@@ -291,7 +291,7 @@ public class DiABluOSC {
         tempDBobject = new Object[2*tempSize];
         
         // debug info
-        System.out.println("[DiABluOSC-vectorTOobject()]List size:"+xDevices.size());
+        // System.out.println("[DiABluOSC-vectorTOobject()]List size:"+xDevices.size());
         
         for (int i=0; i<tempSize; i++){
             
@@ -310,7 +310,7 @@ public class DiABluOSC {
         }
         
         // debug info
-        System.out.println("[DiABluOSC-vectorTOobject()]Returned list size:"+tempDBobject.length);
+        // System.out.println("[DiABluOSC-vectorTOobject()]Returned list size:"+tempDBobject.length);
         
         return tempDBobject;
         
@@ -343,7 +343,7 @@ public class DiABluOSC {
             
             for ( int i = 0; i < brutus.length ; i++ ){
                 
-                System.out.println("[DiABluOSC-sendBundle()]Processing packets...["+brutus[i][0]+"]["+brutus[i][1]+"]\n");
+                // System.out.println("[DiABluOSC-sendBundle()]Processing packets...["+brutus[i][0]+"]["+brutus[i][1]+"]\n");
                 Object[] objT = new Object[] { brutus[i][0] , brutus[i][1] };
                 bundle.addPacket( new OSCMessage(oscCommand, objT));
                 

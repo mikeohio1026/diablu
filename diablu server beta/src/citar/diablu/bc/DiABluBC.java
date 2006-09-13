@@ -70,7 +70,7 @@ public class DiABluBC implements INWatcher {
      */
     public void newLog(int priority, String log){
         
-        System.out.println(log);
+        if (priority==0) System.out.println(log);
         DBui.newLog(priority,log);
         
     }
