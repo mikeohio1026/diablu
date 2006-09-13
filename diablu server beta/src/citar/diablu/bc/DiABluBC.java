@@ -570,6 +570,7 @@ public class DiABluBC implements INWatcher {
       // Get our ui
       DBui = new DiABluUI(this);
       String sName = DBui.getServiceName();
+      boolean showWindow = true;
       
       // Process the args if any
       int cla = args.length;
@@ -585,7 +586,11 @@ public class DiABluBC implements INWatcher {
                 
                 displayCommandLineHelp();
                 
-            } else {
+            } else if (temp.equalsIgnoreCase("hide")){
+                        
+                        showWindow = false;
+                        
+             } else {
             
                 String commandLineParameters[] = temp.split(":",3);
                 temp = commandLineParameters[0];
@@ -616,7 +621,7 @@ public class DiABluBC implements INWatcher {
                         DBui.setBTdelay(commandLineParameters[1]);
                         System.out.println("Delay between Bluetooth Discoverys = "+commandLineParameters[1]);
                                                 
-                    }
+                    } 
                 
                 
                 } else {
@@ -630,8 +635,9 @@ public class DiABluBC implements INWatcher {
         }  
           
       }
-        
-        
+      
+      // check if the user want to see the window
+      if (showWindow) { DBui.setVisible(true); }
 
       // Get our osc
       DBosc = new DiABluOSC(); 
