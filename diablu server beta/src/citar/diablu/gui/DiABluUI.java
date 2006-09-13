@@ -290,7 +290,7 @@ public class DiABluUI extends javax.swing.JFrame {
         port_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         port_jtf.setText("10000");
 
-        delay_jl.setText("Delay between bluetooth discoverys(ms):");
+        delay_jl.setText("Delay between bluetooth discoverys(s):");
 
         delay_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         delay_jtf.setText("10000");
@@ -309,7 +309,7 @@ public class DiABluUI extends javax.swing.JFrame {
         settings_jpLayout.setHorizontalGroup(
             settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, settings_jpLayout.createSequentialGroup()
-                .add(22, 22, 22)
+                .add(30, 30, 30)
                 .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jLabel5)
                     .add(jLabel6))
