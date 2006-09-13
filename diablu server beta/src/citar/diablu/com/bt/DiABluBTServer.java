@@ -71,7 +71,7 @@ public class DiABluBTServer extends Thread {
     public void run() {
         
 
-        System.out.println("Starting DiABlu Server Service");
+        //System.out.println("Starting DiABlu Server Service");
         // get our bt device
         // set it discoverable (?)
         try {
@@ -100,9 +100,9 @@ public class DiABluBTServer extends Thread {
         while (!DONE){
         // register the service and wait for clients      
         try {
-                System.out.println("Waiting client connections...");
+                //System.out.println("Waiting client connections...");
                 conn = server.acceptAndOpen();
-                System.out.println("Client connected!Getting info");               
+                // System.out.println("Client connected!Getting info");               
                 clientDevice = RemoteDevice.getRemoteDevice(conn);
                 String id = clientDevice.getBluetoothAddress();
                 DiABluBTConnection dBTC = new DiABluBTConnection(conn,parent,id);               

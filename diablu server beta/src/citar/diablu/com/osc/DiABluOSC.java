@@ -350,7 +350,7 @@ public class DiABluOSC {
             }
             
             /* Sending message */
-            System.out.print("Sending [OSC Bundle:" + oscCommand + "] | [BRUTUS]\n");
+            //System.out.println("Sending [OSC Bundle:" + oscCommand + "] | [BRUTUS]\n");
             trns.send(bundle, addr);
         }
         
@@ -422,7 +422,7 @@ public class DiABluOSC {
             
             
             /* Sending message */
-            System.out.print("Sending [OSC Command:" + oscCommand + "] | [List Size:"+brutus.length+"]\n");
+            //System.out.println("Sending [OSC Command:" + oscCommand + "] | [List Size:"+brutus.length+"]\n");
             trns.send( new OSCMessage( oscCommand, brutus
                     ),addr);
         }
@@ -456,7 +456,7 @@ public class DiABluOSC {
             
             
             /* Sending message */
-            System.out.print("Sending [OSC Command:" + oscCommand + "] | [Count:"+num+"]\n");
+            //System.out.println("Sending [OSC Command:" + oscCommand + "] | [Count:"+num+"]\n");
             trns.send( new OSCMessage( oscCommand, new Object[] {
                 new Integer(num)
             }
