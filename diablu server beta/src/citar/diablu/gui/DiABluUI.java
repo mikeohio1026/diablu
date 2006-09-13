@@ -293,7 +293,7 @@ public class DiABluUI extends javax.swing.JFrame {
         delay_jl.setText("Delay between bluetooth discoverys(s):");
 
         delay_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        delay_jtf.setText("10000");
+        delay_jtf.setText("10");
         delay_jtf.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 delay_jtfPropertyChange(evt);

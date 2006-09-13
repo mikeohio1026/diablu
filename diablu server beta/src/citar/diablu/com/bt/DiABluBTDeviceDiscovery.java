@@ -26,7 +26,7 @@ package citar.diablu.com.bt;
 import java.lang.*;
 import java.io.*;
 import java.util.Vector;
-//import javax.microedition.io.*;
+import javax.microedition.io.*;
 import javax.bluetooth.*;
 import citar.diablu.com.interfaces.INWatcher;
 import citar.diablu.classes.DiABluDevice;
@@ -58,12 +58,61 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
         
         this.dbBC = classBC;
         this.delayBetweenInquirys = dbBC.getBTdelay();
-        localDev = LocalDevice.getLocalDevice();
-        agent = localDev.getDiscoveryAgent();
+
         deviceList = new Vector();        
        
         // Start the INQUIRY
-        searchDevices();
+        
+        // searchDevices(); - DEPRECATED since sometimes the device simply stops responding without further notice
+        
+           while (delayBetweenInquirys!=-1) {
+            
+            try { 
+                 
+                log(0,"Starting discovery...");
+                localDev = LocalDevice.getLocalDevice();
+                agent = localDev.getDiscoveryAgent();
+                agent.startInquiry(DiscoveryAgent.GIAC, this);
+                
+                // wait until inquiry is done
+                synchronized (this) {
+                    
+                    try {
+                        
+                        this.wait();
+                        
+                    } catch (Exception e) {
+                        
+                        log(2,"[ERROR WAITING BT INQUIRY]"+e.getLocalizedMessage());
+                        e.printStackTrace();
+                        
+                    }
+                }
+                                    
+            } catch (BluetoothStateException e) {
+            
+                log(2,"[UNABLE TO FIND DEVICES!]" + e.getLocalizedMessage() );
+                e.printStackTrace();
+              
+            }
+            
+            // Give the corresponding pause
+            try {
+                
+                Thread.sleep((dbBC.getBTdelay()*1000));
+                
+            } catch (Exception e) {
+                
+                log(3,"[ERROR SLEEPING BT INQUIRY]"+e.getLocalizedMessage());
+                e.printStackTrace();
+                
+            }                
+       
+        }
+        
+        
+        
+        
         
     }    
     
@@ -81,7 +130,7 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
     public void log(int priority, String logMsg) {
         
         // specified priority
-        dbBC.newLog(priority, "[BT-discovery]:"+logMsg);
+        dbBC.newLog(priority, logMsg);
  
     }
     
@@ -142,8 +191,7 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
       
                         
         // empty the list
-        deviceList.removeAllElements();
-        
+        deviceList.removeAllElements();        
        
         synchronized (this) {
             try {
@@ -159,34 +207,7 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
         //STOPED for test purposes
         //restartSearch();
         
-    }
-    
-    
-    // DEPRECATED - see searchDevices()
-    public void restartSearch(){
-        
-        /**
-         * Use to make infinite cicle so you can test the discovery service
-         * IS THIS CORRECT ? SHOULD I DO IT IN A DIFFERENT THREAD ?
-         *
-         */
-        
-        log(4,"Restarting search...");
-        try 
-        {
-
-        
-            agent.startInquiry(DiscoveryAgent.GIAC, this);
-        } catch (BluetoothStateException e) {
-            
-            log(4,"[UNABLE TO FIND DEVICES!RESTART ERROR]" + e.getMessage() );
-            e.printStackTrace();
-        }
-        
-        
-        
-    }
-    
+    }    
     
     public void searchDevices() {
          
@@ -195,6 +216,8 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
             try { 
                  
                 log(0,"Starting discovery...");
+                localDev = LocalDevice.getLocalDevice();
+                agent = localDev.getDiscoveryAgent();
                 agent.startInquiry(DiscoveryAgent.GIAC, this);
                 
                 // wait until inquiry is done
