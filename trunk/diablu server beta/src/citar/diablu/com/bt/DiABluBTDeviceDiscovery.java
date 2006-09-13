@@ -137,8 +137,9 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
         log(4,"[INQUIRY COMPLETED]:"+discType);
          
         // report the list of discovered devices
-
+        log(0,"Finished Discovery...");
         dbBC.newDeviceList(deviceList,BLUETOOTH_STATUS_CODE);
+      
                         
         // empty the list
         deviceList.removeAllElements();
@@ -192,7 +193,8 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
         while (delayBetweenInquirys!=-1) {
             
             try { 
-                                        
+                 
+                log(0,"Starting discovery...");
                 agent.startInquiry(DiscoveryAgent.GIAC, this);
                 
                 // wait until inquiry is done
