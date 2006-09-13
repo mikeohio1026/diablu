@@ -557,13 +557,13 @@ public class DiABluBC implements INWatcher {
         return DBui.getBTdelay();
         
     }
- 
+ /*DEPRECATED
     public void reSearch(){      
       
       System.out.println("[DiABluBC]REStarting BT device discovery service...");                  
       
     }
-    
+   */ 
     /**
      * Creates a new instance of DiABluBC
      */
@@ -605,23 +605,22 @@ public class DiABluBC implements INWatcher {
                         
                         sName = commandLineParameters[1];
                         DBui.setServiceName(sName);
-                        System.out.println("Service Name = "+sName);
+    
                         
                     } else if (temp.equalsIgnoreCase("port")){
                         
                         DBui.setPort(commandLineParameters[1]);
-                        System.out.println("Target Port = "+commandLineParameters[1]);
+                        
                        
                     } else if (temp.equalsIgnoreCase("address")){
                         
                         DBui.setTargetAddress(commandLineParameters[1]);
-                        System.out.println("Target Address = "+commandLineParameters[1]);
+
                         
                         
                     } else if (temp.equalsIgnoreCase("btdelay")){
                         
                         DBui.setBTdelay(commandLineParameters[1]);
-                        System.out.println("Delay between Bluetooth Discoverys = "+commandLineParameters[1]);
                                                 
                     } 
                 
@@ -645,26 +644,26 @@ public class DiABluBC implements INWatcher {
       DBosc = new DiABluOSC(); 
       
       
-      System.out.println("Calling Server Service Class");
+      //System.out.println("Calling Server Service Class");
      
              
 
-      System.out.println("[DiABluBC]Calling service provider class...");
+      // System.out.println("[DiABluBC]Calling service provider class...");
       DiABluBTServer dBTs = new DiABluBTServer(this,sName);
       dBTs.start();
       //DiABluBTrfcommJSR82b DBspp = new DiABluBTrfcommJSR82b();
       //DBspp.start();
-      System.out.println("[DiABluBC]Called service registration...");
+     //System.out.println("[DiABluBC]Called service registration...");
+  
+     // System.out.println("[DiABluBC]Starting BT device discovery service...");
       
-      
-      
-      
-      
-      
-      System.out.println("[DiABluBC]Starting BT device discovery service...");
-      
-      /* DiABlu Bluetooth Class */
-      
+      // display current values
+      System.out.println("Target Address = "+DBui.getTargetAddress());
+      System.out.println("Target Port = "+DBui.getPort());
+      System.out.println("Delay between Bluetooth Discoverys = "+DBui.getBTdelay());
+      System.out.println("Service Name = "+DBui.getServiceName());
+           
+      /* DiABlu Bluetooth Class */ 
       try {
             DBbt = new DiABluBTDeviceDiscovery(this);
           } catch (Exception e){

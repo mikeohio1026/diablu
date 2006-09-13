@@ -1136,7 +1136,7 @@ public class DiABluUI extends javax.swing.JFrame {
     }
         
     // Port
-    private void setPort (int newPort){
+    public void setPort (int newPort){
         
         // Convert Int to String and set the field
         String newSPort = new Integer(newPort).toString();
@@ -1144,7 +1144,7 @@ public class DiABluUI extends javax.swing.JFrame {
         
     }
     
-    private int getPort () {
+    public int getPort () {
         
         String tempSPort = port_jtf.getText();     
         int tempIPort = new Integer(tempSPort.trim()).intValue();
