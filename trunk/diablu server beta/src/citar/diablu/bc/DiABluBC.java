@@ -679,7 +679,7 @@ public class DiABluBC implements INWatcher {
         System.out.println("Command usage:");
         System.out.println("/help or /? for this screen");
         System.out.println("");
-        System.out.println("btdelay:xxxx - This specifies the Bluetooth Device Discovery delay in xxxx milliseconds");
+        System.out.println("btdelay:xxxx - This specifies the Bluetooth Device Discovery delay in xxxx seconds");
         System.out.println("servicename:xxxxx - This specifies the Bluetooth Service Server Name to xxxxx");
         System.out.println("address:xxx.xxx.xxx.xxx - Specify the Target Machine Address to xxx.xxx.xxx.xxx");
         System.out.println("port:xxxx - Specify the Target Machine Listening Port to xxxx");
