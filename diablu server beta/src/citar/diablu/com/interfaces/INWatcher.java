@@ -41,7 +41,7 @@ public interface INWatcher {
     
     public void newLog (int priority,String log);
     
-    public void newLog (String log);
+   // DEPRECATED public void newLog (String log);
     
     public int getBTdelay();
 

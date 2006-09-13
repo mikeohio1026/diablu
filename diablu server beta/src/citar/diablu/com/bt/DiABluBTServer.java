@@ -120,9 +120,11 @@ public class DiABluBTServer extends Thread {
         DONE = newDone;
     }
     
+    /* DEPRECATED
     public void log(String msgLog){
         
         parent.newLog(msgLog);
         
     }
+     */
 }

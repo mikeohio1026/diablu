@@ -70,15 +70,17 @@ public class DiABluBC implements INWatcher {
      */
     public void newLog(int priority, String log){
         
+        System.out.println(log);
         DBui.newLog(priority,log);
         
     }
-
+    
+/* DEPRECATED
     public void newLog(String log) {
     
         DBui.newLog(log);
     }
-     
+  */   
     // New Key Pressed
     public void newKey(DiABluKey newKey) {
         
@@ -685,6 +687,7 @@ public class DiABluBC implements INWatcher {
         System.out.println("Command usage:");
         System.out.println("/help or /? for this screen");
         System.out.println("");
+        System.out.println("hide - This option hides the Graphics User Interface from displaying");
         System.out.println("btdelay:xxxx - This specifies the Bluetooth Device Discovery delay in xxxx seconds");
         System.out.println("servicename:xxxxx - This specifies the Bluetooth Service Server Name to xxxxx");
         System.out.println("address:xxx.xxx.xxx.xxx - Specify the Target Machine Address to xxx.xxx.xxx.xxx");
