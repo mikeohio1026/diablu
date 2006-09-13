@@ -70,7 +70,27 @@ public class DiABluBC implements INWatcher {
      */
     public void newLog(int priority, String log){
         
-        if (priority==0) System.out.println(log);
+        // Command line log
+        if (priority==0) {
+            
+        // get the Time
+        Calendar timeStamp = Calendar.getInstance();
+        String dayLog = new Integer(timeStamp.get(Calendar.DAY_OF_MONTH)).toString();
+        String monthLog = new Integer(timeStamp.get(Calendar.MONTH)+1).toString();
+        String yearLog = new Integer(timeStamp.get(Calendar.YEAR)).toString();
+        String hourLog = new Integer(timeStamp.get(Calendar.HOUR_OF_DAY)).toString();
+        String minuteLog = new Integer(timeStamp.get(Calendar.MINUTE)).toString();
+        String secondLog = new Integer(timeStamp.get(Calendar.SECOND)).toString();
+        String timeLog = "["+dayLog+"/"+monthLog+"/"+yearLog+"@"+hourLog+":"+minuteLog+":"+secondLog+"]";
+        System.out.println(timeLog+log);   
+            
+            
+            
+            
+        }
+           
+        
+        
         DBui.newLog(priority,log);
         
     }
