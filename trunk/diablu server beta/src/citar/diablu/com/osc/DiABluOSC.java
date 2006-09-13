@@ -96,10 +96,10 @@ public class DiABluOSC {
         // Send it...
         
         // OSC /devicein
-        sendBundle("/devicein",tempAddDevices1,addr);
+        sendBundle(DEVICEIN,tempAddDevices1,addr);
         
         // OSC /devicesin
-        sendMessage("/devicesin",tempAddDevices2,addr);
+        sendMessage(DEVICESIN,tempAddDevices2,addr);
         
     }
     
