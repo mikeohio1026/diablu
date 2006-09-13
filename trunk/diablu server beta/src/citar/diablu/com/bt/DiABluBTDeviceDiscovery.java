@@ -222,7 +222,7 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
             // Give the corresponding pause
             try {
                 
-                Thread.sleep(this.delayBetweenInquirys);
+                Thread.sleep(dbBC.getBTdelay());
                 
             } catch (Exception e) {
                 
