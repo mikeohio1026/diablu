@@ -57,14 +57,14 @@ public class DiABluUI extends javax.swing.JFrame {
      */
     public DiABluUI(DiABluBC ourDBbc) {
         
-        System.out.println("DiABlu UI is rising...");    
+        //System.out.println("DiABlu UI is rising...");    
         
         // DiABlu Business Core Class
         DBbc = ourDBbc;
         
         // Initialize graphics components
         initComponents();
-        setVisible(true);
+
       
         // Customize components parameters
 
