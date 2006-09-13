@@ -1,7 +1,19 @@
 =====================================
-DiABlu Server (README FILE)
+DiABlu Server 0.90 (README FILE)
 =====================================
 
+LEGAL NOTICE
+------------
+Copyright(C) 2006 CITAR - Jorge Cardoso (jccardoso@porto.ucp.pt),Nuno Rodrigues (nunoalexandre.rodrigues@gmail.com)
+
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 
+as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software 
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 Statement
 ---------
@@ -9,8 +21,6 @@ Statement
 The DiABlu System is an application that detects the presence of Bluetooth enabled devices and communicates their names and ids to other applications. 
 
 It's intended to be used in art installations by digital artists who wish to give their audience a novel way to interact with their pieces.
-
-WARNING! THIS SOFTWARE IS A ALPHA VERSION AND COMES WITHOUT ANY WARRANTIES OF ANY TYPE
 
 
 Requirements
@@ -48,6 +58,22 @@ To run the project from the command line, simply type the following:
 java -jar "citar.jar" 
 
 
+Command Line Parameters
+-----------------------
+
+The system supports command line parameters. You can have help by sending the /help or /? command that shows the available possibilities:
+
+hide - This option hides the Graphics User Interface from displaying
+
+btdelay:xxxx - This specifies the Bluetooth Device Discovery delay in xxxx seconds
+
+servicename:xxxxx - This specifies the Bluetooth Service Server Name to xxxxx
+
+address:xxx.xxx.xxx.xxx - Specify the Target Machine Address to xxx.xxx.xxx.xxx
+
+port:xxxx - Specify the Target Machine Listening Port to xxxx
+
+
 Download
 --------
 
@@ -55,12 +81,3 @@ You can check the news & download the latest version at:
 http://soundserver.porto.ucp.pt/diablu/Paginas/downloads.php
 http://diablu.jorgecardoso.org
 
-LEGAL NOTICE
-------------
-Copyright(C) 2006 CITAR - Jorge Cardoso (jccardoso@porto.ucp.pt),Nuno Rodrigues (nunoalexandre.rodrigues@gmail.com)
-
-This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
