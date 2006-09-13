@@ -147,11 +147,11 @@ public class DiABluBC implements INWatcher {
         int oldCount = DBui.getDiABluList().size();  // pseudo-flag that check's if there's the need to update the counter
         boolean updateList = false;   // flag that check's if there's the need to update the list                
         
-        newLog(0,"Finished discovery");
+    
         
         // if we don't have any mobile devices around...
         if (newDeviceList.size()==0||newDeviceList==null) {
-            newLog(4,"[DiABluBC-newDeviceList()]Empty or null list received!!");
+            newLog(0,"No devices found.");
             
             // get the entire old DeviceList & counter
             entireOldDeviceList = DBui.getDiABluList();
@@ -167,6 +167,7 @@ public class DiABluBC implements INWatcher {
             
         } else {                        
                 
+            newLog(0,"Found "+newDeviceList.size()+" devices.");
             // get the entire old DeviceList
             entireOldDeviceList = DBui.getDiABluList();        
             newLog(4,"[DiABluBC-newDeviceList()]Got the entire old device list with "+entireOldDeviceList.size()+" elements");
@@ -239,11 +240,12 @@ public class DiABluBC implements INWatcher {
                     } else if ( compareFactor==2 ) {
                     
                         // The device is present but has changed the name
-                        newLog(0,"NameChanged:["+
+                        /* newLog(0,"NameChanged:["+
                                 dbDevNew.getID().getUUID()+"]["+
                                 dbDevOld.getID().getFName()+"] TO ["+
                                 dbDevNew.getID().getFName()+"]");                      
-                        newDevice = false;
+                        */
+                         newDevice = false;
                                         
                         // Add it to changed names list
                         namesChangedList.addElement(dbDevNew);
@@ -264,10 +266,10 @@ public class DiABluBC implements INWatcher {
                 
                 // Check if it's a new device
                 if (newDevice == true) {
-                    
+                    /*
                     newLog(0,"DeviceIn:["
                              +dbDevNew.getID().getUUID()+"]["+dbDevNew.getID().getFName()+"]");
-                    
+                    */
                     // add it to the devicesin list
                     devicesInList.addElement(dbDevNew);
                     
@@ -292,13 +294,14 @@ public class DiABluBC implements INWatcher {
                 int totalRemoved = oldDeviceList.size();
                 newLog(4,"[DiABluBC-newDeviceList()]Removing "+totalRemoved+" elements");
                 
+                /*
                 for (int i=0;i<totalRemoved;i++){
                     
                     DiABluDevice removedDevice = (DiABluDevice) oldDeviceList.elementAt(i);
                     newLog(0,"DeviceOut:["+removedDevice.getID().getUUID()+"]["+removedDevice.getID().getFName()+"]");
                     
                 }
-                
+                */
                 sendRemoveDevices(oldDeviceList, addr);
                 updateList = true;
         }
@@ -415,11 +418,21 @@ public class DiABluBC implements INWatcher {
         
     public void sendAddDevices(Vector aDevices, InetSocketAddress addr){
         
-        if (aDevices.size()==0){
+        if (aDevices==null||aDevices.size()==0){
             newLog(3,"[DiABluBC-sendAddDevices()] in DiABluBC has received an empty vector");
             return;
         }
+        
         newLog(4,"[DiABluBC-sendAddDevices()]Outputing a list of "+aDevices.size()+" DiAblu Devices.");
+        
+        int totalAdded = aDevices.size();
+        for (int i=0;i<totalAdded;i++){
+                    
+                    DiABluDevice addedDevice = (DiABluDevice) aDevices.elementAt(i);
+                    newLog(0,"DeviceIn:["+addedDevice.getID().getUUID()+"]["+addedDevice.getID().getFName()+"]");
+                    
+        }
+        
         DBui.addDevices(aDevices);
         DBosc.sendAddDevices(aDevices,addr);
         
@@ -427,11 +440,21 @@ public class DiABluBC implements INWatcher {
     
     public void sendRemoveDevices(Vector rDevices, InetSocketAddress addr){
         
-        if (rDevices.size()==0){
+        if (rDevices == null || rDevices.size()==0){
             newLog(3,"[DiABluBC-sendRemoveDevices()]This method has received an empty vector");
             return;
         }
         newLog(4,"[DiABluBC-sendRemoveDevices()]Removing "+rDevices.size()+" devices...");
+        
+        
+        int totalRemoved = rDevices.size();
+        for (int i=0;i<totalRemoved;i++){
+                    
+            DiABluDevice removedDevice = (DiABluDevice) rDevices.elementAt(i);
+            newLog(0,"DeviceOut:["+removedDevice.getID().getUUID()+"]["+removedDevice.getID().getFName()+"]");
+                    
+        }
+                
         DBui.removeDevices(rDevices);
         DBosc.sendRemoveDevices(rDevices,addr);
         
@@ -469,7 +492,7 @@ public class DiABluBC implements INWatcher {
     
     public void sendDeviceCount(int dCount, InetSocketAddress addr){
         
-        newLog(4,"[DiABluBC-sendDeviceCount()]Sending new device count:"+dCount);
+        newLog(0,"DeviceCount:["+dCount+"]");
         DBosc.sendDeviceCount(dCount,addr);
         
     }
@@ -481,7 +504,16 @@ public class DiABluBC implements INWatcher {
             newLog(3,"[DiABluBC-sendNamesChanged()] in DiABluBC has received an empty vector");
             return;
         }
-        newLog(4,"[DiABluBC-sendNamesChanged()]List size:"+nDevices.size());
+        
+        // log       
+        int totalChanged = nDevices.size();
+        for (int i=0;i<totalChanged;i++){
+                    
+            DiABluDevice changedDevice = (DiABluDevice) nDevices.elementAt(i);
+            newLog(0,"NameChanged:["+changedDevice.getID().getUUID()+"]["+changedDevice.getID().getFName()+"]");
+                    
+        }    
+        
         DBui.editDevices(nDevices);
         DBosc.sendNamesChanged(nDevices,addr);
     }
