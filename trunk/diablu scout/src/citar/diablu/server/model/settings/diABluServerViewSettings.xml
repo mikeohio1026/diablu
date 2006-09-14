@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : diabluSettings.xml
+    Created on : 30 de Julho de 2006, 16:48
+    Author     : Nuno Rodrigues
+    Description: This file contains the settings of the DiABlu Server version 1
+        
+-->
+
+<diabluServer>
+
+<version>1.0</version>
+
+<global>
+    
+    <location>Portugal</location>
+    <language>English</language>
+    
+    <!-- WARNING bundle_path NOT ACTIVE 
+      DiABluSettings Class will always use the default value.
+      Change the code in DiABluSettings if you whish to add multiple bundles
+     -->
+    <bundle_path>citar/diablu/server/model/i18n/defaultBundle</bundle_path>
+    
+</global>
+
+<input>
+    
+    <!-- WARNING protocol NOT ACTIVE 
+      DiABluSettings Class will always use the default value.
+      Change the code in DiABluSettings if you whish to add multiple protocol
+     -->
+    <protocol>Bluetooth</protocol>
+    
+    <delay>10000</delay>
+    <service_name>Super DiABlu Service Beta 2</service_name>
+    <service_description>This service allows you to send keys and messages to this installation</service_description>
+    
+</input>
+
+<output>
+    
+    <!-- WARNING protocol NOT ACTIVE 
+      DiABluSettings Class will always use the default value.
+      Change the code in DiABluSettings if you whish to add multiple protocol
+     -->
+    <protocol>OSC</protocol>
+    
+    <target_address>127.0.0.1</target_address>
+    <port>10000</port>
+    
+</output>
+
+<simulator>
+    
+    <automatic>true</automatic>            
+    
+</simulator>
+
+<log>
+    <!-- Log Detail        
+         0 - Simple Log
+         1 - Detailed Log
+         2 - Debug Log        
+    -->
+    <detail>2</detail>
+    <file>citar/diablu/server/model/log/diABluLog</file>
+    
+</log>
+
+
+</diabluServer>
