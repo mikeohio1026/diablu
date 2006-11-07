@@ -44,16 +44,20 @@ public class DiABluBTConnection extends Thread {
     String OVER = "OVER";
     StreamConnection clientConnection = null;
     String clientUUID = "";
+    String clientFNAME = "";
+    DiABluID clientDID;
     RemoteDevice clientDevice = null;
     INWatcher outInfo;   
     Thread btClient;
     DiABluBTCONSTANTS mKeys;
     
     /** Creates a new instance of DiABluBTConnection */
-    public DiABluBTConnection (StreamConnection conn,INWatcher out, String clientID){
+    public DiABluBTConnection (StreamConnection conn,INWatcher out, DiABluID clientID){
       
         this.clientConnection = conn;        
-        this.clientUUID = clientID;
+        this.clientDID = clientID;
+        this.clientUUID = clientDID.getUUID();
+        this.clientFNAME = clientDID.getFName();
         this.outInfo = out;
                   
     } 
@@ -151,7 +155,7 @@ public class DiABluBTConnection extends Thread {
     
     private void processMsg(String msg,String id){
         
-        DiABluID dID = new DiABluID(id,"");
+        DiABluID dID = this.clientDID;
         
         if (msg.startsWith("K")) {
                           
@@ -221,7 +225,7 @@ public class DiABluBTConnection extends Thread {
     
     private void createMsg(String msg,String id){
         
-        DiABluID dID = new DiABluID(id,"");
+        DiABluID dID = this.clientDID;
         DiABluMsg dM = new DiABluMsg(dID,msg);
         outInfo.newMsg(dM);
         
