@@ -30,6 +30,8 @@ import javax.microedition.io.*;
 import javax.bluetooth.*;
 import citar.diablu.bc.DiABluBC;
 
+import citar.diablu.classes.DiABluID;
+
 /**
  *
  * @author nrodrigues
@@ -88,7 +90,7 @@ public class DiABluBTServer extends Thread {
         // open a notifier 
         try {
             
-            server = (StreamConnectionNotifier)Connector.open("btspp://localhost:F0E0D0C0B0A000908070605040302013;name=DiABluServer2");
+            server = (StreamConnectionNotifier)Connector.open("btspp://localhost:F0E0D0C0B0A000908070605040302013;name="+this.serviceName);
             
         } catch (IOException e) {
             
@@ -105,7 +107,19 @@ public class DiABluBTServer extends Thread {
                 // System.out.println("Client connected!Getting info");               
                 clientDevice = RemoteDevice.getRemoteDevice(conn);
                 String id = clientDevice.getBluetoothAddress();
-                DiABluBTConnection dBTC = new DiABluBTConnection(conn,parent,id);               
+                String fn1 = "";
+                
+                try {                
+                    
+                    fn1 = clientDevice.getFriendlyName(true);
+                    if (fn1 == null) fn1 = "";
+                    
+                } catch (Exception e){
+                    
+                    System.err.println("Failed to get device "+id+" friendly name");
+                }
+                DiABluID did = new DiABluID(id,fn1);
+                DiABluBTConnection dBTC = new DiABluBTConnection(conn,parent,did);               
                 dBTC.start();
                                 
             } catch (IOException e) {
