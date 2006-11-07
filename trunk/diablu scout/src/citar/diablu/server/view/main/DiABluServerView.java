@@ -125,7 +125,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         exit_jmi = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("DiABlu Server Beta 2");
+        setTitle("DiABlu Server 2 Beta");
         detected_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Detected Devices", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
         detectedTable_jt.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -734,6 +734,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         String fnameT = dd.getID().getFName();
         String deviceT = dd.getStringDevice();
         String statusT = dd.getStringStatus();
+        if (dd.getIsBlackListed()){ statusT="Black Listed"; }
                         
         dController.log(LOG_DEBUG,"[VIEW-addDevice()]FNAME:"+fnameT+"@"+uuidT+"|["+deviceT+"]"+"|>"+statusT);
         DefaultTableModel modelT = (DefaultTableModel) detectedTable_jt.getModel();

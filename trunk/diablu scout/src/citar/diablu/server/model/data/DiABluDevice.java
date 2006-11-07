@@ -25,7 +25,8 @@ public class DiABluDevice implements Comparable {
      *  2 - Black listed device - means this device is in the system black list and should not be outputted except for the serverView
      * 
      */
-    private int status;           
+    private int status;          
+    private boolean isBlackListed;
     // TODO:Check out the enum types of java 1.5 [status]
     // TODO:Add a field for timestamp/detectedTimes
     
@@ -47,6 +48,7 @@ public class DiABluDevice implements Comparable {
         lastKey = null;
         majorDeviceClass = 0;
         minorDeviceClass = 0;
+        isBlackListed = false;
         
     }
     
@@ -71,6 +73,18 @@ public class DiABluDevice implements Comparable {
         this.minorDeviceClass=minor;
         this.status = status;
         this.detectionCounter = 1;
+        
+    }
+    
+    public void setIsBlackListed(boolean blackListState){
+        
+        this.isBlackListed = blackListState;
+        
+    }
+    
+    public boolean getIsBlackListed(){
+        
+        return this.isBlackListed;
         
     }
     

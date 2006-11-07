@@ -108,16 +108,17 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
         exit_jmi = new javax.swing.JMenuItem();
         credits_jm = new javax.swing.JMenu();
         credits_jmi = new javax.swing.JMenuItem();
+        view_jm = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         detected_jp.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        detected_jsp.setName(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("DetectedTab"));
+        detected_jsp.setName("DetectedTab");
         detectedTable_jt.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("UUID__"), java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Friendly_Name"), java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Device_Type"), java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Status"), java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Last_Msg"), java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Last_Key")
+                "UUID  ", "Friendly Name", "Device Type", "Status", "Last Msg", "Last Key"
             }
         ) {
             Class[] types = new Class [] {
@@ -181,35 +182,35 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
                 .add(detected_jsp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        AllPane.addTab(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Detection"), detected_jp);
+        AllPane.addTab("Detection", detected_jp);
 
-        serviceDescription_jtf.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("DiABlu_System_is_in_tha_house_:P"));
+        serviceDescription_jtf.setText("DiABlu System is in tha house :P");
         serviceDescription_jtf.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 serviceDescription_jtfPropertyChange(evt);
             }
         });
 
-        serviceDescription_jl.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Service_Description:"));
+        serviceDescription_jl.setText("Service Description:");
 
-        service_jtf.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("DiABlu666"));
+        service_jtf.setText("DiABlu666");
         service_jtf.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 service_jtfPropertyChange(evt);
             }
         });
 
-        service_jl.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Service_Name:"));
+        service_jl.setText("Service Name:");
 
-        vCycles_jl.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Verify_inquirys_before_device_removal:"));
+        vCycles_jl.setText("Verify inquirys before device removal:");
 
         vCycles_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        vCycles_jtf.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("2"));
+        vCycles_jtf.setText("2");
 
-        delay_jl.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Delay_between_bluetooth_discoverys(ms):"));
+        delay_jl.setText("Delay between bluetooth discoverys(ms):");
 
         delay_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        delay_jtf.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("10000"));
+        delay_jtf.setText("10000");
         delay_jtf.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 delay_jtfPropertyChange(evt);
@@ -264,27 +265,27 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
                     .add(serviceDescription_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
-        AllPane.addTab(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Bluetooth"), settings_jp);
+        AllPane.addTab("Bluetooth", settings_jp);
 
         address_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        address_jtf.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("127.0.0.1"));
+        address_jtf.setText("127.0.0.1");
         address_jtf.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 address_jtfPropertyChange(evt);
             }
         });
 
-        adress_jl.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Target_Address:"));
+        adress_jl.setText("Target Address:");
 
         port_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        port_jtf.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("10000"));
+        port_jtf.setText("10000");
         port_jtf.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 port_jtfPropertyChange(evt);
             }
         });
 
-        port_jl.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Port:"));
+        port_jl.setText("Port:");
 
         org.jdesktop.layout.GroupLayout output_jpLayout = new org.jdesktop.layout.GroupLayout(output_jp);
         output_jp.setLayout(output_jpLayout);
@@ -314,29 +315,29 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
                     .add(port_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(146, Short.MAX_VALUE))
         );
-        AllPane.addTab(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Open_Sound_Control"), output_jp);
+        AllPane.addTab("Open Sound Control", output_jp);
 
         log_jta.setColumns(20);
         log_jta.setRows(5);
         log_jsp.setViewportView(log_jta);
 
-        clearLog_jb.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Clear_"));
+        clearLog_jb.setText("Clear ");
         clearLog_jb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clearLog_jbActionPerformed(evt);
             }
         });
 
-        saveLog_jb.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Save"));
+        saveLog_jb.setText("Save");
         saveLog_jb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveLog_jbActionPerformed(evt);
             }
         });
 
-        logDetail_jl.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Log_Detail:"));
+        logDetail_jl.setText("Log Detail:");
 
-        logDetail_jcb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Simple"), java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Detailed"), java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Debug") }));
+        logDetail_jcb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Simple", "Detailed", "Debug" }));
         logDetail_jcb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logDetail_jcbActionPerformed(evt);
@@ -378,63 +379,63 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
                         .add(logDetail_jcb, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        AllPane.addTab(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Log"), log_jp);
+        AllPane.addTab("Log", log_jp);
 
-        AllPane.getAccessibleContext().setAccessibleName(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Settings"));
+        AllPane.getAccessibleContext().setAccessibleName("Settings");
 
-        settings_jm.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Settings"));
-        loadSettings_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Load_Settings"));
+        settings_jm.setText("Settings");
+        loadSettings_jmi.setText("Load Settings");
         settings_jm.add(loadSettings_jmi);
 
-        saveSettings_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Save_settings"));
+        saveSettings_jmi.setText("Save settings");
         settings_jm.add(saveSettings_jmi);
 
-        language_jm.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Language"));
-        languagePT_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Portugu\u00eas"));
+        language_jm.setText("Language");
+        languagePT_jmi.setText("Portugu\u00eas");
         language_jm.add(languagePT_jmi);
 
-        languageFR_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Fran\u00e7ais"));
+        languageFR_jmi.setText("Fran\u00e7ais");
         language_jm.add(languageFR_jmi);
 
-        languageEN_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("English"));
+        languageEN_jmi.setText("English");
         language_jm.add(languageEN_jmi);
 
         settings_jm.add(language_jm);
 
-        location_jm.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Menu"));
-        locationPT_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Item"));
+        location_jm.setText("Menu");
+        locationPT_jmi.setText("Item");
         location_jm.add(locationPT_jmi);
 
-        locationFR_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Item"));
+        locationFR_jmi.setText("Item");
         location_jm.add(locationFR_jmi);
 
-        locationEN_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Item"));
+        locationEN_jmi.setText("Item");
         location_jm.add(locationEN_jmi);
 
         settings_jm.add(location_jm);
 
         menubar_jmb.add(settings_jm);
 
-        blackList_jm.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Black_List"));
-        addBlackList_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Item"));
+        blackList_jm.setText("Black List");
+        addBlackList_jmi.setText("Item");
         blackList_jm.add(addBlackList_jmi);
 
-        removeBlackList_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Item"));
+        removeBlackList_jmi.setText("Item");
         blackList_jm.add(removeBlackList_jmi);
 
-        resetBlackList_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Item"));
+        resetBlackList_jmi.setText("Item");
         blackList_jm.add(resetBlackList_jmi);
 
         menubar_jmb.add(blackList_jm);
 
-        exit_jm.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Exit"));
+        exit_jm.setText("Exit");
         exit_jm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exit_jmActionPerformed(evt);
             }
         });
 
-        exit_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Exit"));
+        exit_jmi.setText("Exit");
         exit_jmi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exit_jmiActionPerformed(evt);
@@ -445,14 +446,14 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
 
         menubar_jmb.add(exit_jm);
 
-        credits_jm.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Credits"));
+        credits_jm.setText("Credits");
         credits_jm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 credits_jmActionPerformed(evt);
             }
         });
 
-        credits_jmi.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("About"));
+        credits_jmi.setText("About");
         credits_jmi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 credits_jmiActionPerformed(evt);
@@ -462,6 +463,9 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
         credits_jm.add(credits_jmi);
 
         menubar_jmb.add(credits_jm);
+
+        view_jm.setText("View");
+        menubar_jmb.add(view_jm);
 
         setJMenuBar(menubar_jmb);
 
@@ -649,6 +653,7 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
     private javax.swing.JPanel settings_jp;
     private javax.swing.JLabel vCycles_jl;
     private javax.swing.JTextField vCycles_jtf;
+    private javax.swing.JMenu view_jm;
     // End of variables declaration//GEN-END:variables
     
 }

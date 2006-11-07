@@ -344,6 +344,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         
         }
         
+        
         // search came in empty pockets
         if (newDeviceList.isEmpty()){
             
@@ -361,9 +362,13 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
                 
                 for (DiABluDevice dd:newDeviceList){
                 
-                    devicesInList.addElement(dd);
-                    finalDeviceList.addElement(dd);
-                    
+                    if (deviceNotBlackListed(dd)){
+                        
+                        devicesInList.addElement(dd);
+                        finalDeviceList.addElement(dd);
+                        
+                    }
+                                        
                 }
             
             } else {
@@ -582,6 +587,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         log(LOG_DEBUG,"Remove device list:"+removedDevicesList.size());
         log(LOG_DEBUG,"Changed names:"+namesChangedList.size());
         log(LOG_DEBUG,"Final device list:"+finalDeviceList.size());
+        log(LOG_DEBUG,"Total of current Black Listed Devices:"+blackList.size());
         log(LOG_DEBUG,"--------------------------------------------");
               
         // Process the results
@@ -629,13 +635,16 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             
                     log(LOG_DETAILED,"[Model-newDeviceList()] "+"Adding "+devicesInList.size()+" devices");
                     // TODO:update this to update multiple general views listeners                  
-                    serverView.newDiABluDevices(devicesInList);
+             
                     
                     Vector <DiABluDevice> diabluOSCout = new Vector <DiABluDevice> ();
                     diabluOSCout = filterBlackListed(devicesInList);
                     log(LOG_DEBUG,"[Model-newDeviceList()] "+"Sendind "+diabluOSCout.size()+" devices to osc devicesin");
                     
                     if ( OSC_LISTENER_READY ) oscListener.newDiABluDevices(diabluOSCout);
+                    
+                    // TEMP PATCH:Remove the osc filtered and use this one if this works
+                    if ( SERVER_VIEW_LISTENER_READY ) serverView.newDiABluDevices(diabluOSCout);
             
                     notifyUpdatedDeviceList = true;
               }
@@ -889,7 +898,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
        updateView.add(oldDD);
        serverView.removeDiABluDevices(updateView);
        updateView.removeAllElements();
-       oldDD.setStatus(2); // blacklisted status
+       oldDD.setIsBlackListed(true); // blacklisted status
        updateView.add(oldDD);
        serverView.newDiABluDevices(updateView);
        
@@ -925,7 +934,8 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
        serverView.removeDiABluDevices(updateView);
        updateView.removeAllElements();
        // TODO:reformat this
-       oldDD.setStatus(1); // bluetooth status
+       //oldDD.setStatus(1); // bluetooth status
+       oldDD.setIsBlackListed(false);
        updateView.add(oldDD);
        serverView.newDiABluDevices(updateView);
    }
@@ -1414,6 +1424,32 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
            
        }
               
+   }
+   
+   private boolean deviceNotBlackListed(DiABluDevice dd){
+       
+       // assumption of inocence :)
+       boolean isNotBlackListed = true;
+       
+       if (dd==null){
+           
+           log(LOG_UNEXPECTED_ERROR,"[Model - deviceNotBlackListed()] "+"Null argument");
+           return true;
+           
+       }
+       
+       if (!blackList.isEmpty()){
+           
+           for (DiABluID did:blackList){
+               if (did.getUUID().equalsIgnoreCase(dd.getID().getUUID())){
+                   log(LOG_DEBUG,"[Model - deviceNotBlackListed()] "+"Found black listed:"+dd.toString());
+                   return true;
+               }
+           }
+           
+       }
+       
+       return isNotBlackListed;
    }
    
    /**
