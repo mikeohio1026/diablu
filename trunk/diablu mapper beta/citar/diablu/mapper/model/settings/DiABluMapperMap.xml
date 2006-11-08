@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : DiABluScoutMap.xml
+    Created on : 5 de Setembro de 2006, 23:14
+    Author     : Nuno Rodrigues
+    Description: This file contains the landmark & anchorpoint information required to the DiABlu Locator.
+    Can contain multiple landmarks, each containing a unique set of multiple anchor points.
+   
+-->
+
+<map>
+
+
+    
+    
+   <!--
+ 
+         This allows the system to save the last landmark configuration.       
+   
+    -->
+   <landmark_list>
+       
+       <landmark>
+           
+           <landname>
+               exemplo
+           </landname>
+           
+           <anchor_list>
+               
+               <anchor>
+               
+                      <uuid>U234245FT</uuid>
+                      
+                      <fname>Morales Tlm</fname>
+                      
+                      <class>Smart Phone</class>
+                      
+               </anchor>
+               
+               <anchor>
+               
+                      <uuid>U224245FT</uuid>
+                      
+                      <fname>Morales Tlm2</fname>
+                      
+                      <class>Mobile Phone</class>
+                      
+               </anchor>
+               
+           </anchor_list>
+           
+       </landmark>       
+              
+   </landmark_list>
+    
+
+    
+</map>

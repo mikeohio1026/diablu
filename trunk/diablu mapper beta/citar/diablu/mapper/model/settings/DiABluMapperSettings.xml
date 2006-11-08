@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : DiABluMapperSettings.xml
+    Created on : 13 de Setembro de 2006, 12:01
+    Author     : Nuno Rodrigues
+    Description:
+        This document contains the saved settings of the DiABlu Mapper aplication.
+-->
+
+<mapper>
+
+    <!--
+    
+        Indicates if the discovery should be launched (& restarted) automatic
+    
+    -->
+    <isAutomaticSearch>true</isAutomaticSearch>
+    
+    <!--
+    
+            Copy options. 
+
+            ALL - means that all detected anchor points will be copied to the newly created landmark
+            FILTERED - indicates the device classes to filter to the newly created landmark
+            
+    -->
+    <copy>ALL</copy>
+    
+    
+
+    <!-- 
+    
+         Filtered device classes
+         These classes can be filtered out of the landmark's creation  
+         
+     -->
+     
+     <filtered_list>
+         
+         <device_class></device_class>
+        
+         
+     </filtered_list>
+         
+         
+    
+    
+</mapper>
