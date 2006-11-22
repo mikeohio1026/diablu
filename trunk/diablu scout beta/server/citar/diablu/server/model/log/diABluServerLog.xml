@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : diABluLog.xml
+    Created on : 24 de Agosto de 2006, 17:12
+    Author     : Nuno Rodrigues
+    Description:
+        Purpose of the document follows.
+-->
+
+<log version="1.0">
+    
+<!-- Tree see DTD for more information on DiABlu Log Files
+
+
+        <message>
+            <date></date>
+            <time></time>
+            <code></code>
+            <priority></priority>
+            <text></text>
+         </message>
+     
+     
+  --> 
+  
+</log>
