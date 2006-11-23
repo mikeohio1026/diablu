@@ -124,7 +124,7 @@ public class DiABluServerCONSTANTS {
     public final static boolean BT_DEFAULT_START_SERVICE = true;
     public final static String BT_DEFAULT_SERVICE_NAME = "DiABlu Service";
     public final static String BT_DEFAULT_SERVICE_DESCRIPTION = "This service allows you to interact with Digital Art works(in progress?:)";
-    public final static boolean BT_DEFAULT_SIMULATOR = true;
+    public final static boolean BT_DEFAULT_SIMULATOR = false;
     
     
     /** Creates a new instance of DiABluServerCONSTANTS */
