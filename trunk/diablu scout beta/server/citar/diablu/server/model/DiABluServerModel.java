@@ -1030,14 +1030,24 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             
             logger.warning("Null argument");
             return;
+        
         }
         
-        if (!blackList.contains(did)) {
+        for(String bl:this.blackList){
+            
+            if (bl.equalsIgnoreCase(did)){
+                
+                logger.config("Device already black listed!");
+                return;
+                
+            }
+        }
+        
             
             logger.finest("Blacklisting:"+did);
             blackList.add(did);
             
-        }
+        
         
         DiABluDevice oldDD = getDiABluDevice(did);
         if (oldDD.getID().getUUID().equalsIgnoreCase("")) {
@@ -1993,7 +2003,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             logger.finest("[Model - getDiABluDevice()] "+"Inspecting:"+dd.toString()+"@"+dd.getID().getUUID());
             if (did.equalsIgnoreCase(dd.getID().getUUID())){
                 
-                foundDiABlu = dd;
+                foundDiABlu = dd;               
                 logger.finest("[Model - getDiABluDevice()] "+"Found device:"+foundDiABlu.toString());
                 break;
                 

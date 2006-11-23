@@ -241,11 +241,6 @@ public class DiABluServerSettings {
             this.filterFNames = new Boolean(filterFNamesValue);          
             logger.finer("Filter devices without friendly name set?:"+this.filterFNames+" from "+filterFNamesValue);
 
-            
-            
-            
-            
-            
             NodeList blackListNodeList = filterElement.getElementsByTagName("black_list");
                 
             Element blackListElement = (Element) blackListNodeList.item(0);

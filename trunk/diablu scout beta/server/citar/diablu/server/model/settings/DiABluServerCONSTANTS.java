@@ -93,7 +93,7 @@ public class DiABluServerCONSTANTS {
     public final static String OSC_NAME_CHANGED="/NameChanged";        
 
     public final static String OUT_DEFAULT_PROTOCOL             = "OSC";
-    public final static String OUT_DEFAULT_TARGET_PORT          = "6666";
+    public final static String OUT_DEFAULT_TARGET_PORT          = "10000";
     public final static String LOCALHOST                        = "127.0.0.1"; // Localhost address
     public final static String OUT_DEFAULT_TARGET_ADDRESS       = LOCALHOST;
     

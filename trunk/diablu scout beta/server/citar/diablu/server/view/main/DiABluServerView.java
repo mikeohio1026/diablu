@@ -186,10 +186,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                 return canEdit [columnIndex];
             }
         });
-        detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(310);
-        detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);
-        detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(80);
-        detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(120);
+
         //detectedTable_jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //Ask to be notified of selection changes.
         ListSelectionModel rowSM = detectedTable_jt.getSelectionModel();
@@ -209,10 +206,26 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                 } else {
 
                     int selectedRow = lsm.getMinSelectionIndex();
+                    String statusT = detectedTable_jt.getValueAt(selectedRow,3).toString();
 
-                    if (detectedTable_jt.getValueAt(selectedRow,))
-                    addBlackList_jb.setEnabled(true);
-                    removeBlackList_jb.setEnabled(true);
+                    // Black list ENABLE SELECTION
+                    // WARNING:This code is prone to error since we must wait for I18N
+                    if (statusT.equalsIgnoreCase("BT_Device")){
+
+                        addBlackList_jb.setEnabled(true);
+                        removeBlackList_jb.setEnabled(false);
+
+                    } else if (statusT.equalsIgnoreCase("Black_Listed")){
+
+                        addBlackList_jb.setEnabled(false);
+                        removeBlackList_jb.setEnabled(true);
+
+                    } else {
+
+                        addBlackList_jb.setEnabled(false);
+                        removeBlackList_jb.setEnabled(false);
+
+                    }
 
                     //selectedRow is selected
                     String uuidT = detectedTable_jt.getValueAt(selectedRow,0).toString();
@@ -1158,7 +1171,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
          }
          
          String uuidT = detectedTable_jt.getValueAt(selectedRow,0).toString();
-
+         logger.finest("Selected UUID:"+uuidT);
          
          return uuidT;
     
@@ -1175,7 +1188,10 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         String dId = getSelectedDiABluUUID();
         if (!dId.equalsIgnoreCase("")) {
             
+            logger.finest("Selected uuid:"+dId);
             dController.removeFromBlackList(dId);
+            removeBlackList_jb.setEnabled(false);
+            addBlackList_jb.setEnabled(true);
         
         }
         
@@ -1189,8 +1205,10 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         // paranoid check
         if (!dId.equalsIgnoreCase("")) {
             
-            logger.log(Level.FINEST,"[Controller - addBlackList_] "+"Add to black list:"+dId);
+            logger.log(Level.FINEST,"Selected uuid:"+dId);
             dController.addToBlackList(dId);
+            addBlackList_jb.setEnabled(false);
+            removeBlackList_jb.setEnabled(true);
         
         }
         
@@ -1710,6 +1728,10 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         removeBlackList_jb.setEnabled(false);       
         
         // detected table size
+        detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(80);
+        detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);
+        detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(100);
+        detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(80);
         // TODO
         
     }
