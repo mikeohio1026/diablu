@@ -552,7 +552,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         );
 
         output_jp.setBorder(javax.swing.BorderFactory.createTitledBorder("Output"));
-        protocol_jcb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OSC", "FLOSC", "XML" }));
+        protocol_jcb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OSC", "FLOSC" }));
         protocol_jcb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocol_jcbActionPerformed(evt);
@@ -1184,7 +1184,8 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
      * These methods are called by the View section in order to fire the appropriatte forward action
      */
     private void removeBlackList_jbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBlackList_jbActionPerformed
-
+        
+        logger.finest("Remove from black list");
         String dId = getSelectedDiABluUUID();
         if (!dId.equalsIgnoreCase("")) {
             
@@ -1729,8 +1730,8 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         
         // detected table size
         detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(80);
-        detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);
-        detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(100);
+        detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(300);
+        detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(200);
         detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(80);
         // TODO
         
