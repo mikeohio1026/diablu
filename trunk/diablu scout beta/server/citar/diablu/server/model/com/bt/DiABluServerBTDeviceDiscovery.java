@@ -479,13 +479,14 @@ public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener {
     /*
      * This method serves only to simplify source code
      * now instead of "controller.log" we can use just "log"
-     */
+     *
+    @Deprecated
     private void log(int priority,String logM){
         
-        controller.log(priority,logM);
+        logger.finest("DEPRECATED:"+logM);
         
     }
-    
+    */
     public void setFastMode(boolean fm){
         
         this.FAST_MODE = fm;

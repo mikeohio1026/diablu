@@ -24,7 +24,7 @@ public class DiABluServerCONSTANTS {
      *   will be replaced by file or command line parameters
      *
      */
-    public final static String DEFAULT_SETTINGS_FILE        ="diABluServerSettings.xml";
+    public final static String DEFAULT_SETTINGS_FILE        ="build/classes/citar/diABluServerSettings.xml";
     public final static String DEFAULT_LOG_FILE             ="DiABluLogFile";
     
     // I18N & L9N

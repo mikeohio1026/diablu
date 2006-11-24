@@ -27,6 +27,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
+// logger
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import citar.diablu.server.model.log.diABluLogHandler;
+
 // model
 import citar.diablu.server.controller.out.view.DiABluServerViewModelListener;
 
@@ -42,8 +49,8 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
     // our controller interface
     private DiABluServerViewControllerListener dController = null;
     
-    // Log Detail
-    private int logDetail = LOG_SIMPLE;
+    // log
+    private static Logger logger = Logger.getLogger(LOG_MAIN_NAME); // Log API
     
     // i18n resource bundle
     ResourceBundle viewBundle;
@@ -495,36 +502,36 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
     }//GEN-LAST:event_logDetail_jcbActionPerformed
 
     private void saveLog_jbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveLog_jbActionPerformed
-        log(LOG_DEBUG,"[Controller]Save Settings");
+        logger.fine("[Controller]Save Settings");
         dController.saveSettings();
     }//GEN-LAST:event_saveLog_jbActionPerformed
 
     private void clearLog_jbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearLog_jbActionPerformed
         dController.clearLog();
-        log(LOG_DEBUG,"[Controller]Clear Log");
+        logger.fine("[Controller]Clear Log");
     }//GEN-LAST:event_clearLog_jbActionPerformed
 
     private void port_jtfPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_port_jtfPropertyChange
         String tempP = port_jtf.getText();
-        log(LOG_DEBUG,"[Controller]Target Port changed into:"+tempP);
+        logger.fine("[Controller]Target Port changed into:"+tempP);
         dController.newPort(tempP);
     }//GEN-LAST:event_port_jtfPropertyChange
 
     private void address_jtfPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_address_jtfPropertyChange
         String tempA = address_jtf.getText();
-        log(LOG_DEBUG,"[Controller]Target Address changed into:"+tempA);
+        logger.fine("[Controller]Target Address changed into:"+tempA);
         dController.newTargetAddress(tempA);
     }//GEN-LAST:event_address_jtfPropertyChange
 
     private void serviceDescription_jtfPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_serviceDescription_jtfPropertyChange
         String tempS = serviceDescription_jtf.getText();
-        log(LOG_DEBUG,"[Controller]New Service Descritption:"+tempS);
+        logger.fine("[Controller]New Service Descritption:"+tempS);
         dController.newServiceDescription(tempS);
     }//GEN-LAST:event_serviceDescription_jtfPropertyChange
 
     private void service_jtfPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_service_jtfPropertyChange
         String tempS = service_jtf.getText();
-        log(LOG_DEBUG,"[Controller]New Service Name:"+tempS);
+        logger.fine("[Controller]New Service Name:"+tempS);
         dController.newServiceName(tempS);
     }//GEN-LAST:event_service_jtfPropertyChange
 
@@ -538,18 +545,18 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
             
         } catch (Exception e){
             
-            log(LOG_INPUT_ERROR,"Please insert a valid number."+"[Default]:"+btDelay+" ms instead");
+            logger.warning("Please insert a valid number."+"[Default]:"+btDelay+" ms instead");
             
             // we will use the default value instead
             
         }
         
-        log(LOG_DEBUG,"[Controller]Setting new BT delay:"+btDelay);
+        logger.fine("[Controller]Setting new BT delay:"+btDelay);
         dController.newBluetoothDelay(btDelay);
     }//GEN-LAST:event_delay_jtfPropertyChange
 
     private void exit_jmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_jmActionPerformed
-        log(LOG_DEBUG,"[Controller]Exit the DiABlu System");
+        logger.fine("[Controller]Exit the DiABlu System");
         dController.exit();
     }//GEN-LAST:event_exit_jmActionPerformed
 
@@ -559,7 +566,7 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
 
     private void credits_jmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_credits_jmActionPerformed
         
-        log(LOG_DEBUG,"[Controller]Show Credits");
+        logger.fine("[Controller]Show Credits");
         dController.showCredits();
         
     }//GEN-LAST:event_credits_jmActionPerformed
@@ -569,12 +576,15 @@ public class DiABluServerCompactView extends javax.swing.JFrame {
         // TODO: remove this method
     }//GEN-LAST:event_credits_jmiActionPerformed
     
+    /**
+     * @Deprecated
     // simplify code method
     private void log(int priority,String logMsg){
         
         dController.log(priority,logMsg);
         
     }
+     */
     
     /**
      * @param args the command line arguments

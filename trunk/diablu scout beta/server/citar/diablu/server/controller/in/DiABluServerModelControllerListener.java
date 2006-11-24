@@ -15,7 +15,8 @@ package citar.diablu.server.controller.in;
  */
 public interface DiABluServerModelControllerListener {
     
-    
+    /*
+    @Deprecated
     public void log(int priority,String logMsg);
-    
+    */
 }

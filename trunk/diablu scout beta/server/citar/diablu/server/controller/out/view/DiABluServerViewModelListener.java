@@ -48,6 +48,13 @@ public interface DiABluServerViewModelListener extends DiABluServerModelListener
     public void setProtocol(String prot);
     
     // blacklist
+    /**
+     * This method tells the view to reset it's 
+     * detected devices table and fill up with
+     * new values
+     * @param Vector <DiABluDevice> newList
+     *
+     */
     public void resetDeviceList(Vector <DiABluDevice> ddList);
     
     // Global
