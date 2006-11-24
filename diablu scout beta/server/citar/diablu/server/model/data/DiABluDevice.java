@@ -308,12 +308,12 @@ public class DiABluDevice implements Comparable {
             }
             case 1: {
                 
-                return "BT_Device";
+                return "BT Device";
                 
             }
             case 2: {
                 
-                return "Black_Listed";
+                return "Black Listed";
                 
             }
             default:{
@@ -353,11 +353,11 @@ public class DiABluDevice implements Comparable {
                 
                 switch (this.minorDeviceClass){
                 
-                    case 4 : return "Cellular_Phone";
-                    case 8 : return "Cordless_Phone";
-                    case 12: return "Smart_phone";
-                    case 16: return "Wired_modem_or_voice_gateway";
-                    case 20: return "Common_ISDN_Access";
+                    case 4 : return "Cellular Phone";
+                    case 8 : return "Cordless Phone";
+                    case 12: return "Smart Phone";
+                    case 16: return "Wired modem or voice gateway";
+                    case 20: return "Common ISDN Access";
                     default: return "Uncategorized";
                                         
                 }
@@ -366,28 +366,28 @@ public class DiABluDevice implements Comparable {
             // LAN /Network Access point
             case 768: {
                 
-                return "LAN/Network_Acess_Point";
+                return "LAN/Network Acess Point";
                 
             }            
             
             // Audio/Video (headset,speaker,stereo, video display, vcr...
             case 1024: {
                 
-                return "Audio/Video_Device";
+                return "Audio/Video Device";
                 
             }
             
             // Peripheral (mouse, joystick, keyboards, ..... 
             case 1280:
             {
-                return "Peripheral_Device";
+                return "Peripheral Device";
              
             }
             
             // Imaging (printing, scanner, camera, display, ...
             case 1536: {
                 
-                return "Imaging_Device";
+                return "Imaging Device";
                 
             }                        
             

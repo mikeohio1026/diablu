@@ -181,6 +181,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         // get saved/command line settings
         settings = new DiABluServerSettings(args,this);
         settings.updateModel();
+        startDiABluSystem();
         
     }
     
@@ -202,7 +203,10 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
                     
                 }
                 
-            });} catch (Exception e){
+            });
+            SERVER_VIEW_LISTENER_READY = true;
+        
+        } catch (Exception e){
                 
                 System.out.println("view error:"+e.getLocalizedMessage());
             }
@@ -266,7 +270,6 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             // set visible the serverView
             serverView.clearLog();
             serverView.setVisibleView(true);
-            SERVER_VIEW_LISTENER_READY = true;
             logger.info("Starting Device Discovery...");
             diABluDiscovery.run();
             this.isDiscoveryRunning = true;            
@@ -302,7 +305,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
      *  This interface is the parent of all, since all the other classes need to log
      *  If we need to add a general method to all we should do it here
      *  @deprecated
-     */
+     *
     @Deprecated
     public void log(int priority, String logMsg){
         
@@ -312,7 +315,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         if (serverView!=null)serverView.log(priority, logMsg);
         
     }
-    
+    */
     /**
      *
      *  DiABluServerDevicesListener
@@ -389,9 +392,18 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         } else {
             
             // Cache
-            logger.finest("[Model-newDeviceList()] "+"Received new device list:"+rawNewDeviceList.size());
-            logger.finest("Cache processing the list");
-            newDeviceList = cacheProcessDeviceList(rawNewDeviceList);
+            logger.info("Received new device list with "+rawNewDeviceList.size()+" devices(1)");
+            
+            if (this.filterFriendlyNames){
+            
+                logger.finest("Cache processing the list");
+                newDeviceList = cacheProcessDeviceList(rawNewDeviceList);
+            
+            } else {
+                
+                newDeviceList = rawNewDeviceList;
+                logger.finest("Processing "+newDeviceList.size()+"elements");
+            }
             
         }
         
@@ -409,26 +421,31 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
          * }
          */
         
+        // Do we hold devices ?
+        if (!currentDiABluDevices.isEmpty()){
+            
+            logger.finest("Current devices:"+currentDiABluDevices.size());
+            
+            // get & filter the current data
+            entireOldDeviceList = this.currentDiABluDevices;
+            logger.finest("Copied "+entireOldDeviceList.size()+" devices to a temporary list");
+            
+            // get all of this device's type
+            oldDeviceList = cropDeviceList(deviceType,entireOldDeviceList);
+            logger.finest("There are "+oldDeviceList.size()+" comparable devices of the corresponding device type");
+            
+            
+            // add all other device types into the final list
+            finalDeviceList = stripDeviceList(deviceType,entireOldDeviceList);
+            logger.finest("Added "+finalDeviceList.size()+" other devices to the temporary final list");
+            
+        }
+        
         /**
          * 0 Special Cases first
          * If we get, or already have an empty list we
          * can shortcut the processing
          */
-        if (!currentDiABluDevices.isEmpty()){
-            
-            logger.finest("[Model-newDeviceList()] "+"Current devices:"+currentDiABluDevices.size());
-            
-            // get & filter the current data
-            entireOldDeviceList = this.currentDiABluDevices;
-            
-            // get all of this device's type
-            oldDeviceList = cropDeviceList(deviceType,entireOldDeviceList);
-            
-            // add all other device types into the final list
-            finalDeviceList = stripDeviceList(deviceType,entireOldDeviceList);
-            
-        }
-        
         // search came in empty pockets
         if (newDeviceList.isEmpty()){
             
@@ -499,8 +516,8 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
                                     
                                 } catch (Exception e) {
                                     
-                                    logger.finest("[Model - newDeviceList()] "+"Exception while trying to remove device.");
-                                    logger.finest("[Model - newDeviceList()] "+"Message:"+e.getLocalizedMessage());
+                                    logger.warning("[Model - newDeviceList()] "+"Exception while trying to remove device.");
+                                    logger.warning("[Model - newDeviceList()] "+"Message:"+e.getLocalizedMessage());
                                     e.printStackTrace();
                                     
                                 }
@@ -681,7 +698,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         /**
          * DEBUG
          */
-        logger.finest("Finished verifying lists.Analysing results");
+        logger.finest("Finished verifying lists.Analysing results2");
         logger.finest("--------------------------------------------");
         logger.finest("Add device list:"+devicesInList.size());
         logger.finest("Remove device list:"+removedDevicesList.size());
@@ -713,6 +730,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             
         }
         currentDiABluDevices = finalDeviceList;
+        logger.finest("CURRENT DIABLUS:"+currentDiABluDevices.size());
         
         // devicesout
         if (!removedDevicesList.isEmpty()) {
@@ -863,7 +881,21 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
     // New Simulated Device
     public void newSimDiABluDevice(DiABluDevice addDiABlu){
         
-        if (!currentDiABluDevices.contains(addDiABlu)) {
+        // first check if it already is in the system
+        for (DiABluDevice ddT:currentDiABluDevices){
+            
+        
+            if (ddT.compareTo(addDiABlu)==0){
+                
+                logger.warning("Device:"+addDiABlu.getID().toString() +"already in the system");
+                return;
+            }
+        
+        }
+        
+        logger.finest("FAST MODE device in:"+addDiABlu.getID().toString());
+        
+       
             
             // update model data
             currentDiABluDevices.add(addDiABlu);
@@ -873,14 +905,23 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             // server view
             Vector <DiABluDevice> tempDBVector = new Vector <DiABluDevice> ();
             tempDBVector.addElement(addDiABlu);
-            serverView.newDiABluDevices(tempDBVector);
             
-            // osc View
-            if ( OSC_LISTENER_READY ) oscListener.newDiABluDevices(tempDBVector);
-            if ( OSC_LISTENER_READY ) oscListener.newDeviceList(currentDiABluDevices);
-            if ( OSC_LISTENER_READY ) oscListener.newDeviceCount(currentDiABluDevices.size());
+            if (SERVER_VIEW_LISTENER_READY){
             
-        }
+                serverView.removeDiABluDevices(tempDBVector);
+                serverView.newDiABluDevices(tempDBVector);
+            
+            }
+            // check for black list elements
+            if (!isBlackListed(addDiABlu)){
+            
+                // osc View
+                if ( OSC_LISTENER_READY ) oscListener.newDiABluDevices(tempDBVector);
+                if ( OSC_LISTENER_READY ) oscListener.newDeviceList(currentDiABluDevices);
+                if ( OSC_LISTENER_READY ) oscListener.newDeviceCount(currentDiABluDevices.size());
+                
+            }
+        
         
     }
     
@@ -1053,7 +1094,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         if (oldDD.getID().getUUID().equalsIgnoreCase("")) {
             
             // device not found
-            logger.warning("Black listed device not found:"+did.toString());
+            logger.warning("Black listed device not found:"+did.toString());            
             return;
             
         }
@@ -1104,6 +1145,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             // found device
             // update view
             Vector <DiABluDevice> updateView = new Vector <DiABluDevice> ();
+            
             oldDD.setStatus(DEVICE_STATUS_BT);
         //   serverView.removeDiABluDevices(updateView);
         //updateView.removeAllElements();
@@ -1976,7 +2018,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
                                 
             }
             
-            logger.finest("[Model - filterBlackListed()] "+"Filtered list with "+filteredDeviceList.size()+" elements");
+            logger.finest("[Model - filterBlackListed()] "+"Filtered list with "+filteredDeviceList.size()+" elements of a total of "+currentDiABluDevices.size());
             
         } else {
             
@@ -1996,6 +2038,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
      */
     private DiABluDevice getDiABluDevice(String did){
         
+        logger.finest("Searching for "+did+" device in a total of "+currentDiABluDevices.size());
         DiABluDevice foundDiABlu = new DiABluDevice();
         
         for (DiABluDevice dd:currentDiABluDevices){
@@ -2003,7 +2046,8 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             logger.finest("[Model - getDiABluDevice()] "+"Inspecting:"+dd.toString()+"@"+dd.getID().getUUID());
             if (did.equalsIgnoreCase(dd.getID().getUUID())){
                 
-                foundDiABlu = dd;               
+                foundDiABlu.setID(dd.getID());
+                foundDiABlu = dd;
                 logger.finest("[Model - getDiABluDevice()] "+"Found device:"+foundDiABlu.toString());
                 break;
                 
@@ -2364,6 +2408,14 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         // TODO:implement multiple protocol
         this.protocol = prot;
         
+    }
+    
+    public void refreshDetectedView(){
+        
+        if (SERVER_VIEW_LISTENER_READY){
+            
+            serverView.resetDeviceList(currentDiABluDevices);
+        }
     }
 
 }

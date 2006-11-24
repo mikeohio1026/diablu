@@ -68,7 +68,7 @@ public class DiABluServerMain {
         // Create the model
         model = new DiABluServerModel(args);
         
-        System.out.println("Loading settings...");
+      //  System.out.println("Loading settings...");
         
         /** Deprecated code - model does this
         // Initialize model settings
@@ -79,14 +79,14 @@ public class DiABluServerMain {
         */
         
         // Process the command line arguments if any
-        if ( args.length > 0 ) { 
+    //    if ( args.length > 0 ) { 
             
-            System.out.println("Processing args...");
+    //        System.out.println("Processing args...");
             //settings.parseArgs(args); 
-        }
+     //   }
         
-        System.out.println("Starting DiABlu System...");
-        model.startDiABluSystem();
+      //  System.out.println("Starting DiABlu System...");
+       // model.startDiABluSystem();
                 
     }
 

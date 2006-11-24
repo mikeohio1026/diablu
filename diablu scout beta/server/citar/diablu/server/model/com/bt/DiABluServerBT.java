@@ -25,6 +25,13 @@ import citar.diablu.server.model.com.bt.DiABluServerBTDeviceDiscovery;  // devic
 // jsr82
 import javax.bluetooth.*;
 
+// logger
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import citar.diablu.server.model.log.diABluLogHandler;
+
 /**
  *
  * @author Nuno Rodrigues
@@ -38,6 +45,7 @@ public class DiABluServerBT implements DiABluServerBTModelListener {
     
     private DiABluServerBTDeviceDiscovery diABluDiscovery;      // Bluetooth device discovery class
     private DiABluServerBTServiceServer diABluServiceServer;          // Bluetooth service server class
+    private static Logger logger = Logger.getLogger(LOG_MAIN_NAME); // Log API
     
     /**
      * Creates a new instance of DiABluServerBT
@@ -67,13 +75,13 @@ public class DiABluServerBT implements DiABluServerBTModelListener {
         
             diABluServiceServer = new DiABluServerBTServiceServer(controller,this);
             diABluServiceServer.start();
-            log(LOG_DETAILED,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Started_device_discovery"));
+            logger.finest(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Started_device_discovery"));
             
             
         } catch (Exception e){
             
-            log(LOG_COM_ERROR,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Error_trying_to_register_service"));
-            log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+ e.getLocalizedMessage());
+            logger.warning(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Error_trying_to_register_service"));
+            logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+ e.getLocalizedMessage());
             e.printStackTrace();
             
         }
@@ -83,18 +91,18 @@ public class DiABluServerBT implements DiABluServerBTModelListener {
             // now the discovery
             // diABluDiscovery = new DiABluServerBTDeviceDiscovery(controller,this);
             // diABluDiscovery.run();            
-            log(LOG_DETAILED,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Started_device_discovery"));
+            logger.finest(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Started_device_discovery"));
                 
         } catch (BluetoothStateException bte1) {
             
-            log(LOG_COM_ERROR,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Unable_to_get_hardware_response"));
-            log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+ bte1.getLocalizedMessage());
+            logger.warning(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Unable_to_get_hardware_response"));
+            logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+ bte1.getLocalizedMessage());
             bte1.printStackTrace();
             
         } catch (Exception e2){
             
-            log(LOG_COM_ERROR,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Error_trying_to_start_device_discovery"));
-            log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+ e2.getLocalizedMessage());
+            logger.warning(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Error_trying_to_start_device_discovery"));
+            logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DSBT|startSystem()]_")+ e2.getLocalizedMessage());
             e2.printStackTrace();
             
             
@@ -150,9 +158,13 @@ public class DiABluServerBT implements DiABluServerBTModelListener {
         return this.serviceDescription;
     }
     
+    /**
+     * @Deprecated
     private void log(int priority,String logMsg){
         
         this.controller.log(priority,logMsg);
         
-    }
+    
+     *
+     */
 }

@@ -224,15 +224,16 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
     }
     
     /**
-     * DEPRECATED
+     * @Deprecated
      * Log
      * This method passes the log messages into the application model
-     */
+     *   
     public void log(int priority,String log){
         
          model.log(priority,log);
         
     }
+    */
     
     /** 
      * This method outputs the added devices present in the Vector
@@ -454,7 +455,7 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
         int tempCounter = 0;               // counter for the returned Object[]
         Object[] tempDBobject = null;      // returned array
         
-        if ( xDevices == null || xDevices.size() == 0 ) {
+        if ( xDevices == null || xDevices.isEmpty() ) {
                     
            logger.finest("[DiABluOSC-vectorTOobject()] "+"Empty or null argument");
             return null;
@@ -468,7 +469,7 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
         tempDBobject = new Object[2*tempSize];
         
         // debug info
-       logger.finest("[DiABluOSC-vectorTOobject()]List_size"+xDevices.size());        
+       logger.finest("[DiABluOSC-vectorTOobject()]List_size"+tempSize);        
                 
         for (DiABluDevice ddT:xDevices){
                         
@@ -477,6 +478,7 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
             fnameT = ddT.getID().getFName();
             
             // copy the device info
+            logger.finest("Processing index:"+tempCounter);
             tempDBobject[tempCounter] = uuidT;
             tempDBobject[tempCounter+1] = fnameT;
             tempCounter+=2;

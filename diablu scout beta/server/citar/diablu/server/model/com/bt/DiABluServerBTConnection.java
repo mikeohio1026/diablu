@@ -25,6 +25,13 @@ import citar.diablu.server.model.data.DiABluKey;
 import citar.diablu.server.model.data.DiABluDevice;
 import citar.diablu.server.model.data.DiABluID;
 
+// logger
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import citar.diablu.server.model.log.diABluLogHandler;
+
 // controller
 import citar.diablu.server.controller.in.devices.DiABluServerDevicesListener;
 
@@ -34,11 +41,12 @@ import citar.diablu.server.controller.in.devices.DiABluServerDevicesListener;
  */
 public class DiABluServerBTConnection extends Thread {
 
-    DiABluServerDevicesListener controller;  
-    DiABluID clientID;
-    String message = "";            
-    StreamConnection clientConnection = null;
-    RemoteDevice clientDevice = null; 
+    private static Logger logger = Logger.getLogger(LOG_MAIN_NAME); // Log API
+    private DiABluServerDevicesListener controller;  
+    private DiABluID clientID;
+    private String message = "";            
+    private StreamConnection clientConnection = null;
+    private RemoteDevice clientDevice = null; 
 
     
     /**
@@ -51,7 +59,7 @@ public class DiABluServerBTConnection extends Thread {
         RemoteDevice remoteDevice;
         String clientUUID=java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("not_avaiable");   
         
-        log(LOG_DETAILED,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTConnection]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Starting_BT_connection_thread"));
+        logger.fine(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTConnection]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Starting_BT_connection_thread"));
         
         try {
                 remoteDevice = RemoteDevice.getRemoteDevice(conn);
@@ -59,8 +67,8 @@ public class DiABluServerBTConnection extends Thread {
                 
         } catch ( Exception e ) {
             
-            log(LOG_COM_ERROR,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTConnection]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Error_getting_device_address"));
-            log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTConnection]_")+e.getLocalizedMessage());
+            logger.warning(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTConnection]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Error_getting_device_address"));
+            logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTConnection]_")+e.getLocalizedMessage());
             e.printStackTrace();
             
         }
@@ -69,20 +77,22 @@ public class DiABluServerBTConnection extends Thread {
                   
     } 
     
+    /**
+     * @Deprecated
     // Simple log method
     private void log(int p, String s){
         
         controller.log(p,s);
         
     }
-  
+  */
     public void run() 
     {
           
         try {  
           
               // get the i/o streams
-              log(LOG_DETAILED,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_") + java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Opening_data_IO_streams_for") +  clientID.toString() );
+              logger.fine(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_") + java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Opening_data_IO_streams_for") +  clientID.toString() );
               DataInputStream in = clientConnection.openDataInputStream();
               DataOutputStream out = clientConnection.openDataOutputStream();                                                    
               
@@ -91,16 +101,16 @@ public class DiABluServerBTConnection extends Thread {
                                    
                // read the message
                try {    
-                        log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Reading_data"));
+                        logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Reading_data"));
                         // get the string message
                         message = in.readUTF();
-                        log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Message") + message);
+                        logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Message") + message);
                         processMsg(message,clientID);
                                                     
                  } catch (IOException e) {
                      
-                        log(LOG_COM_ERROR,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("IO_Exception_while_reading_from_Bluetooth_connection"));
-                        log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+e.getLocalizedMessage());
+                        logger.warning(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("IO_Exception_while_reading_from_Bluetooth_connection"));
+                        logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+e.getLocalizedMessage());
                         e.printStackTrace();
                         break;
                  }
@@ -108,13 +118,13 @@ public class DiABluServerBTConnection extends Thread {
                 // Them send the "ROGER" to the client so he knows
                 try {
                     
-                         log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Writing_ROGER"));
+                         logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Writing_ROGER"));
                          out.writeUTF(BT_ROGER);                                    
                             
                 } catch (IOException ioE) {
                            
-                          log(LOG_COM_ERROR,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Error_writing_ROGER"));
-                          log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+ioE.getLocalizedMessage());
+                          logger.warning(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Error_writing_ROGER"));
+                          logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+ioE.getLocalizedMessage());
                           ioE.printStackTrace();
                           break;
                                     
@@ -124,15 +134,15 @@ public class DiABluServerBTConnection extends Thread {
                     
                
                // let's clean the streams'              
-               log(LOG_DETAILED,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Closing_IO_Streams_for")+clientID.toString());
+               logger.fine(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Closing_IO_Streams_for")+clientID.toString());
 
                in.close();
                out.close();
 
             } catch (IOException e) {
                 
-               log(LOG_COM_ERROR,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("General_IO_Exception"));
-               log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+e.getLocalizedMessage());
+               logger.warning(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("General_IO_Exception"));
+               logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+e.getLocalizedMessage());
                e.printStackTrace();
                 
             } finally {
@@ -142,20 +152,20 @@ public class DiABluServerBTConnection extends Thread {
                     
                     try {
                         
-                        log(LOG_DETAILED,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Closing_BT_connection"));
+                        logger.fine(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Closing_BT_connection"));
                         clientConnection.close();
                         
                     } catch (IOException e) {
                         
-                        log(LOG_COM_ERROR,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Error_closing_BT_connection"));
-                        log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+e.getLocalizedMessage());
+                        logger.warning(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Error_closing_BT_connection"));
+                        logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+e.getLocalizedMessage());
                         e.printStackTrace();
                         
                     }
                     
                 } else {
                     
-                    log(LOG_UNEXPECTED_ERROR,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Trying_to_close_null_connection"));
+                    logger.warning(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerConnection-run()]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Trying_to_close_null_connection"));
                     
                 }
             }
@@ -169,8 +179,8 @@ public class DiABluServerBTConnection extends Thread {
             // Parse the keys
             String[] keys = msg.substring(1).split("\\|",2);
             
-            log(4,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Keypressed")+keys[0]);
-            log(4,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Game_Action")+keys[1]);
+            logger.fine(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Keypressed")+keys[0]);
+            logger.fine(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Game_Action")+keys[1]);
             
             // Create the DiABluKey
             DiABluKey dbK = new DiABluKey(dID,keys[0],keys[1]);

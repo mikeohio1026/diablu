@@ -62,7 +62,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
     private DiABluServerViewControllerListener dController = null;
     
     // Log Detail
-    private int logDetail = LOG_SIMPLE;
+    //private int logDetail = LOG_SIMPLE;
     private static Logger logger = Logger.getLogger(LOG_MAIN_NAME);
     
     // i18n resource bundle
@@ -210,12 +210,12 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
 
                     // Black list ENABLE SELECTION
                     // WARNING:This code is prone to error since we must wait for I18N
-                    if (statusT.equalsIgnoreCase("BT_Device")){
+                    if (statusT.equalsIgnoreCase("BT Device")){
 
                         addBlackList_jb.setEnabled(true);
                         removeBlackList_jb.setEnabled(false);
 
-                    } else if (statusT.equalsIgnoreCase("Black_Listed")){
+                    } else if (statusT.equalsIgnoreCase("Black Listed")){
 
                         addBlackList_jb.setEnabled(false);
                         removeBlackList_jb.setEnabled(true);
@@ -461,6 +461,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
             }
         });
 
+        vCyclesIN_jftf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         vCyclesIN_jftf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 vCyclesIN_jftfFocusLost(evt);
@@ -474,6 +475,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
             }
         });
 
+        btDelay_jftf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         btDelay_jftf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 btDelay_jftfFocusLost(evt);
@@ -936,6 +938,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
 
     private void filterFriendlyNames_jcbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterFriendlyNames_jcbActionPerformed
 
+        logger.finest("Change friendly name filter...");
         dController.setFilterFriendlyNames(filterFriendlyNames_jcb.isSelected());
         
     }//GEN-LAST:event_filterFriendlyNames_jcbActionPerformed
@@ -1037,7 +1040,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
     
     private void addDevice(DiABluDevice dd){
         
-        logger.log(Level.FINEST,"[View]Adding device:"+dd.toString());
+        logger.log(Level.FINEST,"[View]Adding device:"+dd.toString());          
         
         // get the info on the device
         String uuidT = dd.getID().getUUID();
@@ -1086,7 +1089,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
            
            return;
         }
-        logger.log(Level.FINEST,"Device not locatized!");
+        logger.log(Level.FINEST,"Device not found!");
         
         
         
@@ -1118,12 +1121,55 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
           }
       
     }
-    
+    /**
+     * This method located the diablu device in the jtable
+     * and returns it's index, -1 if not found
+     * 
+     */
     private int locateDevice(DiABluID dId){
+
         
-        logger.log(Level.FINEST,"Trying to locate:"+dId.toString());
-        logger.log(Level.FINEST,"[View]Code in progress");
-        return 0;
+        if (dId==null){
+            
+            logger.warning("Null argument");
+            return -1;
+            
+        } else {
+            
+                            
+        int i;                                          // temporary counter                                    
+        DefaultTableModel buffer = (DefaultTableModel) detectedTable_jt.getModel();    // our current data table        
+        String targetUUID = dId.getUUID();
+        String tempUUID = "";                               // temporary uuid used to compare
+        int top = buffer.getRowCount();                     // total of table rows
+        
+        // Check for an empty model
+        if (top==0) return -1;
+                    
+        // get the first element
+        //tempUUID = buffer.getValueAt(i,0).toString();
+        
+        // do a cicle until we find our target
+        for (i=0;i<top;i++){
+            tempUUID = buffer.getValueAt(i,0).toString();
+            if (tempUUID.equalsIgnoreCase(targetUUID)) break;
+        }
+        
+        //check our results
+        if (i==top) {
+            
+            // element not found
+            logger.fine("[DiABluUI-locateDevice()]Device:"+targetUUID+"not found");
+            return -1;
+        } else {
+            
+            // we've found a match, let's return the index
+            logger.fine("[DiABluUI-locateDevice()]Device:"+targetUUID+"found at index:"+i);
+            return i;
+        }
+                      
+        }
+          
         
     }
     
@@ -1185,11 +1231,12 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
      */
     private void removeBlackList_jbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBlackList_jbActionPerformed
         
-        logger.finest("Remove from black list");
+        System.out.println("Helllooooooooooooooooooooooooooooooooooooooooooooo");
+        logger.finest("##########Remove from black list");
         String dId = getSelectedDiABluUUID();
         if (!dId.equalsIgnoreCase("")) {
             
-            logger.finest("Selected uuid:"+dId);
+            logger.finest("############Selected uuid:"+dId);
             dController.removeFromBlackList(dId);
             removeBlackList_jb.setEnabled(false);
             addBlackList_jb.setEnabled(true);
@@ -1223,7 +1270,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         dController.newLogLevel(logD);                  
         
         // debug log
-        logger.log(Level.FINEST,"[Controller]New Log Detail code:"+logDetail);   
+        logger.log(Level.FINEST,"[Controller]New Log Detail code:"+logD);   
                       
     }//GEN-LAST:event_logDetail_jcbActionPerformed
 
@@ -1304,14 +1351,25 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         // Paranoid check:        
         if (dbList == null) {
             
-            logger.log(Level.FINEST,"[View]Trying to add a null list!");
+            logger.warning("Trying to add a null list!");
             return;
         }
                 
-        dController.log(LOG_DETAILED,"[View]Adding "+dbList.size()+" devices");
-        
+        logger.finest("[View]Adding "+dbList.size()+" devices");
+        int located = -1;
         for (DiABluDevice iterator:dbList){
-              addDevice(iterator);            
+            
+              located = locateDevice(iterator.getID());
+              if (located == -1){
+              
+                  addDevice(iterator);            
+              
+              } else {
+                
+                  editDevice(iterator);
+                  
+              }
+              
         }
        
     }
@@ -1325,7 +1383,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
             return;
         }
                 
-        dController.log(LOG_DETAILED,"[View]Editing "+dbList.size()+" devices");   
+        logger.finest("[View]Editing "+dbList.size()+" devices");   
         
         for (DiABluDevice iterator:dbList){
               editDevice(iterator);            
@@ -1343,7 +1401,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
             return;
         }
                 
-        dController.log(LOG_DETAILED,"[View]Removing "+dbList.size()+" devices");
+        logger.finest("[View]Removing "+dbList.size()+" devices");
         
         for (DiABluDevice iterator2:dbList){
             
@@ -1380,7 +1438,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
     public void newMsg (DiABluMsg newMsg){
     
         DiABluID dId = newMsg.getID();
-        dController.log(LOG_DETAILED,"[View]New Msg:"+newMsg.getText()+"|From:"+dId.toString());
+        logger.finest("[View]New Msg:"+newMsg.getText()+"|From:"+dId.toString());
         
         // locate & update
         int index = locateDevice(dId);        
@@ -1404,7 +1462,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         DiABluID dId = newKey.getID();
         String keyText = newKey.toString();
         
-        dController.log(LOG_DETAILED,"[View]New Key:"+keyText+"|From:"+dId.toString());
+        logger.finest("[View]New Key:"+keyText+"|From:"+dId.toString());
         
         int index = locateDevice(dId);
         if (index !=-1) {
@@ -1614,7 +1672,13 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
     public void setProtocol(String prot){
         
         // TODO:update the combo box
-        
+        logger.finest("Setting protocol:"+prot);
+        if (prot.equalsIgnoreCase("osc")){
+            protocol_jcb.setSelectedIndex(0);
+            
+        } else {
+            protocol_jcb.setSelectedIndex(1);
+        }
         
         
     }
@@ -1729,10 +1793,12 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         removeBlackList_jb.setEnabled(false);       
         
         // detected table size
+        // TODO:REPLACE CONSTANTS
         detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(80);
-        detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(300);
-        detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(200);
-        detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(80);
+        detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(200);
+        detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(150);
+        detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(60);
+        //detectedTable_jt.getColumnModel().getColumn(4).setPreferredWidth(60);
         // TODO
         
     }

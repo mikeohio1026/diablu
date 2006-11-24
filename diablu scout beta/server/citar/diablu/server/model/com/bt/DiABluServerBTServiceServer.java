@@ -13,6 +13,13 @@ package citar.diablu.server.model.com.bt;
 import java.lang.*;
 import java.io.*;
 
+// logger
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import citar.diablu.server.model.log.diABluLogHandler;
+
 // j2se 1.5 - DiABlu System Constants
 import static citar.diablu.server.model.settings.DiABluServerCONSTANTS.*; 
         
@@ -33,21 +40,22 @@ import citar.diablu.server.controller.out.bt.DiABluServerBTModelListener;
 public class DiABluServerBTServiceServer extends Thread {
     
 
-    DiABluServerDevicesListener controller;             // this class controller
-    DiABluServerBTModelListener model;                  // this class model
+    private static Logger logger = Logger.getLogger(LOG_MAIN_NAME); // Log API
+    private DiABluServerDevicesListener controller;             // this class controller
+    private DiABluServerBTModelListener model;                  // this class model
  
-    StreamConnectionNotifier server = null;             // the connection notifier
-    RemoteDevice clientDevice = null;                   // the newly connected client device
+    private StreamConnectionNotifier server = null;             // the connection notifier
+    private RemoteDevice clientDevice = null;                   // the newly connected client device
             
-    String message = "";                       
-    StreamConnection conn = null;
+    private String message = "";                       
+    private StreamConnection conn = null;
         
-    int length; 
-    boolean DONE = false;    
+    private int length; 
+    private boolean DONE = false;    
     
     // Communication buffers
-    byte[] dataIN = new byte[BT_INPUT_BUFFER_SIZE];
-    byte[] dataOUT = new byte[BT_OUTPUT_BUFFER_SIZE];
+    private byte[] dataIN = new byte[BT_INPUT_BUFFER_SIZE];
+    private byte[] dataOUT = new byte[BT_OUTPUT_BUFFER_SIZE];
     
     /**
      * Creates a new instance of DiABluServerBTServiceServer
@@ -63,7 +71,7 @@ public class DiABluServerBTServiceServer extends Thread {
         
         String serviceName = "";
         
-        log(LOG_SIMPLE,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTServiceServer]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Starting_DiABlu_Server_Service"));
+        logger.fine(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTServiceServer]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Starting_DiABlu_Server_Service"));
 
         try {
             
@@ -75,8 +83,8 @@ public class DiABluServerBTServiceServer extends Thread {
             
         } catch (BluetoothStateException e) {
             
-            log(LOG_COM_ERROR,"[DiABluServerBTServiceServer]_"+"Failed_to_start_bluetooth_system");
-            log(LOG_DEBUG,"[DiABluServerBTServiceServer]_"+"BluetoothStateException_:"+e.getLocalizedMessage());
+            logger.warning("[DiABluServerBTServiceServer]_"+"Failed_to_start_bluetooth_system");
+            logger.config("[DiABluServerBTServiceServer]_"+"BluetoothStateException_:"+e.getLocalizedMessage());
             e.printStackTrace();
             return;
             
@@ -94,8 +102,8 @@ public class DiABluServerBTServiceServer extends Thread {
             
         } catch (IOException e) {
             
-            log(LOG_COM_ERROR,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTServiceServer]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Failed_to_get_bluetooth_notifier"));
-            log(LOG_DEBUG,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTServiceServer]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("I/O_Exception")+e.getLocalizedMessage());
+            logger.warning(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTServiceServer]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Failed_to_get_bluetooth_notifier"));
+            logger.config(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTServiceServer]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("I/O_Exception")+e.getLocalizedMessage());
             e.printStackTrace();           
             return;
             
@@ -107,9 +115,9 @@ public class DiABluServerBTServiceServer extends Thread {
         // once a client is connected delegate the connection to a thread and restart
         try {
             
-                log(LOG_SIMPLE,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTServiceServer]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("DiABlu_Service_registered_as_")+serviceName);
+                logger.fine(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTServiceServer]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("DiABlu_Service_registered_as_")+serviceName);
                 conn = server.acceptAndOpen();
-                log(LOG_SIMPLE,java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTServiceServer]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Client_connected"));
+                logger.fine(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[DiABluServerBTServiceServer]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Client_connected"));
         
                 
                 DiABluServerBTConnection dBTC = new DiABluServerBTConnection(controller,conn);               
@@ -145,12 +153,13 @@ public class DiABluServerBTServiceServer extends Thread {
     
     /**
      * Simplify log method
-     */
+     * @Deprecated
     public void log(int priority,String msgLog){
         
         controller.log(priority,msgLog);
         
     }
+     */
     
     public void closeServer(){
         
@@ -160,7 +169,7 @@ public class DiABluServerBTServiceServer extends Thread {
             
         } catch (IOException ioe){
             
-            log(1,"Error closing service server connection:"+ioe.getLocalizedMessage());
+            logger.warning("Error closing service server connection:"+ioe.getLocalizedMessage());
             
         }
         
