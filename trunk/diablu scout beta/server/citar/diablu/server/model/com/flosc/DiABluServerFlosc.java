@@ -130,11 +130,9 @@ public class DiABluServerFlosc implements DiABluServerOSCModelListener {
             
         }
     
-        logger.finest("Broadcasting device count:"+newDiABlusCount);
+        logger.info("DeviceCount:"+newDiABlusCount);
         dsftp.broadcastMessage(dsfop.getXml());
-    
-    
-    
+   
     
     }
         
@@ -188,7 +186,14 @@ public class DiABluServerFlosc implements DiABluServerOSCModelListener {
             
         }
     
-        logger.finest("Broadcasting:"+addDiABlus.size()+" new devices");
+        // log it
+        for (DiABluDevice dd:addDiABlus){
+            
+            logger.info("DeviceIn:["+dd.getID().getUUID()+"]["+dd.getID().getFName()+"]");
+            
+        }
+        
+        
         dsftp.broadcastMessage(dsfop.getXml());
     
     }
@@ -239,7 +244,13 @@ public class DiABluServerFlosc implements DiABluServerOSCModelListener {
             
         }
     
-        logger.finest("Broadcasting:"+editDiABlus.size()+" changed devices");
+        // log it
+        for (DiABluDevice dd:editDiABlus){
+            
+            logger.info("NameChanged:["+dd.getID().getUUID()+"]["+dd.getID().getFName()+"]");
+            
+        }
+        
         dsftp.broadcastMessage(dsfop.getXml());                    
     
     }
@@ -290,7 +301,15 @@ public class DiABluServerFlosc implements DiABluServerOSCModelListener {
             
         }
     
-        logger.finest("Broadcasting:"+removeDiABlus.size()+" removed devices");
+        for(DiABluDevice dd:removeDiABlus){
+            
+            
+            logger.info("DeviceOut:["+dd.getID().getUUID()+"]["+dd.getID().getFName()+"]");
+            
+            
+        }
+        
+        
         dsftp.broadcastMessage(dsfop.getXml());                    
     
     
@@ -330,7 +349,7 @@ public class DiABluServerFlosc implements DiABluServerOSCModelListener {
             
         }
     
-        logger.finest("Broadcasting message:"+newMsg.getText()+" from "+newMsg.getID().toString());
+        logger.info("MessageIn:["+newMsg.getID().getUUID()+"]["+newMsg.getID().getFName()+"]["+newMsg.getText()+"]");
         dsftp.broadcastMessage(dsfop.getXml());  
         
     }
@@ -368,7 +387,7 @@ public class DiABluServerFlosc implements DiABluServerOSCModelListener {
             
         }
     
-        logger.finest("Broadcasting Keys:"+newKey.getKeyPressed()+"|"+newKey.getGAction()+" from "+newKey.getID().toString());
+        logger.info("KeyIn:["+newKey.getID().getUUID()+"]["+newKey.getID().getFName()+"]["+newKey.getKeyPressed()+"]["+newKey.getGAction()+"]");
         dsftp.broadcastMessage(dsfop.getXml());  
         
         
@@ -404,5 +423,10 @@ public class DiABluServerFlosc implements DiABluServerOSCModelListener {
         
         dsftp.killServer();
     
+    }
+    
+    public void setLogLevel(Level newLevel){
+        
+        this.logger.setLevel(newLevel);
     }
 }

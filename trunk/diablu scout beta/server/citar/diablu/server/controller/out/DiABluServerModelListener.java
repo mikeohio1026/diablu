@@ -12,6 +12,9 @@ package citar.diablu.server.controller.out;
 // j2se
 import java.util.Vector;
 
+// log
+import java.util.logging.Level;
+
 // i18n & l9n
 import java.util.ResourceBundle;
 
@@ -47,6 +50,15 @@ public interface DiABluServerModelListener {
     
     // Global    
     public void setResourceBundle(ResourceBundle rb);
+    
+    // Log
+    /**
+     *  Set's the log level
+     *
+     */
+    public void setLogLevel(Level newLevel);
+    
+    
     
     // Input
     // TODO:Multiple Protocol

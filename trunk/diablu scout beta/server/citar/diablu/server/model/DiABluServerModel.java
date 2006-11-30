@@ -32,6 +32,7 @@ import static citar.diablu.server.model.settings.DiABluServerCONSTANTS.*;
 // server view
 import citar.diablu.server.controller.in.view.DiABluServerViewControllerListener;
 import citar.diablu.server.controller.out.view.DiABluServerViewModelListener;
+import citar.diablu.server.view.main.compact.DiABluServerCompactView;
 import citar.diablu.server.view.main.DiABluServerView;
 
 // general model listener
@@ -163,7 +164,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             
         } catch (Exception e){
             
-            logger.warning("Couldn't open log file!");
+            logger.warning("Error:Couldn't open log file!");
             e.printStackTrace();
             
         }
@@ -205,24 +206,16 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
                 
             });
             SERVER_VIEW_LISTENER_READY = true;
+            logger.finer("Started server view ?:"+SERVER_VIEW_LISTENER_READY);
         
         } catch (Exception e){
                 
                 System.out.println("view error:"+e.getLocalizedMessage());
             }
-        
-        if (serverView != null){
-            
-            initializeServerView(serverView);
-            registerGeneralListener(serverView);
-            
-        } else {
-            
-            System.out.println("NULL VIEW ERROR!!!");
-        }
-        
+
         
         // OSC Listener
+        // TODO:FLOSC STARTUP OPTION
         System.out.println("OSC...");
         this.oscListener = new DiABluServerOSC();
         registerGeneralListener(oscListener);
@@ -257,25 +250,39 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         initializeBTListener(btListener);
         BT_SERVER_LISTENER_READY = true;
         btListener.startSystem();
-        this.isDiscoveryRunning = true;
-        
+        //this.isDiscoveryRunning = true;
+        this.isServiceRunning = true;
         logger.fine("Is BT Server ready ?"+BT_SERVER_LISTENER_READY);
-        serverView.setServiceStatus(BT_SERVER_LISTENER_READY);
+        if (SERVER_VIEW_LISTENER_READY) serverView.setServiceStatus(BT_SERVER_LISTENER_READY);
 
         try {
             
-            // now the discovery
-            diABluDiscovery = new DiABluServerBTDeviceDiscovery(this,this);
+            
             BT_DISCOVERY_LISTENER_READY = true;
+            
+            // update the view
+                          
+        if (serverView != null){
+            
+            initializeServerView(serverView);
+            registerGeneralListener(serverView);
             // set visible the serverView
             serverView.clearLog();
             serverView.setVisibleView(true);
-            logger.info("Starting Device Discovery...");
+            
+        } else {
+            
+            System.out.println("NULL VIEW ERROR!!!");
+        }
+        
+
+                             
+            serverView.setDiscoveryStatus(BT_DISCOVERY_LISTENER_READY);            
+            // now the discovery
+            this.isDiscoveryRunning = true;   
+            diABluDiscovery = new DiABluServerBTDeviceDiscovery(this,this);
+            logger.info("########################Starting Device Discovery...");
             diABluDiscovery.run();
-            this.isDiscoveryRunning = true;            
-            logger.fine("Is BT Discovery ready ?"+BT_DISCOVERY_LISTENER_READY);
-            serverView.setDiscoveryStatus(BT_DISCOVERY_LISTENER_READY);
-            logger.finest("[DSBT|startSystem()] "+"Started_device_discovery");
             
         } catch (BluetoothStateException bte1){
             
@@ -290,6 +297,10 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             
         }
 
+    
+    
+    
+    
     }
     
     /**
@@ -392,7 +403,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         } else {
             
             // Cache
-            logger.info("Received new device list with "+rawNewDeviceList.size()+" devices(1)");
+            logger.info("Received new device list with "+rawNewDeviceList.size()+" devices.("+currentDiABluDevices.size()+")");
             
             if (this.filterFriendlyNames){
             
@@ -881,15 +892,25 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
     // New Simulated Device
     public void newSimDiABluDevice(DiABluDevice addDiABlu){
         
+
         // first check if it already is in the system
         for (DiABluDevice ddT:currentDiABluDevices){
             
-        
-            if (ddT.compareTo(addDiABlu)==0){
-                
-                logger.warning("Device:"+addDiABlu.getID().toString() +"already in the system");
-                return;
-            }
+           if (ddT.getID().getUUID().equalsIgnoreCase(addDiABlu.getID().getUUID())){
+               
+               if (ddT.getID().getFName().equalsIgnoreCase(addDiABlu.getID().getFName())){
+                   
+                   logger.fine("Device already in the system without any changes:"+addDiABlu.getID().toString());
+                   return;
+                   
+               } else {
+                   
+                   
+                   logger.fine("Device already in the system.Editing new values...");
+                   
+               }
+               
+           }
         
         }
         
@@ -915,6 +936,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             // check for black list elements
             if (!isBlackListed(addDiABlu)){
             
+                logger.fine("Sending output information...");
                 // osc View
                 if ( OSC_LISTENER_READY ) oscListener.newDiABluDevices(tempDBVector);
                 if ( OSC_LISTENER_READY ) oscListener.newDeviceList(currentDiABluDevices);
@@ -931,7 +953,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         // paranoid
         if ( editDiABlu == null ){
             
-            logger.finest("[Model -editSimDiABluDevice] "+"Null argument");
+            logger.finest("Null argument");
             return;
             
         }
@@ -942,8 +964,8 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             
             dd = i.next();
             
-            // if (dd.getID().getUUID().equalsIgnoreCase(editDiABlu.getID().getUUID())) {
-            if ( dd.equals(editDiABlu) ) {
+            if (dd.getID().getUUID().equalsIgnoreCase(editDiABlu.getID().getUUID())) {
+
                 
                 // remove the element
                 // currentDiABluDevices.remove(dd);
@@ -957,10 +979,10 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
                 tempDBVector.addElement(editDiABlu);
                 
                 // server View
-                serverView.editDiABluDevices(tempDBVector);
+                if (SERVER_VIEW_LISTENER_READY) serverView.editDiABluDevices(tempDBVector);
                 
                 // osc View
-                oscListener.editDiABluDevices(tempDBVector);
+                if (OSC_LISTENER_READY) oscListener.editDiABluDevices(tempDBVector);
                 
                 break;
             }
@@ -1417,14 +1439,22 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
     public void newLogLevel(String newLogLevel){
        
         try {
+                logger.finest("Setting log level:"+newLogLevel);
                 logger.setLevel(Level.parse(newLogLevel));
                 fh.setLevel(Level.parse(newLogLevel));
                 ch.setLevel(Level.parse(newLogLevel));
+           
+                if (SERVER_VIEW_LISTENER_READY){
+                    
+                    serverView.setLogLevel(Level.parse(newLogLevel));
+                    
+                }
                 
         } catch (Exception e) {
             
                 logger.warning("Error trying to set log level:"+newLogLevel+"Error:"+e.getLocalizedMessage());
         }
+        
         
     }
     
@@ -1454,17 +1484,65 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
      */
     public void setView(String v){
         
-        if (v.equalsIgnoreCase(VIEW_CLASSICAL)){
-            
-            //TODO:call the classic view and update the values
-            
-        } else {
-            
+        
+        logger.config("Setting view:"+v);
+        
+        
+                 
+               
+                if (this.preferredView.equalsIgnoreCase(v)&& SERVER_VIEW_LISTENER_READY){
+                    
+                    // nothing to do here
+                    logger.warning("View  "+v+" is already the current view.");
+                    return;
+                    
+                } 
+                
+                this.preferredView = v;
+        
+     
+               
+            tryView();
+      
+            if (SERVER_VIEW_LISTENER_READY) serverView.setVisibleView(false);    
+              if (SERVER_VIEW_LISTENER_READY) initializeServerView(serverView);
+     
+                        if (SERVER_VIEW_LISTENER_READY) serverView.setVisibleView(true);
             //TODO:call the compact view
             
-        }
+        
         
     }
+    
+    private void tryView(){
+        
+            logger.config("###Changing views###-----------------------------------------####");
+        
+          
+            try {
+            
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                
+                public void run() {
+                    
+                    initializeGUI();
+                    
+                }
+                
+            });
+    
+             logger.fine("Called view!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
+        
+            } catch (Exception e){
+                
+                logger.warning("View error:"+e.getLocalizedMessage());
+            }
+
+        
+        
+        
+    }
+    
     
     // Exits the application
     public void exit() {
@@ -1595,6 +1673,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         if (sV == null) {
             
             logger.finest("[Model - initializeServerView()] "+"Null argument");
+            
             return;
         }
         
@@ -1655,10 +1734,37 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
     
     private void initializeGUI(){
         
-        serverView = new DiABluServerView(this);
+        if (preferredView.equalsIgnoreCase(VIEW_NO_GRAPHICS)){
+            
+            // nothing to do
+            logger.warning("No GUI selected");
+            return;
+            
+        } else if (preferredView.equalsIgnoreCase(VIEW_CLASSICAL)){
+            
+            if (SERVER_VIEW_LISTENER_READY) serverView.setVisibleView(false);
+            serverView = new DiABluServerView(this);
+            SERVER_VIEW_LISTENER_READY = true;
+            
+        } else if (preferredView.equalsIgnoreCase(VIEW_COMPACT)){
+            
+            // TODO:prepare compact view
+            logger.config("CALLING COMPAKT VIEWWWWWWWWW");
+            
+            if (SERVER_VIEW_LISTENER_READY) serverView.setVisibleView(false);
+            serverView = new DiABluServerCompactView(this);
+            SERVER_VIEW_LISTENER_READY = true;
+            
+        }
         
+        
+        
+        // paranoid check
         if (serverView == null) {
-            System.out.println("ERROR: Null server view1");
+            
+            logger.warning("ERROR: Null server view");
+            SERVER_VIEW_LISTENER_READY = false;
+        
         }
         
     }

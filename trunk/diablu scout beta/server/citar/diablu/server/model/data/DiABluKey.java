@@ -71,7 +71,7 @@ public class DiABluKey {
     
     public String toString() {
         
-        return java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("K_")+keyPressed+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("G_")+gAction;
+        return ("K:"+keyPressed+"|G:"+gAction);
 
     }
     

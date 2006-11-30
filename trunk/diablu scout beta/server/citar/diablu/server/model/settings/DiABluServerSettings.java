@@ -753,7 +753,7 @@ public class DiABluServerSettings {
         
         try {
             
-            out = new BufferedWriter(new FileWriter("src/citar/diablu/server/model/settings/diABluServerSettings.xml"));
+            out = new BufferedWriter(new FileWriter(DEFAULT_SETTINGS_FILE));
             logger.finest("Opened settings file");
             
         } catch (IOException ioe){
@@ -800,10 +800,13 @@ public class DiABluServerSettings {
         e_location = xmldoc.createElementNS(null,"location");
         n_location = xmldoc.createTextNode(model.getLocation());
         e_location.appendChild(n_location);
+        logger.fine("Saving location:"+model.getLocation());
+        
         
         e_language = xmldoc.createElementNS(null,"language");
         n_language = xmldoc.createTextNode(model.getLanguage());
         e_language.appendChild(n_language);
+        logger.fine("Saving language:"+model.getLanguage());
         
         e_bundle = xmldoc.createElementNS(null,"bundle_path");                
         n_bundle = xmldoc.createTextNode(this.bundlePath);
@@ -815,8 +818,9 @@ public class DiABluServerSettings {
         
         // View
         e_view = xmldoc.createElementNS(null,"view");
-        n_view = xmldoc.createTextNode(model.getViewString());       
+        n_view = xmldoc.createTextNode(model.getViewString());
         e_view.appendChild(n_view);
+        logger.fine("Saving view:"+model.getViewString());
         
         // Filter
         e_filter = xmldoc.createElementNS(null,"filter");
@@ -824,6 +828,7 @@ public class DiABluServerSettings {
         e_ffname = xmldoc.createElementNS(null,"friendly_name_filter");       
         n_ffname = xmldoc.createTextNode(Boolean.toString(model.isFilterFriendlyName()));        
         e_ffname.appendChild(n_ffname);
+        logger.fine("Friendly name filter:"+Boolean.toString(model.isFilterFriendlyName()));
         
         // Filter - Black List
         e_blist = xmldoc.createElementNS(null,"black_list");
@@ -836,6 +841,7 @@ public class DiABluServerSettings {
             n_uuid = xmldoc.createTextNode(uuidT);
             e_uuid.appendChild(n_uuid);
             e_blist.appendChild(e_uuid);
+            logger.fine("Saved Blacklisted:"+uuidT);
                         
         }
         
@@ -851,6 +857,7 @@ public class DiABluServerSettings {
         e_simulator = xmldoc.createElementNS(null,"simulator");
         e_simAuto = xmldoc.createElementNS(null,"automatic");
         n_simAuto = xmldoc.createTextNode(Boolean.toString(model.isAutomaticSimulator()));
+        logger.fine("Is simulator automatic ?"+Boolean.toString(model.isAutomaticSimulator()));
         
         e_simAuto.appendChild(n_simAuto);
         e_simulator.appendChild(e_simAuto);
@@ -860,10 +867,12 @@ public class DiABluServerSettings {
         e_autoDisc = xmldoc.createElementNS(null,"automatic_start_discovery");
         n_autoDisc = xmldoc.createTextNode(Boolean.toString(model.isAutoStartDiscovery()));
         e_autoDisc.appendChild(n_autoDisc);        
+        logger.fine("Automatic start discovery ?"+Boolean.toString(model.isAutoStartDiscovery()));
         
         e_fastM = xmldoc.createElementNS(null,"fast_mode");
         n_fastM = xmldoc.createTextNode(Boolean.toString(model.isFastMode()));
         e_fastM.appendChild(n_fastM);
+        
         
         e_vCycles = xmldoc.createElementNS(null,"verify_cycles");
         
@@ -959,8 +968,9 @@ public class DiABluServerSettings {
         Transformer serializer;
         try {
          serializer = tf.newTransformer();
-         serializer.setOutputProperty(OutputKeys.ENCODING,"UTF-8");
-         //serializer.setOutputProperty(OutputKeys.INDENT,"yes");
+         serializer.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");
+         serializer.setOutputProperty(OutputKeys.INDENT,"yes");
+         //serializer.
          //serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,"src/citar/diablu/server/model/settings/diABluServerSettings.dtd");
          serializer.transform(domSource, streamResult);
          out.flush();

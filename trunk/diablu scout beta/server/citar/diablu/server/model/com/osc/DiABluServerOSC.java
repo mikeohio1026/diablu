@@ -20,6 +20,7 @@ import static citar.diablu.server.model.settings.DiABluServerCONSTANTS.*;
 
 // log
 import java.util.logging.Logger;
+import java.util.logging.Level;
 import static citar.diablu.server.model.settings.DiABluServerCONSTANTS.LOG_MAIN_NAME;
 
 //I18N & L9N
@@ -251,7 +252,7 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
        
        // paranoid check
        if (aDevices == null || aDevices.size() == 0){
-          logger.finest("[DiABluOSC-sendAddDevices()] "+"Error!Received_an_empty_list!!");
+          logger.finest("[DiABluOSC-sendAddDevices()] "+"Error!Received an empty list!!");
            return;
        }
        
@@ -265,9 +266,19 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
        tempAddDevices1 = vectorTOstring(aDevices);
        tempAddDevices2 = vectorTOobject(aDevices);
        
+       
+       // log it
+       for (DiABluDevice dd:aDevices){
+           
+           logger.info("DeviceIn:["+dd.getID().getUUID()+"]["+dd.getID().getFName()+"]");           
+                      
+       }
+       
+       
+       
        // Send it...
        
-       // OSC /OSC_DEVICE_IN
+       // OSC /OSC_DEVICE_IN       
        sendBundle(OSC_DEVICE_IN,tempAddDevices1,addr);
        
        // OSC /devicesin
@@ -292,6 +303,14 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
        // Convert the info
        tempRemoveDevices1 = vectorTOstring(rDevices);
        tempRemoveDevices2 = vectorTOobject(rDevices);
+       
+       // log it
+       for (DiABluDevice dd:rDevices){
+           
+           logger.info("DeviceOut:["+dd.getID().getUUID()+"]["+dd.getID().getFName()+"]");           
+                      
+       }
+       
        
        // Send it...
        
@@ -320,6 +339,7 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
             // Convert the info
             Object[] tempListDevices = vectorTOobject(lDevices);
         
+            
             // OSC /devicelist
             sendMessage(OSC_DEVICE_LIST,tempListDevices,addr);
         } else return;
@@ -339,6 +359,10 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
         // convert the info
         Object[] oscMsg = new Object[] { uuidT, fnameT, textT } ;
         
+        // log it
+        logger.info("MessageIn:["+newDMsg.getID().getUUID()+"]["+newDMsg.getID().getFName()+"]["+newDMsg.getText()+"]");
+        
+        
         // send the message
         sendMessage(OSC_MESSAGE_IN,oscMsg,addr);
         
@@ -357,6 +381,9 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
         
         // convert the info
         Object [] oscMsg = new Object[] { uuidT, fnameT, keypressedT, gactionT };
+        
+        // log it
+        logger.info("KeyIn:["+newDKey.getID().getUUID()+"]["+newDKey.getID().getFName()+"]["+newDKey.getKeyPressed()+"]["+newDKey.getGAction()+"]");
         
         // send the keys
         sendMessage(OSC_KEY_IN,oscMsg,addr);        
@@ -393,6 +420,9 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
             // convert the info
             oscMsg = new Object[] { uuidT, fnameT };
             
+            // log it
+            logger.info("NameChanged:["+uuidT+"]["+fnameT+"]");
+            
             // send it...
             sendMessage(OSC_NAME_CHANGED,oscMsg,addr);
         }
@@ -404,6 +434,7 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
      */
     public void sendDeviceCount(int dCount){
         
+        logger.info("DeviceCount:"+dCount);
         sendMessage(OSC_DEVICE_COUNT,dCount,this.targetAddress);        
         
     }               
@@ -662,5 +693,8 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
     }
     
     
-    
+    public void setLogLevel(Level newLevel){
+        
+        this.logger.setLevel(newLevel);
+    }
 }

@@ -228,14 +228,20 @@ public class DiABluDevice implements Comparable {
         // first:make sure it's a DiABlu Device to compare with'
         if (!(anotherDiABluDevice instanceof DiABluDevice)) {
                     
-             throw new ClassCastException("DiABlu_Device_expected");  
+             throw new ClassCastException("DiABlu Device expected");  
              
         } 
        
         // second:compare the uuid's
         if (this.id.getUUID().equalsIgnoreCase(((DiABluDevice)anotherDiABluDevice).getID().getUUID())) {
             
-            
+            /*
+            if (this.id.getFName().equalsIgnoreCase(((DiABluDevice)anotherDiABluDevice).getID().getFName())){
+                
+                // 100% match
+                return 1;
+            }
+             */
             //if (this.status==((DiABluDevice)anotherDiABluDevice).getStatus()) {
                 return 0;
             //}
@@ -336,11 +342,11 @@ public class DiABluDevice implements Comparable {
                 
                 switch (this.minorDeviceClass){
                     
-                    case 4 : return "Desktop_workstation";
-                    case 8 : return "Server_class_computer";
+                    case 4 : return "Desktop workstation";
+                    case 8 : return "Server class computer";
                     case 12: return "Laptop";
-                    case 16: return "Handheld_PCPDA";
-                    case 20: return "Palm_sized_PCPDA";
+                    case 16: return "Handheld PCPDA";
+                    case 20: return "Palm sized PCPDA";
                     case 24: return "Wearable_computer";
                     default: return "Uncategorized";
                     
@@ -393,7 +399,7 @@ public class DiABluDevice implements Comparable {
             
             default: {
                 
-                return "not_classified";
+                return "not classified";
                 
             }
             

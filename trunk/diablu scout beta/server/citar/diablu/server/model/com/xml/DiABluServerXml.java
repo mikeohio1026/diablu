@@ -35,6 +35,9 @@ import java.util.Vector;
 // i18n
 import java.util.ResourceBundle;
 
+// log
+import java.util.logging.Level;
+
 // DiABlu Objects
 import citar.diablu.server.model.data.DiABluMsg;
 import citar.diablu.server.model.data.DiABluKey;
@@ -82,4 +85,5 @@ public class DiABluServerXml implements DiABluServerOSCModelListener{
     
     public void newDeviceCount(int newDiABlusCount){}
     
+    public void setLogLevel(Level newLevel){}
 }

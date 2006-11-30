@@ -25,9 +25,13 @@ import java.util.logging.LogRecord;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import static citar.diablu.server.model.settings.DiABluServerCONSTANTS.*;
 
 import javax.swing.JTextArea;
+
 
 /**
  *
@@ -36,18 +40,22 @@ import javax.swing.JTextArea;
 public class diABluLogHandler  extends Handler {
     
     private JTextArea jta;
+
     
     /** Creates a new instance of diABluLogHandler */
     public diABluLogHandler(JTextArea jta) {
     
         this.jta = jta;
+  
         
     }
     
     public void publish(LogRecord logRecord){
    
-        // get the message
-        String message = logRecord.getMessage();
+        // get the date & time
+        String message = "["+DateFormat.getTimeInstance().format(new Date())+"]"; 
+        // add the text
+        message+=logRecord.getMessage();
         
         // check the text area
         if ( jta.getLineCount() > VIEW_LOG_LINE_MAX ){
@@ -56,14 +64,18 @@ public class diABluLogHandler  extends Handler {
             
         } 
     
+        /**
         // check the level
         if (Logger.getLogger(LOG_MAIN_NAME).getLevel().equals(Level.ALL)){
             
             message += "[Source:"+logRecord.getSourceClassName()+"]"+"[Method:"+logRecord.getSourceMethodName()+"]";
             
         }
+        */
         
-        jta.append(message+"\n");
+        jta.append(message+"\n");        
+
+        jta.setCaretPosition(jta.getText().length());
         
         
     }
