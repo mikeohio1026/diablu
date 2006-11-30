@@ -103,7 +103,7 @@ public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener {
     
     public void run() {
         
-        logger.finer("Starting_Bluetooth_Discovery_Engine");
+        logger.finer("Starting Bluetooth Discovery Engine");
 
         try {
                     

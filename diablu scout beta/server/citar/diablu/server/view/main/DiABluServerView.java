@@ -641,8 +641,27 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
 
         log_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Log", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
         log_jsp.setAutoscrolls(true);
+        log_jsp.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                log_jspComponentResized(evt);
+            }
+        });
+
         log_jta.setColumns(20);
         log_jta.setRows(5);
+        log_jta.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                log_jtaPropertyChange(evt);
+            }
+        });
+        log_jta.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                log_jtaInputMethodTextChanged(evt);
+            }
+        });
+
         log_jsp.setViewportView(log_jta);
 
         clearLog_jb.setText("Clear ");
@@ -680,8 +699,8 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         log_jpLayout.setVerticalGroup(
             log_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, log_jpLayout.createSequentialGroup()
-                .add(log_jsp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(log_jsp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(log_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(logDetail_jcb, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(logDetail_jl)
@@ -816,6 +835,20 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void log_jspComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_log_jspComponentResized
+       log_jsp.getVerticalScrollBar().setValue(log_jsp.getVerticalScrollBar().getMaximum());
+    }//GEN-LAST:event_log_jspComponentResized
+
+    private void log_jtaInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_log_jtaInputMethodTextChanged
+ 
+    }//GEN-LAST:event_log_jtaInputMethodTextChanged
+
+    private void log_jtaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_log_jtaPropertyChange
+
+
+        
+    }//GEN-LAST:event_log_jtaPropertyChange
 
     private void autoShowSimulator_jcbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoShowSimulator_jcbActionPerformed
         
@@ -1231,12 +1264,12 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
      */
     private void removeBlackList_jbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBlackList_jbActionPerformed
         
-        System.out.println("Helllooooooooooooooooooooooooooooooooooooooooooooo");
-        logger.finest("##########Remove from black list");
+
+        logger.finest("Remove from black list");
         String dId = getSelectedDiABluUUID();
         if (!dId.equalsIgnoreCase("")) {
             
-            logger.finest("############Selected uuid:"+dId);
+            logger.finest("Selected uuid:"+dId);
             dController.removeFromBlackList(dId);
             removeBlackList_jb.setEnabled(false);
             addBlackList_jb.setEnabled(true);
@@ -1276,7 +1309,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
 
     public void setLogLevel(Level newLevel){
         
-        logger.setLevel(newLevel);
+        this.logger.setLevel(newLevel);
         
     }
     
@@ -1287,7 +1320,8 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
     }
     
     private void protocol_jcbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_jcbActionPerformed
-          // TODO: in next version :)
+         
+        // TODO: in next version :)
         String p = protocol_jcb.getSelectedItem().toString();
         dController.newProtocol(p);
         
@@ -1784,6 +1818,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
             startStopSimulator_jb.setText("Show");
             
         }
+        
     }
     
     private void postInitComponents(){

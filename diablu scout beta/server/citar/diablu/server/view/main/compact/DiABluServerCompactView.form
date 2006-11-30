@@ -135,6 +135,7 @@
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
@@ -154,8 +155,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="AllPane" pref="246" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <Component id="AllPane" min="-2" pref="260" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -190,50 +191,145 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="detected_jsp" pref="668" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
+                      <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="detected_jsp" pref="197" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JScrollPane" name="detected_jsp">
-              <Properties>
-                <Property name="name" type="java.lang.String" value="DetectedTab"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
+            <Container class="javax.swing.JPanel" name="jPanel3">
 
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="detected_jsp" alignment="0" pref="688" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="detected_jsp" min="-2" pref="156" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="detectedTable_jt">
+                <Container class="javax.swing.JScrollPane" name="detected_jsp">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="6" rowCount="0">
-                        <Column editable="false" title="UUID  " type="java.lang.String"/>
-                        <Column editable="false" title="Friendly Name" type="java.lang.String"/>
-                        <Column editable="false" title="Device Type" type="java.lang.String"/>
-                        <Column editable="false" title="Status" type="java.lang.String"/>
-                        <Column editable="false" title="Last Msg" type="java.lang.String"/>
-                        <Column editable="false" title="Last Key" type="java.lang.String"/>
-                      </Table>
-                    </Property>
+                    <Property name="name" type="java.lang.String" value="DetectedTab"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(310);&#xa;detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);&#xa;detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(80);&#xa;detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(120);&#xa;//detectedTable_jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);&#xa;//Ask to be notified of selection changes.&#xa;ListSelectionModel rowSM = detectedTable_jt.getSelectionModel();&#xa;rowSM.addListSelectionListener(new ListSelectionListener() {&#xa;    public void valueChanged(ListSelectionEvent e) {&#xa;        //Ignore extra messages.&#xa;        if (e.getValueIsAdjusting()) return;&#xa;&#xa;        ListSelectionModel lsm =&#xa;            (ListSelectionModel)e.getSource();&#xa;        if (lsm.isSelectionEmpty()) {&#xa;            //no rows are selected&#xa;        } else {&#xa;            int selectedRow = lsm.getMinSelectionIndex();&#xa;            &#xa;            //selectedRow is selected&#xa;            String uuidT = detectedTable_jt.getValueAt(selectedRow,0).toString();&#xa;            String fName = detectedTable_jt.getValueAt(selectedRow,1).toString();&#xa;            DiABluID dId = new DiABluID(uuidT,fName);&#xa;            dController.newSelectedDevice(dId);&#xa;            &#xa;        }&#xa;    }&#xa;});"/>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTable" name="detectedTable_jt">
+                      <Properties>
+                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                          <Table columnCount="6" rowCount="0">
+                            <Column editable="false" title="UUID  " type="java.lang.String"/>
+                            <Column editable="false" title="Friendly Name" type="java.lang.String"/>
+                            <Column editable="false" title="Device Type" type="java.lang.String"/>
+                            <Column editable="false" title="Status" type="java.lang.String"/>
+                            <Column editable="false" title="Last Msg" type="java.lang.String"/>
+                            <Column editable="false" title="Last Key" type="java.lang.String"/>
+                          </Table>
+                        </Property>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(310);&#xa;detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);&#xa;detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(80);&#xa;detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(120);&#xa;//detectedTable_jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);&#xa;//Ask to be notified of selection changes.&#xa;ListSelectionModel rowSM = detectedTable_jt.getSelectionModel();&#xa;rowSM.addListSelectionListener(new ListSelectionListener() {&#xa;    public void valueChanged(ListSelectionEvent e) {&#xa;        //Ignore extra messages.&#xa;        if (e.getValueIsAdjusting()) return;&#xa;&#xa;        ListSelectionModel lsm =&#xa;            (ListSelectionModel)e.getSource();&#xa;        if (lsm.isSelectionEmpty()) {&#xa;            //no rows are selected&#xa;        } else {&#xa;            int selectedRow = lsm.getMinSelectionIndex();&#xa;            &#xa;            //selectedRow is selected&#xa;            String uuidT = detectedTable_jt.getValueAt(selectedRow,0).toString();&#xa;            String fName = detectedTable_jt.getValueAt(selectedRow,1).toString();&#xa;            DiABluID dId = new DiABluID(uuidT,fName);&#xa;            dController.newSelectedDevice(dId);&#xa;            &#xa;        }&#xa;    }&#xa;});"/>
+                      </AuxValues>
+                    </Component>
+                  </SubComponents>
+                </Container>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="jPanel4">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Filter"/>
+                  </Border>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jCheckBox4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="205" max="32767" attributes="0"/>
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jCheckBox4" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JCheckBox" name="jCheckBox4">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Filter devices with friendly name not set"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                        <EmptyBorder bottom="0" left="0" right="0" top="0"/>
+                      </Border>
+                    </Property>
+                    <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                      <Insets value="[0, 0, 0, 0]"/>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButton3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Reset"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButton4">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Remove"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButton5">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Add"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Black List:"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
@@ -251,120 +347,261 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
-                              <Component id="serviceDescription_jl" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="serviceDescription_jtf" pref="466" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" pref="141" max="-2" attributes="0"/>
-                              <Component id="service_jl" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="service_jtf" pref="466" max="32767" attributes="1"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="delay_jl" min="-2" max="-2" attributes="0"/>
-                                  <Component id="vCycles_jl" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="vCycles_jtf" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="delay_jtf" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="delay_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="delay_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="vCycles_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="vCycles_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="service_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="service_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="serviceDescription_jl" min="-2" max="-2" attributes="0"/>
-                          <Component id="serviceDescription_jtf" min="-2" pref="55" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="19" max="32767" attributes="0"/>
+                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JTextField" name="serviceDescription_jtf">
+            <Container class="javax.swing.JPanel" name="jPanel1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="DiABlu System is in tha house :P"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Discovery"/>
+                  </Border>
+                </Property>
               </Properties>
-              <Events>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="serviceDescription_jtfPropertyChange"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JLabel" name="serviceDescription_jl">
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="vCycles_jl1" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="1" attributes="1">
+                                          <Component id="jCheckBox3" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace pref="339" max="32767" attributes="0"/>
+                                          <Component id="vCycles_jl" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="329" max="-2" attributes="0"/>
+                                          <Component id="delay_jl" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jTextField1" alignment="1" pref="68" max="32767" attributes="1"/>
+                                      <Component id="delay_jtf" alignment="1" pref="68" max="32767" attributes="1"/>
+                                      <Component id="vCycles_jtf" alignment="1" pref="68" max="32767" attributes="1"/>
+                                  </Group>
+                              </Group>
+                              <Component id="jButton1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="delay_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="delay_jl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="vCycles_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="vCycles_jl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="vCycles_jl1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jCheckBox3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace pref="14" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JTextField" name="delay_jtf">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" value="10000"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="delay_jl">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Delay between bluetooth discoverys(ms):"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="jTextField1">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" value="0"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="vCycles_jl1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Verify inquirys before device entry:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="vCycles_jtf">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" value="2"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="vCycles_jl">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Verify inquirys before device removal:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButton1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Start"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Auto Start"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                        <EmptyBorder bottom="0" left="0" right="0" top="0"/>
+                      </Border>
+                    </Property>
+                    <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                      <Insets value="[0, 0, 0, 0]"/>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="jCheckBox3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="FAST MODE"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                        <EmptyBorder bottom="0" left="0" right="0" top="0"/>
+                      </Border>
+                    </Property>
+                    <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                      <Insets value="[0, 0, 0, 0]"/>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="jPanel2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Service Description:"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Service"/>
+                  </Border>
+                </Property>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="service_jtf">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="DiABlu666"/>
-              </Properties>
-              <Events>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="service_jtfPropertyChange"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JLabel" name="service_jl">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Service Name:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="vCycles_jl">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Verify inquirys before device removal:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="vCycles_jtf">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="2"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="delay_jl">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Delay between bluetooth discoverys(ms):"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="delay_jtf">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="10000"/>
-              </Properties>
-              <Events>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="delay_jtfPropertyChange"/>
-              </Events>
-            </Component>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="195" max="-2" attributes="0"/>
+                                  <Component id="service_jl" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="1">
+                                  <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="serviceDescription_jl" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="serviceDescription_jtf" alignment="1" pref="341" max="32767" attributes="1"/>
+                              <Component id="service_jtf" alignment="0" pref="341" max="32767" attributes="1"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="service_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="service_jl" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="serviceDescription_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="serviceDescription_jl" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jCheckBox2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JTextField" name="service_jtf">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="DiABlu666"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="service_jl">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Service Name:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="serviceDescription_jtf">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="DiABlu System is in tha house :P"/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JLabel" name="serviceDescription_jl">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Service Description:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButton2">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Start"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="jCheckBox2">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Auto Start"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                        <EmptyBorder bottom="0" left="0" right="0" top="0"/>
+                      </Border>
+                    </Property>
+                    <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                      <Insets value="[0, 0, 0, 0]"/>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="output_jp">
@@ -410,7 +647,7 @@
                           <Component id="port_jl" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="port_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="143" max="32767" attributes="0"/>
+                      <EmptySpace pref="157" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -421,9 +658,6 @@
                 <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="text" type="java.lang.String" value="127.0.0.1"/>
               </Properties>
-              <Events>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="address_jtfPropertyChange"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="adress_jl">
               <Properties>
@@ -435,9 +669,6 @@
                 <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="text" type="java.lang.String" value="10000"/>
               </Properties>
-              <Events>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="port_jtfPropertyChange"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="port_jl">
               <Properties>
@@ -489,7 +720,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="log_jsp" min="-2" pref="160" max="-2" attributes="0"/>
-                      <EmptySpace pref="16" max="32767" attributes="0"/>
+                      <EmptySpace pref="30" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="saveLog_jb" alignment="3" min="-2" max="-2" attributes="0"/>

@@ -35,6 +35,7 @@ public class DiABluServerCONSTANTS {
     // VIEW
     public final static String VIEW_COMPACT                 = "Compact";
     public final static String VIEW_CLASSICAL               = "Classical";
+    public final static String VIEW_NO_GRAPHICS             = "none";
     public final static String VIEW_DEFAULT                 = VIEW_CLASSICAL;
     public final static int VIEW_LOG_LINE_MAX               = 1000;
     

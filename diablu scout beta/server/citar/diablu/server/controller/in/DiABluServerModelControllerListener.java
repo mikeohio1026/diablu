@@ -16,6 +16,8 @@ package citar.diablu.server.controller.in;
 public interface DiABluServerModelControllerListener {
     
     /*
+     * Now use logging API
+     * 
     @Deprecated
     public void log(int priority,String logMsg);
     */
