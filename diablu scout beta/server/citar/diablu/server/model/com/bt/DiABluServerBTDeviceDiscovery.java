@@ -112,8 +112,51 @@ public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener {
             agent = localDev.getDiscoveryAgent();
                
             // Start the INQUIRY    
-            searchDevices();
         
+            
+               while ( RestartInquiry ) {
+            
+            try { 
+                
+                
+                // NOTE: Paired devices will not uncache!!!!
+                // Workaround: try to comunicate
+                agent.startInquiry(DiscoveryAgent.GIAC, this);
+                
+                // wait until inquiry is done
+                synchronized (this) {
+                    
+                    try {
+                        
+                        this.wait();
+                        
+                    } catch (Exception e) {
+                        
+                        logger.finer(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[searchDevices]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Error_while_waiting_for_Inquiry_Completed_Signal"));
+                        logger.finest(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[searchDevices]_")+e.getLocalizedMessage());
+                        e.printStackTrace();
+                        
+                    }
+                }
+                                    
+            } catch (BluetoothStateException e) {
+            
+                        logger.info(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[searchDevices]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Please_check_your_Bluetooth_Hardware"));
+                        logger.severe(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[searchDevices]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("_Unable_to_start_Bluetooth_Detection"));
+                        logger.finest(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[searchDevices]_")+e.getLocalizedMessage());
+                        e.printStackTrace();
+              
+            }
+        
+          // Report the list to this class controller
+          logger.finer(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[Inquiry_Completed]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Returning_")+diABluDeviceList.size()+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("_devices"));        
+          Vector <DiABluDevice> ddL = diABluDeviceList;
+          controller.newDeviceList(DEVICE_BLUETOOTH, ddL);   
+          diABluDeviceList = new Vector <DiABluDevice> ();
+          logger.finer(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[Inquiry_Completed]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Wait_terminated.Restarting_inquiry"));
+ 
+        }
+       
         } catch (Exception e) {
             
             logger.finer(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Failed_to_start_bluetooth_system"));
@@ -122,7 +165,10 @@ public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener {
             
         }        
     }
-    
+    /**
+     * This method fails in xp stack
+     */
+    @Deprecated
     public void searchDevices() {
          
         while ( RestartInquiry ) {
@@ -178,8 +224,8 @@ public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener {
     public void startDiscovery(){
                 
         this.RestartInquiry = true;
-        searchDevices();
-        
+        //searchDevices();
+        run();
     }
     
     /*
