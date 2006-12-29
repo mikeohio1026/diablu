@@ -10,6 +10,7 @@
 package citar.diablu.server.model.data;
 
 import javax.bluetooth.RemoteDevice;
+import static citar.diablu.server.model.settings.DiABluServerCONSTANTS.*;
 
 /**
  *
@@ -23,10 +24,19 @@ public class DiABluDevice implements Comparable {
      *
      *  0 - Simulated device - means it's a virtual device created by the DiABlu Simulator
      *  1 - Bluetooth device - means it's a real device detected by the Bluetooth system
-     *  2 - Black listed device - means this device is in the system black list and should not be outputted except for the serverView
-     * 
+     *  2 - BT Black listed device - means this device is in the system black list and should not be outputted except for the serverView
+     *  3 - BT Ignored device - represents a real BT device but that is ignored by the system until a certain point(VCin)
+     *  4 - BT Recovered device - represents a real BT device but that was removed and recovered until VCout
+     *
      */
-    private int status;           
+    private int status;      
+    /*  device status
+     *
+     *  0 - Simulated
+     *  1 - Bluetooth
+     *
+     */
+    private int deviceStatus;
     // TODO:Check out the enum types of java 1.5 [status]
     // TODO:Add a field for timestamp/detectedTimes
     
@@ -43,6 +53,7 @@ public class DiABluDevice implements Comparable {
     public DiABluDevice() {
         
         status = 1; 
+        setDeviceStatus(1);
         id = new DiABluID();
         lastMessage = null;
         lastKey = null;
@@ -160,7 +171,11 @@ public class DiABluDevice implements Comparable {
     public void setStatus(int newStatus) {
         
         this.status = newStatus;
-        
+        if (newStatus==DEVICE_STATUS_SIMULATED){
+            this.deviceStatus=DEVICE_STATUS_SIMULATED;
+        }else {
+            this.deviceStatus=DEVICE_STATUS_BT;
+        }
     }
     
     public int getStatus() {
@@ -202,6 +217,9 @@ public class DiABluDevice implements Comparable {
         
     }
     
+    /**
+     * This method returns the Last Key sended by this device
+     */
     public DiABluKey getLastKey() {
         
         return this.lastKey;
@@ -301,7 +319,10 @@ public class DiABluDevice implements Comparable {
      * 0 - Simulated
      * 1 - BT Device
      * 2 - Black Listed
+     * 3 - Ignored
+     *
      * other - unknown
+     *
      */
     public String getStringStatus(){
         
@@ -320,6 +341,13 @@ public class DiABluDevice implements Comparable {
             case 2: {
                 
                 return "Black Listed";
+                
+            }
+            case 3: {
+                return "Ignored "+this.detectionCounter+" times";
+            }
+            case 4: {
+                return "Recovered "+this.detectionCounter+" times";
                 
             }
             default:{
@@ -421,4 +449,51 @@ public class DiABluDevice implements Comparable {
         }   
           
     }
+    
+    // Convenience methods
+    /**
+     *  This method returns the device's 
+     *  friendly name
+     *
+     */
+    public String getFName(){
+        
+        return getID().getFName();
+    }
+    /**
+     * This method set's the device's 
+     * friendly name
+     *
+     */
+    public void setFName(String n){
+        
+        getID().setFName(n);
+        
+    }
+    /**
+     * This method set's the device's
+     * UUID
+     */
+    public void setUUID(String u){
+        
+        getID().setUUID(u);
+    }
+    
+    /**
+     * This convinience method returns
+     * the uuid
+     */
+    public String getUUID(){
+    
+        return getID().getUUID();
+    }
+
+    public int getDeviceStatus() {
+        return deviceStatus;
+    }
+
+    public void setDeviceStatus(int deviceStatus) {
+        this.deviceStatus = deviceStatus;
+    }
+    
 }

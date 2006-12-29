@@ -590,7 +590,7 @@ public class DiABluServerOSC implements DiABluServerOSCModelListener {
                 trns = new OSCTransmitter(dch, addr);                
                 
                 /* Sending message */
-                System.out.println("[DiABluOSC - sendMessage()] "+"OSC Command:" + oscCommand + " | Content:" + message + "\n");
+                logger.config("[DiABluOSC - sendMessage()] "+"OSC Command:" + oscCommand + " | Content:" + message + "\n");
 		trns.send( new OSCMessage( oscCommand, new Object[] { 
                                                                    message
                                                                }

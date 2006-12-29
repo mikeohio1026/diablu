@@ -22,7 +22,6 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import citar.diablu.server.model.log.diABluLogHandler;
 
-
 // Swing
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -161,7 +160,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         saveExit_jmi = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("DiABlu Server 2 Beta");
+        setTitle("DiABlu Scout");
         detected_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Detected Devices", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
         detectedTable_jt.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -611,32 +610,33 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         );
         output_jpLayout.setVerticalGroup(
             output_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(output_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                .add(port_jl)
-                .add(localhost_jb)
-                .add(adress_jl)
-                .add(protocol_jcb, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(protocol_jl)
-                .add(port_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(address_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(output_jpLayout.createSequentialGroup()
+                .add(output_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(port_jl)
+                    .add(localhost_jb)
+                    .add(adress_jl)
+                    .add(protocol_jcb, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(protocol_jl)
+                    .add(port_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(address_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout settings_jpLayout = new org.jdesktop.layout.GroupLayout(settings_jp);
         settings_jp.setLayout(settings_jpLayout);
         settings_jpLayout.setHorizontalGroup(
             settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(output_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(settings_jpLayout.createSequentialGroup()
                 .add(input_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(output_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         settings_jpLayout.setVerticalGroup(
             settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(settings_jpLayout.createSequentialGroup()
                 .add(input_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(2, 2, 2)
-                .add(output_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .add(output_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         log_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Log", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
@@ -1194,11 +1194,13 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
             // element not found
             logger.fine("[DiABluUI-locateDevice()]Device:"+targetUUID+"not found");
             return -1;
+            
         } else {
             
             // we've found a match, let's return the index
             logger.fine("[DiABluUI-locateDevice()]Device:"+targetUUID+"found at index:"+i);
             return i;
+            
         }
                       
         }
@@ -1387,6 +1389,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
             
             logger.warning("Trying to add a null list!");
             return;
+            
         }
                 
         logger.finest("[View]Adding "+dbList.size()+" devices");
@@ -1454,17 +1457,28 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
      */
    public void resetDeviceList(Vector <DiABluDevice> ddList){              
        
+       // paranoid check
+       if (ddList==null){
+           
+           logger.warning("Null Argument");
+           return;
+           
+       }
+          
+      logger.finest("[SVIEW-RESET]Processing "+ddList.size()+" device(s)");
        // first we clean up 
       DefaultTableModel buffer = (DefaultTableModel) detectedTable_jt.getModel();    // our current data table
-      int bufferSize = buffer.getRowCount();
-      
+      int bufferSize = buffer.getRowCount();      
       for (int i=0;i<bufferSize;i++){
           
           buffer.removeRow(0);
           
       }
-      
       detectedTable_jt.setModel((TableModel) buffer);
+      for (DiABluDevice dd:ddList){
+          logger.finest("[SVIEW-RESET]Adding device:"+dd.toString());
+          addDevice(dd);
+      }
                      
    }
 
