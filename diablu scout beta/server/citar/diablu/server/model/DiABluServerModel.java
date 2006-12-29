@@ -133,16 +133,17 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
     
     // Device List
     private Vector <DiABluDevice> currentDiABluDevices;
+    private Vector <DiABluDevice> censoredDiABluDevices;
     
-    // Device's Black List
+    // DEVICE PRE-FILTER - Device's Black List
     private Vector <String> blackList = new Vector <String> ();
     
-    // DiABluID's Cache
+    // CACHE - DiABluID's Cache
     private Vector <DiABluID> diabluCache = new Vector <DiABluID> ();
     
-    // Verify Cycles Device List
-    private Vector <DiABluDevice> verifyDiABluDevicesOUT;
-    private Vector <DiABluDevice> verifyDiABluDevicesIN;
+    // DEVICE FILTER - Verify Cycles Device List
+    private Vector <DiABluID> verifyDiABluDevicesOUT;
+    private Vector <DiABluID> verifyDiABluDevicesIN;        
     
     /** Creates a new instance of DiABluServerModel */
     public DiABluServerModel(String args[]) {
@@ -175,9 +176,10 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         
         // device's data
         currentDiABluDevices = new Vector <DiABluDevice> ();
+        censoredDiABluDevices = new Vector <DiABluDevice> ();
         blackList = new Vector <String> ();
-        verifyDiABluDevicesOUT = new Vector <DiABluDevice> ();
-        verifyDiABluDevicesIN = new Vector <DiABluDevice> ();
+        verifyDiABluDevicesOUT = new Vector <DiABluID> ();
+        verifyDiABluDevicesIN = new Vector <DiABluID> ();
         
         // get saved/command line settings
         settings = new DiABluServerSettings(args,this);
@@ -185,6 +187,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         startDiABluSystem();
         
     }
+    
     
     /*
      * This method starts
@@ -365,7 +368,8 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
      * The BT class will send the list of found DiABlu Devices so that this model processes it
      * and takes the appropriate actions
      *
-     */
+    
+     *
     public void newDeviceList(int deviceType, Vector <DiABluDevice> rawNewDeviceList){
         
         // MAKE SURE OF NEW CHANGES
@@ -405,6 +409,10 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             // Cache
             logger.info("Received new device list with "+rawNewDeviceList.size()+" devices.("+currentDiABluDevices.size()+")");
             
+            newDeviceList = cacheProcessDeviceList(rawNewDeviceList);
+            /**
+             * now we always use cache
+             * @Deprecated
             if (this.filterFriendlyNames){
             
                 logger.finest("Cache processing the list");
@@ -415,7 +423,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
                 newDeviceList = rawNewDeviceList;
                 logger.finest("Processing "+newDeviceList.size()+"elements");
             }
-            
+            *
         }
         
         /**
@@ -432,23 +440,31 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
          * }
          */
         
-        // Do we hold devices ?
+        /** SHORTCUT
+         * Do we hold devices ? 
+         * If not we don't need so much processing
+         *
         if (!currentDiABluDevices.isEmpty()){
             
-            logger.finest("Current devices:"+currentDiABluDevices.size());
-            
-            // get & filter the current data
+            // backup the current data
+            logger.finer("Current devices:"+currentDiABluDevices.size());
             entireOldDeviceList = this.currentDiABluDevices;
-            logger.finest("Copied "+entireOldDeviceList.size()+" devices to a temporary list");
+            logger.finer("Copied "+entireOldDeviceList.size()+" devices to a temporary list");
             
+
+            // FILTER
+            // Device Type Filter
             // get all of this device's type
             oldDeviceList = cropDeviceList(deviceType,entireOldDeviceList);
-            logger.finest("There are "+oldDeviceList.size()+" comparable devices of the corresponding device type");
-            
-            
+            logger.finer("There are "+oldDeviceList.size()+" comparable devices of the corresponding device type");
             // add all other device types into the final list
             finalDeviceList = stripDeviceList(deviceType,entireOldDeviceList);
             logger.finest("Added "+finalDeviceList.size()+" other devices to the temporary final list");
+            
+            
+           
+            
+           
             
         }
         
@@ -456,7 +472,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
          * 0 Special Cases first
          * If we get, or already have an empty list we
          * can shortcut the processing
-         */
+         *
         // search came in empty pockets
         if (newDeviceList.isEmpty()){
             
@@ -595,7 +611,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         removedDevicesList = oldDeviceList;
         /**
          * DEBUG
-         */
+         *
         logger.finest("Finished processing list.Analysing results");
         logger.finest("--------------------------------------------");
         logger.finest("Add device list:"+devicesInList.size());
@@ -610,84 +626,9 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         //OUT
         // DEBUG
         // btVCyclesOUT = 0;
-        
-        // first make sure we have something to do
-        if (btVCyclesOUT > 0){
+        if (btVCyclesOUT >0){
             
-            // let's check the list
-            if (verifyDiABluDevicesOUT.isEmpty()){
-                
-                logger.finest("[Model-newBTDeviceList()] "+"Found empty verify list.Filling "+oldDeviceList.size()+" elements");
-                // since the list is empty we only have to add the removed devices
-                for (int i = 0;i<oldDeviceList.size();i++){
-                    
-                    // get the device
-                    removedDD = oldDeviceList.elementAt(i);
-                    
-                    // update the verify counter
-                    removedDD.incrementDetectionCounter();
-                    
-                    // add it to the list
-                    verifyDiABluDevicesOUT.addElement(removedDD);
-                    
-                }
-                
-            } else {
-                
-                // search & compare lists
-                for ( int i = 0; i < oldDeviceList.size(); i++ ){
-                    
-                    // get the old device
-                    removedDD = oldDeviceList.elementAt(i);
-                    
-                    for ( int j = 0; j < verifyDiABluDevicesOUT.size(); j++ )   {
-                        
-                        verifyDD = verifyDiABluDevicesOUT.elementAt(j);
-                        
-                        if (removedDD.compareTo(verifyDD)==0){
-                            
-                            // found a match.let's check if it's still under vCycle'
-                            if (verifyDD.getDetectionCounter() > this.btVCyclesOUT) {
-                                
-                                logger.finest("[Model-newBTDeviceList()] "+"Tottally removing:"+verifyDD.toString());
-                                // it's time to get out
-                                removedDevicesList.addElement(verifyDD);
-                                // clean the verify list
-                                verifyDiABluDevicesOUT.remove(verifyDD);
-                                
-                                
-                            } else {
-                                
-                                // device is still under vCycle limit
-                                // update it's counter
-                                // TODO:make sure this updates the verifyDiABluDevicesOUT vector
-                                logger.finest("[Model-newBTDeviceList()] "+"Incrementing verify counter on:"+verifyDD.toString());
-                                verifyDD.incrementDetectionCounter();
-                                
-                            }
-                            
-                            // check the flag
-                            verifiedDevice = true;
-                        }
-                        
-                    }
-                    // let's check if this device has already been verified
-                    
-                    if (!verifiedDevice){
-                        
-                        logger.finest("[Model-newBTDeviceList()] "+"Adding "+removedDD.toString()+" to verify table");
-                        // first time removed
-                        removedDD.incrementDetectionCounter();
-                        // give it another chance ;)
-                        verifyDiABluDevicesOUT.addElement(removedDD);
-                        finalDeviceList.addElement(removedDD);
-                        
-                    }
-                    
-                }
-                
-            }
-            
+            ;
         }
         
         
@@ -695,12 +636,26 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         
         // make sure we've got work to do'
         if (btVCyclesIN > 0){
- 
-           newverifyDiABluDevicesINList = processVCyclesIN(devicesInList);
-           devicesInList = newverifyDiABluDevicesINList;
+        
+           logger.config("Verifiying input cycles.Original list with "+devicesInList.size()+" elements");
+           Vector <DiABluDevice> newVerifyDiABluDevicesINList = new Vector <DiABluDevice> ();
+           newVerifyDiABluDevicesINList = processVCyclesIN(devicesInList);
+           devicesInList.removeAllElements();
+           devicesInList = newVerifyDiABluDevicesINList;
+           logger.config("Input cycles verified.Processed List with "+devicesInList.size()+" elements");
         }
         
-        
+        // OUT
+        if (btVCyclesOUT > 0){
+            
+            logger.config("Verifiying output cycles.Original list with "+removedDevicesList.size()+" elements");
+            Vector <DiABluDevice> newVerifyDiABluDevicesOUTList = new Vector <DiABluDevice> ();
+            newVerifyDiABluDevicesOUTList = processVCyclesOUT(removedDevicesList);
+            removedDevicesList.removeAllElements();
+            removedDevicesList = newVerifyDiABluDevicesOUTList;
+            logger.config("Output cycles verified.Processed List with "+removedDevicesList.size()+" elements");
+            
+        }
         
         
         // End of verify
@@ -708,7 +663,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         
         /**
          * DEBUG
-         */
+         *
         logger.finest("Finished verifying lists.Analysing results2");
         logger.finest("--------------------------------------------");
         logger.finest("Add device list:"+devicesInList.size());
@@ -872,7 +827,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         
         /**
          * DEBUG
-         */
+         *
         logger.finest("FINISHED NEW DEVICE LIST.Analysing results");
         logger.finest("--------------------------------------------");
         logger.finest("Add device list:"+devicesInList.size());
@@ -880,6 +835,579 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         logger.finest("Changed names:"+namesChangedList.size());
         logger.finest("Final device list:"+finalDeviceList.size());
         logger.finest("--------------------------------------------");
+    }
+    */
+    
+    public void newDeviceList(int deviceType, Vector <DiABluDevice> rawNewDeviceList){
+    
+    
+        // Variable definition
+        Vector <DiABluDevice> newDeviceList = new Vector <DiABluDevice> ();                
+        Vector <DiABluDevice> otherTypeDevices = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> blackListedDevices = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> namelessDevices = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> sameDevices = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> changedDevices = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> recoveredDevices = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> removedDevices = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> ignoredDevices = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> newDevices = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> tempFinalDeviceList = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> finalDeviceList = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> oldDevices = new Vector <DiABluDevice>();
+        
+        int initialSize,finalSize = 0; // temp vars used for several vector's size' [DEBUG/LOG FINER]
+        boolean newDevice = false; // temp flag that's used to check a device's entry'
+       
+        
+        
+        // Step 1 - Paranoid check for NULL values
+        if (rawNewDeviceList==null){
+        
+            logger.warning("Null argument");
+            logger.warning("Replacing error with an empty list");
+            rawNewDeviceList = new Vector <DiABluDevice> ();
+        
+        }
+       
+            // Step 1.5 - If both device lists (new and old) are empty, then there's no work to be done'
+            if (rawNewDeviceList.isEmpty() && currentDiABluDevices.isEmpty()){
+                
+                logger.config("Empty device lists - no devices to process");
+                return;
+                
+            }             
+            logger.info("Received new device list with "+rawNewDeviceList.size()+" devices");
+            
+            // Step 2 - CACHE process the list            
+            newDeviceList = cacheProcessDeviceList(rawNewDeviceList);
+            logger.info("[CACHE]Processed & return device list with "+newDeviceList.size()+" elements");
+            
+            // Step 3 - PRE-FILTER
+        
+            // FRIENDLY NAME [OPTIONAL]
+            if (this.filterFriendlyNames){
+                        
+                initialSize = newDeviceList.size();
+                logger.finer("[PRE-FILTER][FNAME]Filtering list with "+initialSize+" devices");
+                // get the nameless devices
+                namelessDevices = getNoName(newDeviceList);
+                // filter the nameless devices
+                newDeviceList = filterFriendlyNames(newDeviceList);
+                logger.finer("[PRE-FILTER][FNAME]Filtered "+(initialSize-newDeviceList.size())+" devices");
+                
+            }
+            
+            // BLACK LIST [OPTIONAL]
+            if (!this.blackList.isEmpty()){
+                
+                initialSize = newDeviceList.size();
+                logger.finer("[PRE-FILTER][BLACK LIST]Checking device list with "+initialSize+" devices");
+                // get the black listed devices
+                blackListedDevices = getBlackListed(newDeviceList);
+                logger.finer("[PRE-FILTER][BLACK LIST] Found "+blackListedDevices.size()+" black listed device(s)");
+                // filter the black listed devices
+                newDeviceList = filterBlackListed(newDeviceList);
+                logger.finer("[PRE-FILTER][BLACK LIST]Filtered "+(initialSize-newDeviceList.size())+" element(s)");
+                                
+            }
+            
+            // Step 4 - PRE-PROCESS
+            // This algoritm compares the pre-filtered arrived list of new devices
+            // with our current known devices and populates several different lists.
+           
+            // Get a comparable list           
+            // DEVICE TYPE
+            // Copy other device types
+            logger.finer("[PRE-FILTER][DEVICE TYPE]Striping device list with"+currentDiABluDevices.size()+"elements");
+            otherTypeDevices = stripDeviceList(deviceType,currentDiABluDevices);
+            logger.finer("[PRE-FILTER][DEVICE TYPE]Stripped "+otherTypeDevices.size()+" different type devices.");            
+            // Crop only our comparable devices            
+            initialSize = currentDiABluDevices.size();
+            logger.finer("[PRE-FILTER][DEVICE TYPE]Cropping device list with "+initialSize+" devices");
+            oldDevices = cropDeviceList(deviceType,currentDiABluDevices);                                    
+            logger.finer("[PRE-FILTER][DEVICE TYPE]Cropped "+(initialSize-currentDiABluDevices.size())+" elements");
+            
+            // device count
+            initialSize = oldDevices.size(); 
+            logger.finer("[PRE-FILTER]Initial device count indicates "+initialSize+" device(s) of the same type");           
+            
+            // SHORTCUT
+            // If we've got empty lists we don't need to check much'
+            if (newDeviceList.isEmpty()){
+                
+                if (oldDevices.isEmpty()){
+                    
+                    // both empty lists nothing to be done
+                    logger.finer("[PRE-PROCESS][EMPTY LIST SHORTCUT]Both new and old list are empty.");
+                    return;
+                }
+                
+                // SHORTCUT - if we don't have any incoming devices, all of the old are removed
+                logger.finer("[PRE-PROCESS][EMPTY LIST SHORTCUT]Removing "+oldDevices.size()+" elements");
+                removedDevices = oldDevices;
+                logger.finer("[PRE-PROCESS][EMPTY LIST SHORTCUT]Added "+removedDevices.size()+" to be removed");
+                
+            } else if (oldDevices.isEmpty()){
+                
+                // SHORTCUT - if we don't have any devices in memory, all of the incoming are new and all others lists empty'    
+                newDevices = newDeviceList;
+                logger.finer("[PRE-PROCESS][EMPTY LIST SHORTCUT]New devices before filter:"+newDeviceList.size());                                
+                
+            } else {
+                
+                
+                // We already have some devices in memory let's compare both lists to find changes'
+                logger.finer("[PRE-PROCESS]Pre-processing "+newDeviceList.size()+" devices");    
+                for (DiABluDevice newDDevice:newDeviceList){
+                    
+                    newDevice = true; // assume that's a new device'
+                    DiABluDevice oldDDevice = new DiABluDevice();
+                    for (Iterator <DiABluDevice> oDD = oldDevices.iterator();oDD.hasNext();){
+                        
+                        oldDDevice = oDD.next();
+                        if (newDDevice.getUUID().equalsIgnoreCase(oldDDevice.getUUID())){
+                            
+                            // found a match
+                            // check for fname
+                            if (newDDevice.getFName().equalsIgnoreCase(oldDDevice.getFName())){
+                                
+                                // perfect match                                
+                                // add it to the same devices list
+                                logger.finer("[PRE-PROCESS]Device:"+newDDevice.toString()+" already in the system");
+                                sameDevices.add(newDDevice);
+                                                                
+                            } else {
+                                
+                                // different friendly name
+                                logger.finer("[PRE-PROCESS]Found changed device:"+newDDevice.toString());
+                                changedDevices.add(newDDevice);     
+                                
+                            }
+                            
+                            // remove it from the current list so it isn't compared to others'
+                            oDD.remove();
+                                
+                            // set the flag
+                            newDevice = false;
+                                                            
+                        }                                                
+                        
+                    }
+                    
+                    if (newDevice){
+                        
+                        // it's a new device'
+                        logger.finer("[PRE-PROCESS]New device:"+newDDevice.toString()+" found.");
+                        newDevices.add(newDDevice);
+                        
+                    }
+                                                                              
+                }
+                
+                logger.finer("[PRE-PROCESS]Removed "+oldDevices.size()+" devices");
+                removedDevices = oldDevices;
+                logger.finer("[PRE-PROCESS]Removed devices list is now with "+removedDevices.size()+" devices");           
+                
+            }
+            
+            /** DEBUG
+             *
+             */
+             logger.finer("[PRE-PROCESS][NEW DEVICES:"+newDevices.size()+"][SAME DEVICES:"+sameDevices.size()+
+                          "][REMOVED DEVICES:"+removedDevices.size()+"]"+"[CHANGED DEVICES:"+changedDevices.size()+"]");
+             logger.finer("[PRE-PROCESS][BLACK LISTED:"+blackListedDevices.size()+"][NAMELESS:"+namelessDevices.size()+
+                          "][OTHER TYPE:"+otherTypeDevices.size()+"]");
+            
+             
+             
+             // FILTER [OPTIONAL]
+             
+             // VCycles IN [OPTIONAL]
+             if (this.btVCyclesIN > 0){
+                 
+                logger.finest("[FILTER - VCycleIN]VCycleIN activated with "+this.btVCyclesIN+" verify inquiry's.Checking "+newDevices.size()+" devices");
+                boolean newVdevice = true;
+                DiABluID did = new DiABluID();
+                DiABluDevice tempD = new DiABluDevice();
+                Vector <DiABluID> tempVerifyDDIN = new Vector <DiABluID> ();
+                Vector <DiABluDevice> tempNewDevices = new Vector <DiABluDevice> ();
+                
+                // reset ignored list
+                ignoredDevices.removeAllElements();
+                
+                // process the new device's list                
+                for (DiABluDevice dd:newDevices){
+                    
+                    
+                    for (Iterator <DiABluID> didI = verifyDiABluDevicesIN.iterator();didI.hasNext();){
+                        
+                        did = didI.next();
+                        if (dd.getUUID().equalsIgnoreCase(did.getUUID())){
+                            
+                            // found it
+                            newVdevice = false;
+                            
+                            // update counter
+                            did.incrementVCounter();
+                            
+                            // found a match check the vCounter
+                            if (did.getVCounter()>this.btVCyclesIN){
+                                
+                                logger.finer("[FILTER - VCycleIN]New device found:"+dd.toString());
+                                tempNewDevices.add(dd);
+                                
+                                
+                            } else {
+                                
+                                logger.finer("[FILTER - VCycleIN]Device "+dd.toString()+" found "+did.getVCounter()+"times.");
+                                tempD = dd;
+                                tempD.setStatus(DEVICE_STATUS_IGNORED);
+                                tempD.setDetectionCounter(did.getVCounter());
+                                ignoredDevices.add(tempD);
+                                tempVerifyDDIN.add(did);
+                                
+                            }
+                            
+                            // remove the id so it isn't compared with other devices
+                            didI.remove();
+                        }
+                        
+                        
+                    }
+                    
+                    
+                    // is it a completly new device ?
+                    if (newVdevice) {
+                        
+                        // it's the first we see this one
+                        // get it's id'
+                        did = dd.getID();
+                        // update the counter
+                        did.incrementVCounter();
+                        // add it to the verify list
+                        tempVerifyDDIN.add(did);
+                        // add it to the ignored list
+                        tempD = dd;
+                        tempD.setStatus(DEVICE_STATUS_IGNORED);
+                        tempD.setDetectionCounter(did.getVCounter());
+                        ignoredDevices.add(tempD);
+                        
+                    }
+                    
+                    // reset the flag
+                    newVdevice = true;
+                    
+                }
+                
+                // Finished Vcycle filtering process results
+                logger.finer("[FILTER - VCycleIN]Processed "+newDevices.size()+" devices.");
+                this.verifyDiABluDevicesIN.removeAllElements();
+                logger.finer("[FILTER - VCycleIN]Reseting vCycles List["+verifyDiABluDevicesIN.size()+"]");
+                this.verifyDiABluDevicesIN = tempVerifyDDIN;
+                logger.finer("[FILTER - VCycleIN]Updating vCycles List["+verifyDiABluDevicesIN.size()+"]");
+                newDevices.removeAllElements();
+                newDevices = tempNewDevices;
+                logger.finer("[FILTER - VCycleIN]Accepted "+newDevices.size()+" devices");
+                logger.finer("[FILTER - VCycleIN]Ignored "+ignoredDevices.size()+" devices");
+                                  
+             }
+
+             // VCycles OUT [OPTIONAL]
+             if (this.btVCyclesOUT > 0 && !removedDevices.isEmpty()){
+                 
+                 logger.finer("[FILTER - VCycleOUT]Checking "+removedDevices.size()+" devices");
+                 DiABluID did = new DiABluID();
+                 DiABluDevice tempD = new DiABluDevice();
+                 boolean newRemovedDevice = true;
+                 Vector <DiABluDevice> vRemovedDevices = new Vector <DiABluDevice> ();
+                 Vector <DiABluID> verifiedIDs = new Vector <DiABluID> ();
+                 
+                 // reset the recovered devices list
+                 recoveredDevices.removeAllElements();
+                 
+                 
+                 for (DiABluDevice dd:removedDevices){
+                     
+                     for (Iterator <DiABluID> didI = verifyDiABluDevicesOUT.iterator();didI.hasNext();) {
+                         
+                         did = didI.next();
+                         if (did.getUUID().equalsIgnoreCase(dd.getUUID())){
+                             
+                             
+                             // found a match
+                             newRemovedDevice = false;
+                             did.incrementVCounter();
+                             
+                             // check the vCounter
+                             if (did.getVCounter()>this.btVCyclesOUT){
+                                 
+                                 // device can now be removed
+                                 logger.finer("[FILTER - VCycleOUT]Removing "+dd.toString());
+                                 // add it to the removed list                                 
+                                 vRemovedDevices.add(dd);                           
+                                 
+                             } else {
+                                 
+                                 // device is recovered
+                                 logger.finer("[FILTER - VCycleOUT]Recovering "+dd.toString());
+                                 // add it to the recovered list
+                                 tempD = dd;
+                                 tempD.setStatus(DEVICE_STATUS_RECOVERED);
+                                 tempD.setDetectionCounter(did.getVCounter());
+                                 recoveredDevices.add(tempD);
+                                 // add the updated id to the vCycles OUT check list
+                                 verifiedIDs.add(did);
+
+                                                                  
+                             }  
+                             
+                             // remove it from the vCycles id check
+                             didI.remove();
+                             
+                         }      
+                         
+                     }
+                     
+                     if (newRemovedDevice){
+                         
+                         logger.finer("[FILTER - VCycleOUT]1ºRecovery of "+dd.toString());                     
+                         // update vCycles id list
+                         did = dd.getID();
+                         did.incrementVCounter();
+                         verifiedIDs.add(did);
+                         // add it to the recovered list                         
+                         tempD = dd;
+                         tempD.setStatus(DEVICE_STATUS_RECOVERED);
+                         tempD.setDetectionCounter(did.getVCounter());
+                         recoveredDevices.add(tempD);
+                                                  
+                     }
+                     
+                     // reset flag
+                     newRemovedDevice = true;
+                     
+                 }
+                 
+              // update persistence vCycles out info
+              this.verifyDiABluDevicesOUT.removeAllElements();
+              this.verifyDiABluDevicesOUT = verifiedIDs;
+              removedDevices.removeAllElements();
+              removedDevices=vRemovedDevices;
+                   
+              logger.finer("[FILTER - VCycleOUT]Recovered "+recoveredDevices.size()+" devices");
+              logger.finer("[FILTER - VCycleOUT]Totally removed "+removedDevices.size()+" devices");
+             
+             }
+             
+             // PROCESS LISTS
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             /** 
+              * DEBUG
+              *  only for debug 
+              */
+             logger.finer("==========================================================");
+             logger.finer("[PROCESS] "+newDevices.size()+" new devices");
+             logger.finer("[PROCESS] "+ignoredDevices.size()+" ignored devices");
+             logger.finer("[PROCESS] "+removedDevices.size()+" removed devices");
+             logger.finer("[PROCESS] "+recoveredDevices.size()+" recovered devices");
+             logger.finer("[PROCESS] "+changedDevices.size()+" changed devices");
+             logger.finer("[PROCESS] "+sameDevices.size()+" same devices");
+             logger.finer("[PROCESS] "+blackListedDevices.size()+" black listed devices");
+             logger.finer("[PROCESS] "+namelessDevices.size()+" nameless devices");
+             logger.finer("[PROCESS] "+otherTypeDevices.size()+" other type devices");
+             logger.finer("==========================================================");
+             
+             
+             // current devices
+             // clean the list
+             this.currentDiABluDevices.removeAllElements();
+             
+             // PROCESS FINAL LIST -> currentDiABluDevices
+             // copy all the lists into the main one
+             
+             // new devices
+             for (DiABluDevice dd:newDevices){                 
+                 currentDiABluDevices.add(dd);
+             }
+             
+             // recovered devices
+             for (DiABluDevice dd:recoveredDevices){
+                 currentDiABluDevices.add(dd);
+             }
+             
+             // changed devices
+             for (DiABluDevice dd:changedDevices){
+                 currentDiABluDevices.add(dd);
+             }
+             
+             // same devices
+             for (DiABluDevice dd:sameDevices){
+                 currentDiABluDevices.add(dd);                 
+             }
+              
+             // device count
+             finalSize = currentDiABluDevices.size();
+             logger.finer("[PROCESS]Final device count indicates "+finalSize+" devices of the same type");
+             
+             // other type 
+             for (DiABluDevice dd:otherTypeDevices){
+                 currentDiABluDevices.add(dd);
+             }
+             
+             logger.finer("[PROCESS] "+currentDiABluDevices.size()+" devices in memory");
+             
+             // PROCESS FINAL CENSORED LIST -> censoredDiABluDevices
+             censoredDiABluDevices.removeAllElements();
+             logger.finer("[PROCESS] "+censoredDiABluDevices.size()+" censored devices.Checking for more...");
+             
+             // black listed
+             for (DiABluDevice dd:blackListedDevices){                     
+                 logger.finer("[PROCESS] Adding black list device:"+dd.toString());
+                 censoredDiABluDevices.add(dd);
+             }
+             
+             // nameless
+             for (DiABluDevice dd:namelessDevices){
+                 logger.finer("[PROCESS] Adding nameless device:"+dd.toString());
+                 censoredDiABluDevices.add(dd);                 
+             }
+             
+             // ignored
+             for (DiABluDevice dd:ignoredDevices){
+                 logger.finer("[PROCESS] Adding ignored device:"+dd.toString());
+                 censoredDiABluDevices.add(dd);
+             }
+             
+             logger.finer("[PROCESS] "+censoredDiABluDevices.size()+" censored devices in memory");
+             
+             
+             // BROADCAST
+             
+             // OSC LISTENER
+             if (OSC_LISTENER_READY){
+                 
+                 // newDevices
+                 oscListener.newDiABluDevices(newDevices);
+                 // deviceList
+                 oscListener.newDeviceList(currentDiABluDevices);
+                 // changedNames
+                 oscListener.editDiABluDevices(changedDevices);
+                 // deviceOUT
+                 oscListener.removeDiABluDevices(removedDevices);
+                 // deviceCount
+                 if (initialSize!=finalSize){
+                    oscListener.newDeviceCount(finalSize);
+                 }
+                 
+             }
+             
+             // SERVER VIEW
+             if (SERVER_VIEW_LISTENER_READY){
+                 
+                 Vector <DiABluDevice> allDevicesList = new Vector <DiABluDevice> ();
+                 for (DiABluDevice dd:currentDiABluDevices){
+                     allDevicesList.add(dd);
+                 }
+                 for (DiABluDevice dd:censoredDiABluDevices){
+                     allDevicesList.add(dd);                     
+                 }          
+                 
+                 serverView.resetDeviceList(allDevicesList);
+                 //serverView.newDiABluDevices(allDevicesList);
+             }
+
+    }
+    
+    /**
+     * This method returns a vector of DD that don't have a 
+     * friendly name set
+     * TODO: this can make use of a special names list.NEXT VERSION
+     * NOTE:The name of this method makes an hommage to Jorge Cardoso foot club;P
+     */
+    private Vector <DiABluDevice> getNoName(Vector <DiABluDevice> rawDeviceList){
+        
+        Vector <DiABluDevice> noNameDeviceList = new Vector <DiABluDevice> ();
+        
+        // paranoid check
+        if (rawDeviceList==null){
+            
+            logger.warning("Null argument");
+            logger.warning("Replacing null by a empty list to workaround error.");
+            return noNameDeviceList;
+        
+        }
+        
+        // cycle the list
+        for (DiABluDevice dd:rawDeviceList){
+            
+            if (dd.getFName().equalsIgnoreCase("")){
+                
+                // found no name device
+                noNameDeviceList.add(dd);
+            }
+            
+        }
+        
+        return noNameDeviceList;
+    }
+    
+    /**
+     *  This method returns a vector of DD that is
+     *  a copy of the argument list but without the devices
+     * that have no friendly name set.
+     *
+     *
+     * TODO: This method can be improved to also remove 
+     * default brand names like "Nokia 6630".For this it only 
+     * needs to implement another list of strings.NEXT VERSION
+     *
+     */
+    private Vector <DiABluDevice> filterFriendlyNames(Vector <DiABluDevice> rawDeviceList){
+        
+        // our return list
+        Vector <DiABluDevice> filteredDeviceList = new Vector <DiABluDevice> ();       
+        
+        // paranoid check
+        if (rawDeviceList==null){
+            
+            logger.warning("Null argument");
+            logger.config("Fixing null argument error:Returning empty list.");
+            return filteredDeviceList;
+        }
+        
+        // DEBUG
+        // int initialSize = rawDeviceList.size();
+        // logger.config("Received list with "+initialSize+" elements");
+        
+        DiABluDevice tempDD = new DiABluDevice(); // temp device, paranoid check against direct add to the list from a for/in cycle
+        
+        // cycle all devices and check for their fname
+        for (DiABluDevice dd:rawDeviceList){
+            
+            if (!dd.getFName().equalsIgnoreCase("")){ // here we can check for another list of values like "nokia 6630"
+                
+                tempDD = dd;
+                // add it to the list
+                filteredDeviceList.add(tempDD);
+                
+            }
+            
+        }
+        
+        // DEBUG
+        // int finalSize = filteredDeviceList.size();
+        // logger.config("Received list with "+initialSize+" elements.Returned "+finalSize+" devices.Discarded:"+initialSize-finalSize+" devices");
+        
+        return filteredDeviceList;
     }
     
     /*
@@ -1107,29 +1635,68 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         }
         
             
-            logger.finest("Blacklisting:"+did);
-            blackList.add(did);
+        logger.finest("Blacklisting:"+did);
+        blackList.add(did);
             
-        
-        
-        DiABluDevice oldDD = getDiABluDevice(did);
-        if (oldDD.getID().getUUID().equalsIgnoreCase("")) {
+          
+        // find the device
+        // remove it from the current devices table
+        // inform the osc listener of device out
+        DiABluDevice dd = new DiABluDevice();
+        boolean foundDevice = false;
+        for (Iterator <DiABluDevice> ddI=currentDiABluDevices.iterator();ddI.hasNext();){
             
-            // device not found
-            logger.warning("Black listed device not found:"+did.toString());            
-            return;
+            dd = ddI.next();
+            if (dd.getUUID().equalsIgnoreCase(did)){
+                
+                // found our device
+                  foundDevice=true;
+                  
+                          // add it to the censored device list
+        logger.finer("Moving device "+dd.toString()+"to censored list");
+        censoredDiABluDevices.add(dd);
+        
+                // remove it from the current devices list
+                ddI.remove();
+              
+                // nothing more to do here
+                break;
+            }
+            
             
         }
         
+        if (!foundDevice){
+            
+            logger.warning("Haven't found black list device!!");
+            return;
+        }
+   
         // found device
-        // update view
-        Vector <DiABluDevice> updateView = new Vector <DiABluDevice> ();
-        //updateView.add(oldDD);
-        //serverView.removeDiABluDevices(updateView);
-        //updateView.removeAllElements();
-        oldDD.setStatus(DEVICE_STATUS_BLACKLISTED); // blacklisted status
-        updateView.add(oldDD);
-        serverView.editDiABluDevices(updateView);
+        
+
+        
+        
+        // update view        
+        if (SERVER_VIEW_LISTENER_READY){
+            
+        
+            Vector <DiABluDevice> updateView = new Vector <DiABluDevice> ();
+            dd.setStatus(DEVICE_STATUS_BLACKLISTED); // blacklisted status
+            updateView.add(dd);
+            serverView.editDiABluDevices(updateView);
+        
+        }
+        // update osc
+        if (OSC_LISTENER_READY){
+            
+            Vector <DiABluDevice> updateView = new Vector <DiABluDevice> ();
+            dd.setStatus(DEVICE_STATUS_BLACKLISTED); // blacklisted status
+            updateView.add(dd);            
+            oscListener.removeDiABluDevices(updateView);
+            
+            
+        }
         
     }
     
@@ -1143,40 +1710,86 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         
         if (did == null || did.equalsIgnoreCase("")) {
             
-            logger.finest("[Model - removeFromBlackList()] "+"Null argument");
+            logger.finest("Null argument");
             return;
         }
         
-        
-        if (isBlackListed(did)){
+        String blackUUID="";
+        boolean foundDevice=false;
+        // check the black list for the device
+        for (Iterator <String> sI = blackList.iterator();sI.hasNext();){
             
-            // remove it from the black list
-            logger.finest("[Model - removeFromBlackList()] "+"Unblacklisting:"+did);
-            blackList.remove(did);
-      
-            // get the device
-            DiABluDevice oldDD = getDiABluDevice(did);
-            if (oldDD.getID().getUUID().equalsIgnoreCase("")) {
-            
-                // device not found
-                logger.finest("[Model - removeFromBlackList()] "+"Black listed device not found:"+did);
-                return;
+            blackUUID = sI.next();
+            if (blackUUID.equalsIgnoreCase(did)){
+                
+                // found a match
+                foundDevice = true;
+                // remove it from the black list
+                sI.remove();
+                // nothing more to do here
+                break;
                 
             }
             
-            // found device
-            // update view
-            Vector <DiABluDevice> updateView = new Vector <DiABluDevice> ();
             
-            oldDD.setStatus(DEVICE_STATUS_BT);
-        //   serverView.removeDiABluDevices(updateView);
-        //updateView.removeAllElements();
-        // TODO:reformat this
-        //oldDD.setStatus(1); // bluetooth status
-        updateView.add(oldDD);
-        serverView.editDiABluDevices(updateView);
-        
         }
+       
+        if (!foundDevice){
+            
+            logger.warning("Didn't found black listed device!");
+            return;
+                  
+            
+        }  
+           
+        // check the censored devices list to get info from the device
+        foundDevice = false;        
+        DiABluDevice dd = new DiABluDevice();
+        for (Iterator <DiABluDevice> ddI = censoredDiABluDevices.iterator();ddI.hasNext();){
+            
+            dd = ddI.next();
+            if (dd.getUUID().equalsIgnoreCase(did)){
+                
+                // found our device
+                foundDevice = true;
+               
+                // add it to the current device list
+                currentDiABluDevices.add(dd);
+                
+                // remove it from the censored list
+                ddI.remove();
+      
+                
+            }
+            
+            
+        }
+        
+        
+        
+        if (!foundDevice){
+            
+            logger.warning("Device wasn't found on censored devices table!");
+            return;
+            
+            
+        }
+        
+        Vector <DiABluDevice> updateView = new Vector <DiABluDevice> ();            
+        dd.setStatus(DEVICE_STATUS_BT);
+        updateView.add(dd);
+        
+        // broadcast
+            if (SERVER_VIEW_LISTENER_READY){                            
+            
+                 serverView.editDiABluDevices(updateView);
+        
+            }
+            if (OSC_LISTENER_READY){
+                
+                oscListener.newDiABluDevices(updateView);
+                
+            }        
         
     }
     
@@ -1752,7 +2365,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             logger.config("CALLING COMPAKT VIEWWWWWWWWW");
             
             if (SERVER_VIEW_LISTENER_READY) serverView.setVisibleView(false);
-            serverView = new DiABluServerCompactView(this);
+            serverView = new DiABluServerCompactView(this,this);
             SERVER_VIEW_LISTENER_READY = true;
             
         }
@@ -1856,13 +2469,16 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             
             if (!rawList.isEmpty()){
             
-                logger.finest("Checking device list:"+rawList.size());
+                logger.finest("Checking device list with "+rawList.size()+" devices");
                 DiABluDevice blackDevice = new DiABluDevice();
                 for (DiABluDevice dd:rawList){
                     
                     if (isBlackListed(dd)){
+                        
                         blackDevice = dd;
+                        blackDevice.setStatus(DEVICE_STATUS_BLACKLISTED);
                         blackListedList.add(dd);
+                        
                     }
                                                             
                 }
@@ -1880,7 +2496,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             
         }
         
-        logger.finest("Returning list:"+blackListedList);
+        logger.finest("Returning list "+blackListedList.size()+" devices");
         return blackListedList;        
         
     }
@@ -1933,7 +2549,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
      *
      *
      */
-    private Vector <DiABluDevice> cropDeviceList(int status,Vector <DiABluDevice> rawDeviceList){
+    private Vector <DiABluDevice> cropDeviceList(int deviceStatus,Vector <DiABluDevice> rawDeviceList){
         
         Vector <DiABluDevice> croppedDeviceList = new Vector <DiABluDevice> ();
         
@@ -1949,7 +2565,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             for (DiABluDevice dd:rawDeviceList){
                 
                 // match
-                if (dd.getStatus()==status){
+                if (dd.getDeviceStatus()==deviceStatus){
                     
                     croppedDeviceList.addElement(dd);
                     
@@ -1967,7 +2583,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
      * Returns the vector cleaned of devices with the provided status
      *
      */
-    private Vector <DiABluDevice> stripDeviceList(int status,Vector <DiABluDevice> rawDeviceList){
+    private Vector <DiABluDevice> stripDeviceList(int deviceStatus,Vector <DiABluDevice> rawDeviceList){
         
         
         Vector <DiABluDevice> strippedDeviceList = new Vector <DiABluDevice> ();
@@ -1984,7 +2600,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             for (DiABluDevice dd:rawDeviceList){
                 
                 // match
-                if (dd.getStatus()!=status){
+                if (dd.getDeviceStatus()!=deviceStatus){
                     
                     strippedDeviceList.addElement(dd);
                     
@@ -2023,11 +2639,11 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         if (verifyDiABluDevicesOUT.isEmpty()) return;
         
         // there's work to do :P
-        DiABluDevice tempDD = new DiABluDevice();
+        DiABluID tempDD = new DiABluID();
         for (DiABluDevice cleanD:cleanDeviceList){
             
             // for (DiABluDevice verifyD:verifyDiABluDevicesOUT) {
-            for ( Iterator <DiABluDevice> iDD = verifyDiABluDevicesOUT.iterator(); iDD.hasNext(); ) {
+            for ( Iterator <DiABluID> iDD = verifyDiABluDevicesOUT.iterator(); iDD.hasNext(); ) {
                 
                 tempDD = iDD.next();
                 // found a match
@@ -2044,7 +2660,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
      * This method removes a given DiABlu Device from
      * the verify list
      *
-     */
+     *
     private void cleanVerifyListElement(DiABluDevice cleanDevice){
         
         if (cleanDevice == null){
@@ -2071,7 +2687,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         }
         
     }
-    
+    */
     /**
      *  This method removes black listed devices from
      * the argument list
@@ -2098,6 +2714,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         
         // everything ok
         filteredDeviceList = rawDeviceList;
+        logger.finer("[Model - filterBlackListed()] Checking "+filteredDeviceList.size()+" devices");
         
         if (!blackList.isEmpty()) {
             
@@ -2112,6 +2729,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
                 
                     if (s.equalsIgnoreCase(tempID)){
                         
+                        logger.finer("[Model - filterBlackListed()] Filtering:"+tempDD.toString());
                         // device is black listed
                         iDD.remove();
                         // no need to continue 
@@ -2200,6 +2818,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             
         }
         
+        logger.finer("Cache returning "+processedList.size()+" devices");
         return processedList;
         
     }
@@ -2404,10 +3023,10 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
     public int getBtDelay() {
         return btDelay;
     }
-    
+    /**
     private Vector <DiABluDevice> processVCyclesIN(Vector <DiABluDevice> inList){
         
-        Vector <DiABluDevice> processedList = new Vector <DiABluDevice> ();
+        Vector <DiABluDevice> processedList = new Vector <DiABluDevice> (); // Result 
         Vector <DiABluDevice> tempDDInList = new Vector <DiABluDevice> ();  // Temporary IN verify cycles list      
         
         // checks        
@@ -2423,7 +3042,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             for (DiABluDevice dd:inList){
                 
                 newVerifyDevice = true;
-                for (DiABluDevice vdl:verifyDiABluDevicesIN) {
+                for (DiABluID vdl:verifyDiABluDevicesIN) {
                     
                     if (dd.compareTo(vdl)==0){
                         
@@ -2431,7 +3050,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
                         newVerifyDevice = false;
                         
                         // check the counter
-                        vCounter = vdl.getDetectionCounter();
+                        vCounter = vdl.getVCounter();
                         if (vCounter>btVCyclesIN) {
                             
                             // expired the counter
@@ -2479,7 +3098,117 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         
         return processedList;
     }
+*/
+    /**
+     * This method receives a DiABluDevice's Vector of the 
+     * removed devices and update's the verify cycles out list 
+     * 
+     * Returns the devices that are too old and need to be really 
+     * removed
+     *
+     *
+    private Vector <DiABluDevice> processVCyclesOUT(Vector <DiABluDevice> outList){
+        
+            Vector <DiABluDevice> processedList = new Vector <DiABluDevice> ();
+            Vector <DiABluDevice> newVCycleOUTList = new Vector <DiABluDevice> ();
+            
+            // let's check the list
+            if (verifyDiABluDevicesOUT.isEmpty()){
+                       
+                DiABluDevice outDD = new DiABluDevice();
+                // empty list               
+                logger.finest("[Model-newBTDeviceList()] "+"Found empty verify list.Filling "+outList.size()+" elements");
+                
+                // since the list is empty we only have to add the removed devices and refresh the respective counters
+                for (DiABluDevice dd:outList){
+                    
+                    
+                    outDD = dd;
+                    logger.finest("Copying "+dd.getID().toString());
+                    // update the verify counter
+                    outDD.incrementDetectionCounter();
+                    logger.finest("Old Increment value:"+dd.getDetectionCounter()+"|New increment value:"+outDD.getDetectionCounter());
+                    // add it to the vCycles out list
+                    verifyDiABluDevicesOUT.add(outDD);
+       
+                }
+                
+                // return a empty list since we collected the entire outList
+                return processedList;
+                
+                
+            } else {
+                
+                DiABluDevice removedDD = new DiABluDevice();
+                DiABluDevice verifyDD = new DiABluDevice();
+                boolean verifiedDevice = false;
+                
+                // search & compare lists
+                for (Iterator <DiABluDevice> rDD=outList.iterator(); rDD.hasNext(); ){                                        
+                        
+                    removedDD = rDD.next();
+                    for ( Iterator <DiABluDevice> vDD = verifyDiABluDevicesOUT.iterator();vDD.hasNext(); )   {
+              
+                        verifyDD = vDD.next();
+                        if (removedDD.getID().getUUID().equalsIgnoreCase(verifyDD.getID().getUUID())){
+                            
+                            
+                            // found a match.increment the counter
+                            logger.finest("Match:"+verifyDD.getID().toString()+":"+verifyDD.getDetectionCounter());
+                            verifyDD.incrementDetectionCounter();
+                            logger.finest("Comparing new detection counter:"+verifyDD.getDetectionCounter()+" with allowed value:"+this.btVCyclesOUT);
+                            // let's check if it's still under vCycle'
+                            if (verifyDD.getDetectionCounter() > this.btVCyclesOUT) {
+                                
+                                logger.finest("[Model-newBTDeviceList()] "+"Tottally removing:"+verifyDD.toString());
+                                // it's time to get out
+                                processedList.add(verifyDD);
 
+                                
+                                
+                            } else {
+                                
+                                // update the vCycles out list
+                                newVCycleOUTList.add(verifyDD);
+                                     
+                                
+                            }
+                            
+                            // clean the verify list so other devices don't need to compare to this one'
+                            vDD.remove();
+                            // check the flag
+                            verifiedDevice = true;
+                        }
+                        
+                    }
+                    
+                    // let's check if this devi(ce has already been verified                    
+                    if (!verifiedDevice){
+                        // first time removed
+                        logger.finest("[Model-newBTDeviceList()] "+"Adding "+removedDD.toString()+" to verify table");
+                        // first time removed
+                        removedDD.incrementDetectionCounter();
+                        // give it another chance ;)
+                        newVCycleOUTList.add(removedDD);
+                        
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        
+        
+        
+        
+        this.verifyDiABluDevicesOUT = newVCycleOUTList;
+        
+      return processedList; 
+    }
+    
+  */
+    
     public void newProtocol(String prot){
         
         // no changes

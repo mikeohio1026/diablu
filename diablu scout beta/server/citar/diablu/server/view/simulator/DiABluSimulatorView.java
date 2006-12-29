@@ -131,7 +131,7 @@ public class DiABluSimulatorView extends javax.swing.JFrame implements DiABluSim
 
         minorDeviceClass_jl.setText("Minor Device Class:");
 
-        minorDeviceClass_jcb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Server-class computer" }));
+        minorDeviceClass_jcb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Server-class computer", "Desktop Workstation", "Laptop", "Handheld PC/PDA", "Palm sized PC/PDA", "Wearable computer", "Cellular phone", "Cordless phone", "Smart phone", "Wired modem or voice gateway", "Common ISDN access", "Uncategorized" }));
 
         majorDeviceClass_jcb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Computer", "Phone", "LAN /Network Access point", "Audio/Video", "Peripheral", "Imaging", "Other" }));
         majorDeviceClass_jcb.addActionListener(new java.awt.event.ActionListener() {

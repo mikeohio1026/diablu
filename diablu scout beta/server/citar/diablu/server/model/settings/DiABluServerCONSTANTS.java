@@ -52,6 +52,8 @@ public class DiABluServerCONSTANTS {
     public final static int DEVICE_STATUS_SIMULATED = 0;
     public final static int DEVICE_STATUS_BT = 1;
     public final static int DEVICE_STATUS_BLACKLISTED = 2;
+    public final static int DEVICE_STATUS_IGNORED = 3;
+    public final static int DEVICE_STATUS_RECOVERED = 4;
     
     /** LOG Detail & Priority
      *
@@ -116,7 +118,7 @@ public class DiABluServerCONSTANTS {
     public final static String BT_SERVICE_UUID="F0E0D0C0B0A000908070605040302013";  // DiABlu Bluetooth Service UUID
     public final static int BT_INPUT_BUFFER_SIZE = 256;                             // Incoming data connection buffer size
     public final static int BT_OUTPUT_BUFFER_SIZE = 256;                            // Outgoing data connection buffer size
-    public final static int BT_DEFAULT_DELAY = 10000;                               // Default delay in ms between bluetooth device discoverys
+    public final static int BT_DEFAULT_DELAY = 0;                               // Default delay in ms between bluetooth device discoverys
     public final static int BT_DEFAULT_VCYCLES_IN = 0;                      
     public final static int BT_DEFAULT_VCYCLES_OUT = 0;
     public final static boolean BT_DEFAULT_FAST_MODE = false;
