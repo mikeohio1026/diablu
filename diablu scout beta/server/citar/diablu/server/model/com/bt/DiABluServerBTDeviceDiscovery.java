@@ -100,7 +100,21 @@ public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener,Runnabl
         //this.diABluDeviceList = new Vector <DiABluDevice> ();                        // Converted DiABlu devices detected list
         
         // System.out.println("DiABluServerBTDeviceDiscovery started");
-                
+             
+        try {
+                    
+            // get our bluetooth local device & agent
+            localDev = LocalDevice.getLocalDevice();
+            agent = localDev.getDiscoveryAgent(); 
+        }catch (BluetoothStateException e) {
+            
+                        logger.info(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[searchDevices]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("Please_check_your_Bluetooth_Hardware"));
+                        logger.severe(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[searchDevices]_")+java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("_Unable_to_start_Bluetooth_Detection"));
+                        logger.finest(java.util.ResourceBundle.getBundle("citar/diablu/server/model/i18n/diABluServerDefaultBundle").getString("[searchDevices]_")+e.getLocalizedMessage());
+                        e.printStackTrace();
+              
+            }
+        
     } 
     
     public void run() {
@@ -110,8 +124,8 @@ public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener,Runnabl
         try {
                     
             // get our bluetooth local device & agent
-            localDev = LocalDevice.getLocalDevice();
-            agent = localDev.getDiscoveryAgent();
+            //localDev = LocalDevice.getLocalDevice();
+           // agent = localDev.getDiscoveryAgent();
                
             // Start the INQUIRY    
         

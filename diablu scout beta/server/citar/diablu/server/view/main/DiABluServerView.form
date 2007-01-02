@@ -159,7 +159,7 @@
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="detected_jp" alignment="0" max="32767" attributes="1"/>
                   <Component id="log_jp" alignment="0" max="32767" attributes="1"/>
-                  <Component id="settings_jp" alignment="0" pref="826" max="32767" attributes="1"/>
+                  <Component id="settings_jp" alignment="0" max="32767" attributes="1"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -197,7 +197,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="filter_jp" alignment="0" max="32767" attributes="1"/>
-                      <Component id="detected_jsp" alignment="0" pref="794" max="32767" attributes="1"/>
+                      <Component id="detected_jsp" alignment="0" pref="802" max="32767" attributes="1"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -262,9 +262,9 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="addBlackList_jb" min="-2" pref="73" max="-2" attributes="1"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="removeBlackList_jb" pref="86" max="32767" attributes="1"/>
+                      <Component id="removeBlackList_jb" pref="90" max="32767" attributes="1"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="resetBlackList_jb" pref="77" max="32767" attributes="1"/>
+                      <Component id="resetBlackList_jb" pref="81" max="32767" attributes="1"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -348,11 +348,8 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="input_jp" min="-2" max="-2" attributes="1"/>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
               <Component id="output_jp" alignment="0" max="32767" attributes="1"/>
+              <Component id="input_jp" alignment="0" max="32767" attributes="1"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -383,8 +380,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="discovery_jp" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="service_jp" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="service_jp" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -486,11 +482,11 @@
                               <Component id="service_jl" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="service_jtf" max="32767" attributes="1"/>
-                              <Component id="serviceDescription_jtf" alignment="0" pref="260" max="32767" attributes="1"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="serviceDescription_jtf" pref="256" max="32767" attributes="1"/>
+                              <Component id="service_jtf" alignment="0" pref="256" max="32767" attributes="1"/>
                           </Group>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -578,29 +574,29 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="autoDiscovery_jcb" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                                  <Component id="delay_jl" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
                                   <Component id="startStopDiscovery_jb" min="-2" max="-2" attributes="1"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="vCycles_jl" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="vcIN_jl" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="vCyclesIN_jftf" min="-2" pref="23" max="-2" attributes="0"/>
+                                  <Component id="vCyclesIN_jftf" min="-2" pref="40" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="autoDiscovery_jcb" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="95" max="32767" attributes="0"/>
+                                  <Component id="delay_jl" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="btDelay_jftf" max="32767" attributes="1"/>
-                              <Component id="vCyclesOUT_jftf" alignment="0" pref="23" max="32767" attributes="1"/>
+                              <Component id="btDelay_jftf" alignment="0" max="32767" attributes="1"/>
+                              <Component id="vCyclesOUT_jftf" alignment="0" pref="41" max="32767" attributes="1"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -611,17 +607,17 @@
                               <Component id="startStopDiscovery_jb" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="vCycles_jl" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="vcIN_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="vCyclesIN_jftf" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="vCyclesOUT_jftf" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="vCyclesIN_jftf" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="delay_jl" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                   <Component id="autoDiscovery_jcb" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="delay_jl" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="btDelay_jftf" min="-2" max="-2" attributes="0"/>
+                              <Component id="btDelay_jftf" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -631,7 +627,7 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="vCycles_jl">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Verify Cycles"/>
+                    <Property name="text" type="java.lang.String" value="VCycles"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="vcIN_jl">
@@ -716,7 +712,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="triggerAll_jcb" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="186" max="32767" attributes="0"/>
+                      <EmptySpace pref="194" max="32767" attributes="0"/>
                       <Component id="protocol_jl" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="protocol_jcb" min="-2" pref="66" max="-2" attributes="1"/>
@@ -843,10 +839,10 @@
                           <Component id="logDetail_jl" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="logDetail_jcb" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="601" max="32767" attributes="0"/>
+                          <EmptySpace pref="609" max="32767" attributes="0"/>
                           <Component id="clearLog_jb" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="log_jsp" alignment="0" pref="804" max="32767" attributes="0"/>
+                      <Component id="log_jsp" alignment="0" pref="812" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
