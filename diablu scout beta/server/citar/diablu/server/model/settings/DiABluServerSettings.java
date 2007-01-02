@@ -87,6 +87,7 @@ public class DiABluServerSettings {
     private String protocol = OUT_DEFAULT_PROTOCOL;
     private String targetAddress = OUT_DEFAULT_TARGET_ADDRESS;
     private String targetPort = OUT_DEFAULT_TARGET_PORT;
+    private boolean triggerAll = OUT_DEFAULT_TRIGGER_ALL;
     
     private String logDetail=LOG_DEFAULT_DETAIL;
     private String commandParameters[];
@@ -447,6 +448,7 @@ public class DiABluServerSettings {
              *           <protocol>OSC</protocol>
              *           <target_address>127.0.0.1</target_address>
              *           <port>10000</port>
+             *           <trigger_all>true</trigger_all>
              *       </output>
              *
              */
@@ -473,7 +475,14 @@ public class DiABluServerSettings {
             this.targetPort = portElementList.item(0).getNodeValue().trim();
             logger.finer("Port:"+targetPort);
             
-            
+            // trigger all
+            NodeList triggerAllNL = outputElement.getElementsByTagName("trigger_all");
+            Element triggerAllElement = (Element)triggerAllNL.item(0);
+            NodeList triggerAllNode = triggerAllElement.getChildNodes();
+            String triggerAllValue = triggerAllNode.item(0).getNodeValue().trim();
+            this.triggerAll = new Boolean(triggerAllValue);          
+            logger.finer("Trigger All Device List Inquiries ?:"+this.triggerAll);
+                        
             /**
              *  Log
              *
@@ -562,7 +571,7 @@ public class DiABluServerSettings {
         this.protocol = OUT_DEFAULT_PROTOCOL;
         this.targetPort = OUT_DEFAULT_TARGET_PORT;
         this.targetAddress = OUT_DEFAULT_TARGET_ADDRESS;
-        
+        this.triggerAll = OUT_DEFAULT_TRIGGER_ALL;
 
         this.logDetail = LOG_DEFAULT_DETAIL;
         
@@ -612,6 +621,7 @@ public class DiABluServerSettings {
         model.setProtocol(this.protocol);
         model.newTargetAddress(this.targetAddress);
         model.newPort(this.targetPort);
+        model.setTriggerAll(this.triggerAll);
         
         // log
         model.newLogLevel(this.logDetail);
@@ -782,10 +792,10 @@ public class DiABluServerSettings {
         DOMImplementation impl = builder.getDOMImplementation();
         Element e_global,e_location,e_language,e_bundle,e_view,e_filter,e_ffname,e_blist,e_uuid,e_bluetooth,e_simulator = null;
         Element e_discovery,e_autoDisc,e_fastM,e_vCycles,e_vIn,e_vOut,e_delay,e_service,e_autoServ,e_sName,e_sDesc,e_protocol = null;
-        Element e_simAuto, e_output,e_address,e_port,e_log,e_logDetail = null;
+        Element e_simAuto, e_output,e_address,e_port,e_triggerAll,e_log,e_logDetail = null;
         
         Node n_location,n_language,n_bundle,n_view, n_ffname, n_blist, n_uuid, n_simAuto, n_autoDisc, n_fastM = null;
-        Node n_vIn,n_vOut,n_delay, n_sName, n_sDesc, n_autoServ, n_protocol, n_address, n_port, n_logDetail = null;
+        Node n_vIn,n_vOut,n_delay, n_sName, n_sDesc, n_autoServ, n_protocol, n_address, n_port,n_triggerAll, n_logDetail = null;
         
         // Document.
         xmldoc = impl.createDocument(null, "diabluServer", null);
@@ -937,9 +947,14 @@ public class DiABluServerSettings {
         n_port = xmldoc.createTextNode(model.getTargetPort());
         e_port.appendChild(n_port);
         
+        e_triggerAll = xmldoc.createElementNS(null,"trigger_all");
+        n_triggerAll = xmldoc.createTextNode(Boolean.toString(model.isTriggerAll()));
+        e_triggerAll.appendChild(n_triggerAll);
+        
         e_output.appendChild(e_protocol);
         e_output.appendChild(e_address);
         e_output.appendChild(e_port);
+        e_output.appendChild(e_triggerAll);
         
         // log
         e_log = xmldoc.createElementNS(null,"log");

@@ -45,8 +45,9 @@ public interface DiABluServerViewModelListener extends DiABluServerModelListener
     
     public void setVCyclesOUT(int vcOUT);
     
-    public void setProtocol(String prot);
-    
+    public void setProtocol(String prot);    
+        
+    public void setTriggerAll(boolean triggerAll);
     // blacklist
     /**
      * This method tells the view to reset it's 

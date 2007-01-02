@@ -36,7 +36,7 @@ import java.net.InetAddress;
 public class DiABluServerFloscOscPacket {
             
     private long time;
-    private Vector messages;
+    private Vector <DiABluServerFloscOscMessage> messages;
     public InetAddress address;
     public int port;
     
@@ -44,7 +44,7 @@ public class DiABluServerFloscOscPacket {
     public DiABluServerFloscOscPacket() {
                 	
         time = 0;
-	messages = new Vector();
+	messages = new Vector <DiABluServerFloscOscMessage> ();
         
     }
 
@@ -57,7 +57,7 @@ public class DiABluServerFloscOscPacket {
     */
     public DiABluServerFloscOscPacket(long time, InetAddress address, int port) {
 	this.time = time;
-	messages = new Vector();
+	messages = new Vector <DiABluServerFloscOscMessage>();
 	this.address = address;
 	this.port = port;
     }
@@ -123,9 +123,9 @@ public class DiABluServerFloscOscPacket {
 	    "\" PORT=\"" + port +
 	    "\" TIME=\""+ time + "\">";
 
-	Enumeration m = messages.elements();
+	Enumeration <DiABluServerFloscOscMessage> m = messages.elements();
 	while (m.hasMoreElements()) {
-	    DiABluServerFloscOscMessage mess = (DiABluServerFloscOscMessage)m.nextElement();
+	    DiABluServerFloscOscMessage mess = m.nextElement();
 	    xml += mess.getXml();
 	}
 
@@ -151,9 +151,9 @@ public class DiABluServerFloscOscPacket {
 	}
 
 	// messages
-	Enumeration m = messages.elements();
+	Enumeration <DiABluServerFloscOscMessage> m = messages.elements();
 	while (m.hasMoreElements()) {
-	    DiABluServerFloscOscMessage mess = (DiABluServerFloscOscMessage)m.nextElement();
+	    DiABluServerFloscOscMessage mess = m.nextElement();
 	    byte[] byteArray = mess.getByteArray();
 	    // bundles have message size tags
 	    if (messages.size() > 1) {

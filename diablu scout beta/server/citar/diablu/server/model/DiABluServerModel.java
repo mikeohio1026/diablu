@@ -34,6 +34,7 @@ import citar.diablu.server.controller.in.view.DiABluServerViewControllerListener
 import citar.diablu.server.controller.out.view.DiABluServerViewModelListener;
 import citar.diablu.server.view.main.compact.DiABluServerCompactView;
 import citar.diablu.server.view.main.DiABluServerView;
+import citar.diablu.server.view.shared.dialogs.credits.DiABluServerCreditsDialog;
 
 // general model listener
 import citar.diablu.server.controller.out.DiABluServerModelListener;
@@ -98,13 +99,15 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
     private boolean isSimulatorAuto;
     private boolean isSimulatorRunning=false;
     
-    // OSC Listener
-    private DiABluServerOSCModelListener oscListener;
-    private boolean OSC_LISTENER_READY = false;
     private String protocol = PROTOCOL_DEFAULT;
     private String targetAddress;
     private String targetPort;
+    private boolean OSC_LISTENER_READY = false;
+    private boolean triggerAll = OUT_DEFAULT_TRIGGER_ALL; 
     
+    // OSC Listener
+    private DiABluServerOSCModelListener oscListener;
+               
     // Flosc Listener
     private DiABluServerOSCModelListener dsft;
     
@@ -285,7 +288,9 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             this.isDiscoveryRunning = true;   
             diABluDiscovery = new DiABluServerBTDeviceDiscovery(this,this);
             logger.info("########################Starting Device Discovery...");
-            diABluDiscovery.run();
+            diABluDiscovery.startDiscovery();
+            
+            
             
         } catch (BluetoothStateException bte1){
             
@@ -1201,14 +1206,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
              }
              
              // PROCESS LISTS
-             
-             
-             
-             
-             
-             
-             
-             
+                       
              
              /** 
               * DEBUG
@@ -1297,12 +1295,24 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
                  
                  // newDevices
                  oscListener.newDiABluDevices(newDevices);
+                 
                  // deviceList
-                 oscListener.newDeviceList(currentDiABluDevices);
+                 if (this.triggerAll){
+                     
+                     oscListener.newDeviceList(currentDiABluDevices);
+                     
+                 } else if (!newDevices.isEmpty() || !changedDevices.isEmpty() || !removedDevices.isEmpty()){
+                 
+                     oscListener.newDeviceList(currentDiABluDevices);
+                     
+                 }
+                 
                  // changedNames
                  oscListener.editDiABluDevices(changedDevices);
+                 
                  // deviceOUT
                  oscListener.removeDiABluDevices(removedDevices);
+                 
                  // deviceCount
                  if (initialSize!=finalSize){
                     oscListener.newDeviceCount(finalSize);
@@ -1825,9 +1835,9 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
             SIMULATOR_LISTENER_READY = false;
         
         } else {
-        //TODO
+                isSimulatorRunning = true;
         simView.setVisible(true);
-        isSimulatorRunning = true;
+
         serverView.simulatorIsRunning(isSimulatorRunning);
         SIMULATOR_LISTENER_READY = true;
         }
@@ -2101,7 +2111,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         logger.config("Setting view:"+v);
         
         
-                 
+                if (this.isSimulatorRunning){startStopSimulator();} 
                
                 if (this.preferredView.equalsIgnoreCase(v)&& SERVER_VIEW_LISTENER_READY){
                     
@@ -2168,8 +2178,9 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
     
     public void showCredits() {
         
-        // TODO
-        
+      
+      new DiABluServerCreditsDialog(new javax.swing.JFrame(), true).setVisible(true);
+
     }
     /**
      *  Model Data Methods
@@ -2320,7 +2331,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         sV.setProtocol(this.protocol);
         sV.setTargetAddress(this.targetAddress);
         sV.setTargetPort(this.targetPort);
-        
+        sV.setTriggerAll(this.triggerAll);
         // Log
         sV.setLogDetail(this.logDetail);
         
@@ -2356,6 +2367,7 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         } else if (preferredView.equalsIgnoreCase(VIEW_CLASSICAL)){
             
             if (SERVER_VIEW_LISTENER_READY) serverView.setVisibleView(false);
+            if (this.isSimulatorRunning) startStopSimulator();
             serverView = new DiABluServerView(this);
             SERVER_VIEW_LISTENER_READY = true;
             
@@ -3253,4 +3265,14 @@ public class DiABluServerModel implements DiABluServerViewControllerListener, Di
         }
     }
 
+    public void setTriggerAll(boolean triggerAll){
+        
+        logger.finest("Setting trigger all to:"+triggerAll);
+        this.triggerAll=triggerAll;
+        
+    } 
+          
+    public boolean isTriggerAll(){
+        return this.triggerAll;
+    }
 }

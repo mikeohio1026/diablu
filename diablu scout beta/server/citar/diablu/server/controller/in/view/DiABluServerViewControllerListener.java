@@ -82,6 +82,8 @@ public interface DiABluServerViewControllerListener extends DiABluServerModelCon
     
     public void newTargetAddress(String newTargetAddress);
     
+    public void setTriggerAll(boolean triggerAll);
+    
     // Settings File
     public void applySettings();
     

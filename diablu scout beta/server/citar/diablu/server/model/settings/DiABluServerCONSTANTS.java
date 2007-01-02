@@ -25,7 +25,7 @@ public class DiABluServerCONSTANTS {
      *
      */
     public final static String DEFAULT_SETTINGS_FILE        ="build/classes/citar/diABluServerSettings.xml";
-    public final static String DEFAULT_LOG_FILE             ="DiABluLogFile";
+    public final static String DEFAULT_LOG_FILE             ="build/classes/citar/DiABluLogFile";
     
     // I18N & L9N
     public final static String DEFAULT_COUNTRY              = "Portugal";    // Sempre contigo ;P
@@ -56,7 +56,7 @@ public class DiABluServerCONSTANTS {
     public final static int DEVICE_STATUS_RECOVERED = 4;
     
     /** LOG Detail & Priority
-     *
+     * @DEPRECATED - now using java log API
      * The first three constantes represent Detail as well as Priority
      * It means a DETAILED will have both SIMPLE as DETAILED log messages...
      * ...and DEBUG will have all(SIMPLE,DETAILED,DEBUG)
@@ -97,6 +97,7 @@ public class DiABluServerCONSTANTS {
 
     public final static String OUT_DEFAULT_PROTOCOL             = "OSC";
     public final static String OUT_DEFAULT_TARGET_PORT          = "10000";
+    public final static boolean OUT_DEFAULT_TRIGGER_ALL         = true;
     public final static String LOCALHOST                        = "127.0.0.1"; // Localhost address
     public final static String OUT_DEFAULT_TARGET_ADDRESS       = LOCALHOST;
     
@@ -105,6 +106,7 @@ public class DiABluServerCONSTANTS {
     public final static String PROTOCOL_FLOSC = "Flosc";
     public final static String PROTOCOL_XML = "Xml";
     public final static String PROTOCOL_DEFAULT = PROTOCOL_OSC;
+    
     
     /** BT */
     /**
@@ -118,10 +120,10 @@ public class DiABluServerCONSTANTS {
     public final static String BT_SERVICE_UUID="F0E0D0C0B0A000908070605040302013";  // DiABlu Bluetooth Service UUID
     public final static int BT_INPUT_BUFFER_SIZE = 256;                             // Incoming data connection buffer size
     public final static int BT_OUTPUT_BUFFER_SIZE = 256;                            // Outgoing data connection buffer size
-    public final static int BT_DEFAULT_DELAY = 0;                               // Default delay in ms between bluetooth device discoverys
+    public final static int BT_DEFAULT_DELAY = 0;                                   // Default delay in ms between bluetooth device discoverys
     public final static int BT_DEFAULT_VCYCLES_IN = 0;                      
     public final static int BT_DEFAULT_VCYCLES_OUT = 0;
-    public final static boolean BT_DEFAULT_FAST_MODE = false;
+    public final static boolean BT_DEFAULT_FAST_MODE = false;                       // NOT ACTIVE!!
     public final static boolean BT_DEFAULT_FILTER_FNAME = false;
     public final static boolean BT_DEFAULT_START_DISCOVERY = true;
     public final static boolean BT_DEFAULT_START_SERVICE = true;

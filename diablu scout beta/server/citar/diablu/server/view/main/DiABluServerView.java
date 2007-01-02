@@ -120,10 +120,9 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         serviceDescription_jtf = new javax.swing.JTextField();
         discovery_jp = new javax.swing.JPanel();
         vCycles_jl = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        vcIN_jl = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         delay_jl = new javax.swing.JLabel();
-        fastMode_jcb = new javax.swing.JCheckBox();
         startStopDiscovery_jb = new javax.swing.JButton();
         autoDiscovery_jcb = new javax.swing.JCheckBox();
         vCyclesIN_jftf = new javax.swing.JFormattedTextField();
@@ -137,6 +136,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         port_jtf = new javax.swing.JTextField();
         port_jl = new javax.swing.JLabel();
         localhost_jb = new javax.swing.JButton();
+        triggerAll_jcb = new javax.swing.JCheckBox();
         log_jp = new javax.swing.JPanel();
         log_jsp = new javax.swing.JScrollPane();
         log_jta = new javax.swing.JTextArea();
@@ -429,20 +429,11 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         discovery_jp.setBorder(javax.swing.BorderFactory.createTitledBorder("Discovery"));
         vCycles_jl.setText("Verify Cycles");
 
-        jLabel2.setText("In");
+        vcIN_jl.setText("In");
 
         jLabel1.setText("Out");
 
         delay_jl.setText("Delay:");
-
-        fastMode_jcb.setText("FAST MODE");
-        fastMode_jcb.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        fastMode_jcb.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        fastMode_jcb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fastMode_jcbActionPerformed(evt);
-            }
-        });
 
         startStopDiscovery_jb.setText("Start");
         startStopDiscovery_jb.addActionListener(new java.awt.event.ActionListener() {
@@ -490,16 +481,14 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                 .add(discovery_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(discovery_jpLayout.createSequentialGroup()
                         .add(autoDiscovery_jcb)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(fastMode_jcb, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 83, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(85, 85, 85)
                         .add(delay_jl))
                     .add(discovery_jpLayout.createSequentialGroup()
                         .add(startStopDiscovery_jb)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(vCycles_jl)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jLabel2)
+                        .add(vcIN_jl)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(vCyclesIN_jftf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -516,7 +505,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                 .add(discovery_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(startStopDiscovery_jb)
                     .add(vCycles_jl)
-                    .add(jLabel2)
+                    .add(vcIN_jl)
                     .add(vCyclesIN_jftf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel1)
                     .add(vCyclesOUT_jftf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -524,8 +513,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                 .add(discovery_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(discovery_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                         .add(delay_jl)
-                        .add(autoDiscovery_jcb)
-                        .add(fastMode_jcb))
+                        .add(autoDiscovery_jcb))
                     .add(btDelay_jftf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -587,12 +575,18 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
             }
         });
 
+        triggerAll_jcb.setText("Trigger All Discovery Inquiries");
+        triggerAll_jcb.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        triggerAll_jcb.setMargin(new java.awt.Insets(0, 0, 0, 0));
+
         org.jdesktop.layout.GroupLayout output_jpLayout = new org.jdesktop.layout.GroupLayout(output_jp);
         output_jp.setLayout(output_jpLayout);
         output_jpLayout.setHorizontalGroup(
             output_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, output_jpLayout.createSequentialGroup()
-                .addContainerGap(355, Short.MAX_VALUE)
+                .addContainerGap()
+                .add(triggerAll_jcb)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 186, Short.MAX_VALUE)
                 .add(protocol_jl)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(protocol_jcb, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 66, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -618,7 +612,8 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                     .add(protocol_jcb, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(protocol_jl)
                     .add(port_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(address_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(address_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(triggerAll_jcb))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -864,24 +859,6 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         dController.exit();
         
     }//GEN-LAST:event_saveExit_jmiActionPerformed
-
-    private void fastMode_jcbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fastMode_jcbActionPerformed
-
-        boolean fast = fastMode_jcb.isSelected();
-        
-        dController.setFastMode(fast);
-        
-        if (fast){
-                    delay_jl.setEnabled(false);
-                    btDelay_jftf.setEnabled(false);
-        } else {
-            
-            delay_jl.setEnabled(true);
-            btDelay_jftf.setEnabled(true);
-            
-        }
-        
-    }//GEN-LAST:event_fastMode_jcbActionPerformed
 
     private void port_jtfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_port_jtfFocusLost
 
@@ -1665,7 +1642,9 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
     
     public void setFastMode(boolean fastM){
         
-        fastMode_jcb.setSelected(fastM);
+        //fastMode_jcb.setSelected(fastM);
+        logger.warning("Fast Mode not activated");
+               
         
     }
     
@@ -1755,7 +1734,11 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         
     }
     
-    
+    public void setTriggerAll(boolean triggerAll){
+        
+        triggerAll_jcb.setSelected(triggerAll);
+        
+    }
     /** 
      * DEPRECATED - using java logging API
      * Log
@@ -1786,8 +1769,8 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         
         // Paranoid check
         // TODO:Pass this validation to the model
-        if ( priority > 2 ) { priority = 2; }
-        
+        // @DEPRECATED if ( priority > 2 ) { priority = 2; }
+        logger.finest("Setting log detail:"+priority);
         if ( this.logDetail_jcb.getSelectedIndex() != priority ){
             
             logDetail_jcb.setSelectedIndex(priority);
@@ -1875,13 +1858,11 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
     private javax.swing.JMenuItem enl_jmi;
     private javax.swing.JMenu exit_jm;
     private javax.swing.JMenuItem exit_jmi;
-    private javax.swing.JCheckBox fastMode_jcb;
     private javax.swing.JCheckBox filterFriendlyNames_jcb;
     private javax.swing.JPanel filter_jp;
     private javax.swing.JMenu global_jm;
     private javax.swing.JPanel input_jp;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.ButtonGroup language_bg;
     private javax.swing.JMenu language_jm;
     private javax.swing.JButton localhost_jb;
@@ -1913,9 +1894,11 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
     private javax.swing.JButton startStopDiscovery_jb;
     private javax.swing.JButton startStopService_jb;
     private javax.swing.JButton startStopSimulator_jb;
+    private javax.swing.JCheckBox triggerAll_jcb;
     private javax.swing.JFormattedTextField vCyclesIN_jftf;
     private javax.swing.JFormattedTextField vCyclesOUT_jftf;
     private javax.swing.JLabel vCycles_jl;
+    private javax.swing.JLabel vcIN_jl;
     private javax.swing.ButtonGroup view_bg;
     private javax.swing.JMenu view_jm;
     // End of variables declaration//GEN-END:variables

@@ -429,4 +429,5 @@ public class DiABluServerFlosc implements DiABluServerOSCModelListener {
         
         this.logger.setLevel(newLevel);
     }
+    
 }
