@@ -282,9 +282,9 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(addBlackList_jb, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 73, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(removeBlackList_jb, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                .add(removeBlackList_jb, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(resetBlackList_jb, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                .add(resetBlackList_jb, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
                 .addContainerGap())
         );
         filter_jpLayout.setVerticalGroup(
@@ -307,7 +307,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                 .addContainerGap()
                 .add(detected_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, filter_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, detected_jsp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 794, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, detected_jsp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE))
                 .addContainerGap())
         );
         detected_jpLayout.setVerticalGroup(
@@ -406,9 +406,9 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                     .add(serviceDescription_jl)
                     .add(service_jl))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(service_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(service_jtf)
-                    .add(serviceDescription_jtf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
+                .add(service_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(serviceDescription_jtf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                    .add(service_jtf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
                 .addContainerGap())
         );
         service_jpLayout.setVerticalGroup(
@@ -427,7 +427,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         );
 
         discovery_jp.setBorder(javax.swing.BorderFactory.createTitledBorder("Discovery"));
-        vCycles_jl.setText("Verify Cycles");
+        vCycles_jl.setText("VCycles");
 
         vcIN_jl.setText("In");
 
@@ -479,25 +479,25 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
             .add(discovery_jpLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(discovery_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(discovery_jpLayout.createSequentialGroup()
-                        .add(autoDiscovery_jcb)
-                        .add(85, 85, 85)
-                        .add(delay_jl))
-                    .add(discovery_jpLayout.createSequentialGroup()
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, discovery_jpLayout.createSequentialGroup()
                         .add(startStopDiscovery_jb)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(vCycles_jl)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(vcIN_jl)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(vCyclesIN_jftf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(vCyclesIN_jftf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jLabel1)))
+                        .add(jLabel1))
+                    .add(discovery_jpLayout.createSequentialGroup()
+                        .add(autoDiscovery_jcb)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 95, Short.MAX_VALUE)
+                        .add(delay_jl)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(discovery_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(btDelay_jftf)
-                    .add(vCyclesOUT_jftf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(vCyclesOUT_jftf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
+                .addContainerGap())
         );
         discovery_jpLayout.setVerticalGroup(
             discovery_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -506,14 +506,14 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                     .add(startStopDiscovery_jb)
                     .add(vCycles_jl)
                     .add(vcIN_jl)
-                    .add(vCyclesIN_jftf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel1)
-                    .add(vCyclesOUT_jftf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(vCyclesOUT_jftf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(vCyclesIN_jftf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(discovery_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(discovery_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                        .add(delay_jl)
-                        .add(autoDiscovery_jcb))
+                        .add(autoDiscovery_jcb)
+                        .add(delay_jl))
                     .add(btDelay_jftf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -527,8 +527,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(discovery_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(service_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(service_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         input_jpLayout.setVerticalGroup(
             input_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -586,7 +585,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
             .add(org.jdesktop.layout.GroupLayout.TRAILING, output_jpLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(triggerAll_jcb)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 186, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 194, Short.MAX_VALUE)
                 .add(protocol_jl)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(protocol_jcb, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 66, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -621,10 +620,8 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
         settings_jp.setLayout(settings_jpLayout);
         settings_jpLayout.setHorizontalGroup(
             settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(settings_jpLayout.createSequentialGroup()
-                .add(input_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .add(output_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(input_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         settings_jpLayout.setVerticalGroup(
             settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -686,9 +683,9 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                         .add(logDetail_jl)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(logDetail_jcb, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 601, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 609, Short.MAX_VALUE)
                         .add(clearLog_jb))
-                    .add(log_jsp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE))
+                    .add(log_jsp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE))
                 .addContainerGap())
         );
         log_jpLayout.setVerticalGroup(
@@ -815,7 +812,7 @@ public class DiABluServerView extends javax.swing.JFrame implements DiABluServer
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, detected_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, log_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, settings_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 826, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, settings_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
