@@ -16,7 +16,7 @@ public class DiABluServerCreditsDialog extends javax.swing.JDialog {
      * Creates new form DiABluCreditsView
      */
     public DiABluServerCreditsDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+        super(parent,modal);
         initComponents();
     }
     
@@ -28,67 +28,84 @@ public class DiABluServerCreditsDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         about_jp = new javax.swing.JPanel();
-        ds_jl = new javax.swing.JLabel();
+        diabluLogo_jl = new javax.swing.JLabel();
         version_jl = new javax.swing.JLabel();
-        development_jl = new javax.swing.JLabel();
+        pLeader_jl = new javax.swing.JLabel();
         citar_jl = new javax.swing.JLabel();
+        developer_jl = new javax.swing.JLabel();
+        homepage_jl = new javax.swing.JLabel();
+        svn_jl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(java.util.ResourceBundle.getBundle("citar/diablu/server/ressources/defaultBundle").getString("About_DiABlu_Server"));
-        ds_jl.setFont(new java.awt.Font(java.util.ResourceBundle.getBundle("citar/diablu/server/ressources/defaultBundle").getString("Tahoma"), 1, 36));
-        ds_jl.setForeground(java.awt.Color.blue);
-        ds_jl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ds_jl.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/ressources/defaultBundle").getString("DiABlu_Server"));
+        setTitle("About DiABlu Server");
+        setAlwaysOnTop(true);
+        setName("creditsWindow_d");
+        setResizable(false);
+        about_jp.setMaximumSize(new java.awt.Dimension(300, 700));
+        about_jp.setOpaque(false);
+        about_jp.setPreferredSize(new java.awt.Dimension(700, 300));
+        diabluLogo_jl.setIcon(new javax.swing.ImageIcon("D:\\Engenharia\\Projectos\\DiABlu Project\\Working Copy\\citar\\logo-trans1.png"));
 
-        version_jl.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/ressources/defaultBundle").getString("Beta_Version_1"));
+        version_jl.setText("Codename: Scout");
 
-        development_jl.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/ressources/defaultBundle").getString("Development:_Jorge_Cardoso,_Nuno_Rodrigues"));
+        pLeader_jl.setText("Project Leader: Jorge Cardoso (jccardoso@porto.ucp.pt)");
 
-        citar_jl.setText(java.util.ResourceBundle.getBundle("citar/diablu/server/ressources/defaultBundle").getString("CITAR"));
+        citar_jl.setText("Research Center of Cience and Technology for Art (http://artes.ucp.pt/citar/) ");
+
+        developer_jl.setText("System Development: Nuno Rodrigues (nunoalexandre.rodrigues@gmail.com)");
+
+        homepage_jl.setText("Homepage: http://diablu.jorgecardoso.org");
+
+        svn_jl.setText("SVN Server: http://code.google.com/p/diablu/");
 
         org.jdesktop.layout.GroupLayout about_jpLayout = new org.jdesktop.layout.GroupLayout(about_jp);
         about_jp.setLayout(about_jpLayout);
         about_jpLayout.setHorizontalGroup(
             about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(about_jpLayout.createSequentialGroup()
-                .addContainerGap()
                 .add(about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(diabluLogo_jl)
                     .add(about_jpLayout.createSequentialGroup()
-                        .add(ds_jl, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .add(about_jpLayout.createSequentialGroup()
+                        .addContainerGap()
                         .add(about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(version_jl)
-                            .add(citar_jl)
-                            .add(development_jl))
-                        .add(135, 135, 135))))
+                            .add(homepage_jl)
+                            .add(pLeader_jl)
+                            .add(developer_jl)
+                            .add(svn_jl)
+                            .add(citar_jl))))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         about_jpLayout.setVerticalGroup(
             about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(about_jpLayout.createSequentialGroup()
-                .add(ds_jl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(diabluLogo_jl)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(version_jl)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(citar_jl)
+                .add(citar_jl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(development_jl)
-                .add(42, 42, 42))
+                .add(svn_jl)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(homepage_jl)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(pLeader_jl)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(developer_jl)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(about_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(about_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 476, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(about_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 227, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(about_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 431, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -107,8 +124,11 @@ public class DiABluServerCreditsDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel about_jp;
     private javax.swing.JLabel citar_jl;
-    private javax.swing.JLabel development_jl;
-    private javax.swing.JLabel ds_jl;
+    private javax.swing.JLabel developer_jl;
+    private javax.swing.JLabel diabluLogo_jl;
+    private javax.swing.JLabel homepage_jl;
+    private javax.swing.JLabel pLeader_jl;
+    private javax.swing.JLabel svn_jl;
     private javax.swing.JLabel version_jl;
     // End of variables declaration//GEN-END:variables
     

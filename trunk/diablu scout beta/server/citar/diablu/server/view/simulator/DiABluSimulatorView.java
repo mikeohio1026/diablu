@@ -115,7 +115,6 @@ public class DiABluSimulatorView extends javax.swing.JFrame implements DiABluSim
         sendKeys_jb = new javax.swing.JButton();
         sendMessage_jb = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DiABlu Simulator 2 Beta ");
         superPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP));
         devicePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DiABlu Device", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.BELOW_TOP));

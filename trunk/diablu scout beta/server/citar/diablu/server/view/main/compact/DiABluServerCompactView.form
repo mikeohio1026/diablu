@@ -386,17 +386,9 @@
                               <Component id="startStopDiscovery_jb" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="delay_jl" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="delay_jtf" pref="68" max="32767" attributes="1"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="-2" pref="197" max="-2" attributes="0"/>
-                                  <Component id="fastMode_jcb" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="delay_jl" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="delay_jtf" pref="68" max="32767" attributes="1"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
@@ -423,7 +415,6 @@
                               <Component id="startStopDiscovery_jb" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="vCyclesOUT_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="vCyclesOUT_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="fastMode_jcb" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -503,23 +494,6 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="autoStartDiscovery_jcbActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JCheckBox" name="fastMode_jcb">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="FAST MODE"/>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                        <EmptyBorder bottom="0" left="0" right="0" top="0"/>
-                      </Border>
-                    </Property>
-                    <Property name="horizontalTextPosition" type="int" value="10"/>
-                    <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-                      <Insets value="[0, 0, 0, 0]"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fastMode_jcbActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -1025,7 +999,9 @@
                       <Component id="protocol_jl" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="protocol_jcb" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="228" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="triggerAll_jcb" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="129" max="32767" attributes="0"/>
                       <Component id="adress_jl" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="address_jtf" min="-2" pref="74" max="-2" attributes="1"/>
@@ -1034,7 +1010,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="port_jl" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="port_jtf" pref="64" max="32767" attributes="1"/>
+                      <Component id="port_jtf" min="-2" pref="48" max="-2" attributes="1"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -1043,18 +1019,15 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="port_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="port_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="localhost_jb" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="address_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="adress_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="protocol_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="protocol_jcb" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="protocol_jl" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="protocol_jcb" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="triggerAll_jcb" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="port_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="port_jl" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="localhost_jb" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="address_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="adress_jl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="149" max="32767" attributes="0"/>
                   </Group>
@@ -1108,6 +1081,19 @@
             <Component class="javax.swing.JLabel" name="protocol_jl">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Protocol:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="triggerAll_jcb">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Trigger All Inquiries"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                    <EmptyBorder bottom="0" left="0" right="0" top="0"/>
+                  </Border>
+                </Property>
+                <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                  <Insets value="[0, 0, 0, 0]"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>

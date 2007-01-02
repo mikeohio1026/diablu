@@ -37,8 +37,8 @@ import java.io.*;
 public class DiABluServerFloscOscMessage {
     
     private String name;
-    private Vector types;
-    private Vector arguments;
+    private Vector <Character> types;
+    private Vector <Object> arguments;
         
     /** Creates a new instance of DiABluServerFloscOscMessage 
      *
@@ -47,8 +47,8 @@ public class DiABluServerFloscOscMessage {
     public DiABluServerFloscOscMessage(String name) {
 
         this.name = name;
-	types = new Vector();
-	arguments = new Vector();
+	types = new Vector <Character> ();
+	arguments = new Vector <Object> ();
         
     
     }
@@ -69,7 +69,7 @@ public class DiABluServerFloscOscMessage {
      * @param   types    a list of types
      * @param   args     a list of arguments matching the types
     */
-    public void setTypesAndArgs(Vector types, Vector args) {
+    public void setTypesAndArgs(Vector <Character> types, Vector <Object> args) {
 	this.types = types;
 	this.arguments = args;
     }
@@ -85,11 +85,11 @@ public class DiABluServerFloscOscMessage {
 	String xml = "";
 	xml += "<MESSAGE NAME=\"" + name + "\">";
 
-	Enumeration t = types.elements();
-	Enumeration a = arguments.elements();
+	Enumeration <Character> t = types.elements();
+	Enumeration <Object> a = arguments.elements();
 
 	while (t.hasMoreElements()) {
-	    char type = ( (Character)t.nextElement() ).charValue();
+	    char type = ( t.nextElement() ).charValue();
 
 	    if (type == '[')
 		xml += "<ARRAY>";
@@ -141,9 +141,9 @@ public class DiABluServerFloscOscMessage {
 
 	// type tags
 	stream.writeByte( ',' );  // comma indicates type tags
-	Enumeration t = types.elements();
+	Enumeration <Character> t = types.elements();
 	while ( t.hasMoreElements() ) {
-	    char type = ( (Character)t.nextElement() ).charValue();
+	    char type = ( t.nextElement() ).charValue();
 	    stream.writeByte( type );
 	}
 	alignStream( baos );

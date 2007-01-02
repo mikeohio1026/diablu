@@ -44,7 +44,7 @@ import java.util.ResourceBundle;
  *
  * @author nrodrigues
  */
-public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener {
+public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener,Runnable {
     
     /*
      * This class serves as ligth model since it's from it we get the
@@ -58,6 +58,8 @@ public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener {
      */
     DiABluServerBTControllerListener controller;
     DiABluSimulatorControllerListener fastController;
+    
+    private Thread ddisc;
            
     private static Vector <RemoteDevice> remoteDeviceList = new Vector <RemoteDevice> (); // List of Discovered Bluetooth Remote Devices  
     private Vector <DiABluDevice> diABluDeviceList = new Vector <DiABluDevice> ();        // List of Discovered DiABlu Devices
@@ -114,7 +116,7 @@ public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener {
             // Start the INQUIRY    
         
             
-               while ( RestartInquiry ) {
+           while ( RestartInquiry ) {
             
             try { 
                 
@@ -218,14 +220,24 @@ public class DiABluServerBTDeviceDiscovery  implements DiscoveryListener {
     public void stopDiscovery(){
         
         this.RestartInquiry = false;
-        
+        try {
+                ddisc.join();
+                
+        } catch (Exception e){
+            
+            logger.warning("Discovery error:"+e.getLocalizedMessage());
+            
+        }
     }
     
     public void startDiscovery(){
                 
         this.RestartInquiry = true;
         //searchDevices();
-        run();
+       // run();
+        
+        ddisc=new Thread(this);
+        ddisc.start();
     }
     
     /*
