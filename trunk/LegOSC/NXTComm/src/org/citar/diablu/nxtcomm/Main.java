@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package jorgecardoso.serialsim;
+package org.citar.diablu.nxtcomm;
 
 import gnu.io.*;
 import java.util.Enumeration;
