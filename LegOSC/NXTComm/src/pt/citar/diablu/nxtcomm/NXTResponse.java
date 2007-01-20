@@ -9,6 +9,7 @@ package pt.citar.diablu.nxtcomm;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.util.Formatter;
 
 
 /**
@@ -54,6 +55,11 @@ public abstract class NXTResponse {
     protected byte []buffer;
     
     /**
+     * The length of the response packet.
+     */
+    protected int packetLength;
+    
+    /**
      * Constructs a new response object.
      */
     public NXTResponse() {
@@ -61,9 +67,27 @@ public abstract class NXTResponse {
     
     /**
      * Receives a response from the NXTBrick. 
-     * This method must be implemented by subclasses of <code>NXTResponse</code>.
+     * 
+     * Subclasses should verify the packet.
      */
-    public abstract void receiveResponse(InputStream is) throws IOException;
+    public void receiveResponse(InputStream is) throws IOException {
+        readLength(is);
+        buffer  = new byte[packetLength];
+        is.read(buffer);
+    }
+    
+    
+    private void readLength(InputStream is) throws IOException {
+        /* wait for output from NXTBrick */
+        packetLength = 0;
+        do {
+            packetLength  = is.read();
+        } while (packetLength < 0);
+        int lengthMSB = is.read();
+        packetLength = (0xff & packetLength) | ((0xff & lengthMSB) << 8);
+        
+        System.out.println(packetLength);
+    }
     
     /**
      * Returns the status of the response. A text message describing the status can be obtained by
@@ -80,7 +104,7 @@ public abstract class NXTResponse {
      *
      * @return The text describing the status code.
      */
-    public String toString() {
+    public String getStatusDescription() {
         switch (this.getStatus()) {
             case SUCCESS: return "Success"; 
             case PENDING_COMMUNICATION_TRANSACTION_IN_PROGRESS: return "Pending communication transaction in progress"; 
@@ -102,5 +126,20 @@ public abstract class NXTResponse {
             case BAD_ARGUMENTS: return "Bad arguments";
             default: return "Panic!: Unkown Status Response!";
         }
+    }
+    
+        /**
+     * Formats the command packet in hex form.
+     *
+     * @return The command packet in hex form.
+     */
+    public String toString() {
+        Formatter f = new Formatter();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < buffer.length; i++) {
+            f.format("%x ", buffer[i]);
+        }
+        return f.toString();
+        
     }
 }
