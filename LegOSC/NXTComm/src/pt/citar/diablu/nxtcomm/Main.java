@@ -101,19 +101,28 @@ public class Main {
                 os = port.getOutputStream();
                 
                 NXTCommandPlayTone playTone = new NXTCommandPlayTone(4000, 500);
-                playTone.sendCommand(is, os);
-                
-                System.out.println("Played one tone.");
-                
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ie) {
-                }
                 playTone.setResponseRequired(true);
                 playTone.setFrequency(2000);
+                System.out.println(playTone);
                 NXTResponseStatus status = playTone.sendCommand(is, os);
-                
+        
                 System.out.println(status);
+                
+                boolean c = true;
+                NXTCommandSetInputMode sim = new NXTCommandSetInputMode((byte)0, NXTResponseInputValues.LIGHT_INACTIVE_TYPE, NXTResponseInputValues.RAW_MODE);
+                sim.sendCommand(is, os);
+                NXTCommandGetInputValues iv = new NXTCommandGetInputValues((byte)0);
+                do {
+                    
+                    NXTResponseInputValues riv = iv.sendCommand(is, os);
+                    System.out.println("Valor: " + riv.getNormalizedValue() +  "Snsor type: " + riv.getSensorType());
+                    
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ie) {
+                        
+                    }
+                } while (c);
                 
             } catch (IOException e) {
                 System.err.println("Can't open input stream: write-only");
