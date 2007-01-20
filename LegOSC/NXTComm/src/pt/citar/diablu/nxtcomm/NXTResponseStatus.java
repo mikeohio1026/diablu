@@ -18,10 +18,13 @@ import java.io.IOException;
  */
 public class NXTResponseStatus extends NXTResponse{
     
-    /** Creates a new instance of NXTResponseStatus */
-    public NXTResponseStatus() {
-    }
     
+    /**
+     * Receives the status response from the NXTBrick.
+     * The status code can be obtained by invoking the <code>getStatus()</code> from the <code>NXTResponse</code> class.
+     *
+     * @param is The <code>InputStream</code> from which the response is read.
+     */
     public void receiveResponse(InputStream is) throws IOException {
         buffer  = new byte[3];
         is.read(buffer);
