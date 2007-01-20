@@ -12,7 +12,10 @@ import java.io.IOException;
 
 
 /**
+ * Represents a Response to a Command that can be received from the NXTBrick. This class cannot be instantiated. 
+ * Only subclasses which represent concrete Responses should be used.
  *
+ * Subclasses should implement the <code>receiveResponse()</code> method and any specific parameter getter methods.
  * @author Jorge Cardoso
  */
 public abstract class NXTResponse {
@@ -50,16 +53,33 @@ public abstract class NXTResponse {
      */
     protected byte []buffer;
     
-    /** Creates a new instance of NXTResponse */
+    /**
+     * Constructs a new response object.
+     */
     public NXTResponse() {
     }
     
+    /**
+     * Receives a response from the NXTBrick. 
+     * This method must be implemented by subclasses of <code>NXTResponse</code>.
+     */
     public abstract void receiveResponse(InputStream is) throws IOException;
     
+    /**
+     * Returns the status of the response. A text message describing the status can be obtained by
+     * invoking the <code>toString()</code> method.
+     *
+     * @return The status code of the response.
+     */
     public int getStatus() {
         return buffer[STATUS_BYTE_INDEX];
     }
     
+    /**
+     * Returns a textual representation of the status code.
+     *
+     * @return The text describing the status code.
+     */
     public String toString() {
         switch (this.getStatus()) {
             case SUCCESS: return "Success"; 
