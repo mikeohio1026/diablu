@@ -125,6 +125,8 @@ public class NXTCommandPlayTone extends NXTCommand {
             /* send command */
             os.write(buffer);
             
+            os.flush();
+            
             /* receive response */
             NXTResponseStatus response = new NXTResponseStatus();
             response.receiveResponse(is);
@@ -134,6 +136,7 @@ public class NXTCommandPlayTone extends NXTCommand {
             buffer[COMMAND_TYPE_INDEX] = DIRECT_COMMAND_NO_RESPONSE;
             /* send command */
             os.write(buffer);
+            os.flush();
             
             /* don't need to wait for a response*/
             return null;
