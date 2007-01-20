@@ -5,16 +5,19 @@
  *
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
+ *
+ *
  */
 
-package org.citar.diablu.nxtcomm;
+package pt.citar.diablu.nxtcomm;
 
 import gnu.io.*;
 import java.util.Enumeration;
 import java.io.*;
+
 /**
  *
- * @author jorge
+ * @author Jorge Cardoso
  */
 public class Main {
     
@@ -94,38 +97,29 @@ public class Main {
             
             /* get the input and output streams     */
             try {
-                is = new DataInputStream(port.getInputStream());
+                is = port.getInputStream();
+                os = port.getOutputStream();
+                
+                NXTCommandPlayTone playTone = new NXTCommandPlayTone(4000, 500);
+                playTone.sendCommand(is, os);
+                
+                System.out.println("Played one tone.");
+                
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ie) {
+                }
+                playTone.setResponseRequired(true);
+                playTone.setFrequency(2000);
+                NXTResponseStatus status = playTone.sendCommand(is, os);
+                
+                System.out.println(status);
                 
             } catch (IOException e) {
                 System.err.println("Can't open input stream: write-only");
                 is = null;
             }
-            try {
-                os = new PrintStream(port.getOutputStream(), true);
-                byte[] b = {0x02, 0x00, (byte)0x00, 0x0b};
-                os.write(b);
-                os.close();
-            } catch (IOException e) {
-                System.err.println("Can't open output stream: read-only");
-                is = null;
-            }
-           
-            
-            
-            /* read messages */
-            while (!stop) {
-                int i;
-                try {
-                    i = is.read();
-                    if (i != -1) {
-                        System.out.print(i);
-                       // os.write(i);
-                    }
-                }catch (IOException ioe) {
-                    ioe.printStackTrace();
-                    
-                }
-            }
+
             port.close();
             System.out.println("Done!");
             
