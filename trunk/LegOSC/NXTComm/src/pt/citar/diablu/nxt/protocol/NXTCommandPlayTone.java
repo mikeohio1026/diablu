@@ -3,7 +3,7 @@
  *
  * Created on 19 de Janeiro de 2007, 21:53
  *
- *  LegOSC: and OSC gateway to control the Lego Minstorms NXT robots.
+ *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
@@ -35,7 +35,7 @@ import java.io.IOException;
 /**
  * Represents the PLAYTONE Command.
  * The response to this command (if required) is a <code>NXTResponseStatus</code>.
- * 
+ *
  * <br>Example 1:
  * <pre>
  *  // plays a tone of 4KHz during half a second. No response.
@@ -58,12 +58,12 @@ public class NXTCommandPlayTone extends NXTCommand {
      * Frequency LSB index on buffer;
      */
     private final static int FREQUENCY_LSB_INDEX = 2;
-    
+
     /**
      * Frequency MSB index on buffer;
      */
     private final static int FREQUENCY_MSB__INDEX = 3;
-    
+
     /**
      * Duration LSB index on buffer;
      */
@@ -73,60 +73,60 @@ public class NXTCommandPlayTone extends NXTCommand {
      * Duration MSB index on buffer;
      */
     private final static int DURATION_MSB_INDEX = 5;
-    
-    
-    
+
+
+
     /**
      * The frequency of the tone to play.
      */
     private int frequency;
-    
+
     /**
      * The duration of the tone.
      */
     private int duration;
-    
-    
+
+
     /**
      * The response to this command.
      */
     private NXTResponseStatus response;
-    
+
     public NXTCommandPlayTone() {
         this(0, 0);
-        
+
     }
-    /** 
+    /**
      * Constructs a new <code>NXTCommandPlayTone</code> object with a given frequency and duration and
-     * with no response requirement. 
+     * with no response requirement.
      *
      * @param frequency The frequency of the tone. Only the two least significant bytes are considered.
      * @param duration The duration of the tone. Only the two least significatn bytes are considered.
      */
     public NXTCommandPlayTone(int frequency, int duration) {
-        
+
         this(frequency, duration, false);
     }
-    
-    /** 
+
+    /**
      * Constructs a new <code>NXTCommandPlayTone</code> object with a given frequency, duration and
-     * response requirement. 
+     * response requirement.
      *
      * @param frequency The frequency of the tone. Only the two least significant bytes are considered.
      * @param duration The duration of the tone. Only the two least significatn bytes are considered.
-     * @param responseRequired Indicates if a response to this command is required. 
+     * @param responseRequired Indicates if a response to this command is required.
      */
     public NXTCommandPlayTone(int frequency, int duration, boolean responseRequired) {
         /* Set the response required parameter using the base class */
         super(responseRequired);
-        
+
         buffer = new byte[] {(byte)0x80, 0x03, 0x00, 0x00, 0x00, 0x00};
-        
+
         this.setFrequency(frequency);
-        this.setDuration(duration);      
+        this.setDuration(duration);
         response = new NXTResponseStatus();
     }
-   
+
     protected NXTResponseStatus getResponse() {
         return this.response;
     }
@@ -140,16 +140,16 @@ public class NXTCommandPlayTone extends NXTCommand {
     public int getFrequency() {
         return frequency;
     }
-    
+
     /**
      * Sets the frequency of the tone to play.
      * @param frequency The frequency to play. On the two least significant bytes are considered.
      */
     public void setFrequency(int frequency) {
         this.frequency = frequency;
-        
+
         buffer[FREQUENCY_LSB_INDEX] = (byte) frequency;
-        
+
         buffer[FREQUENCY_MSB__INDEX] = (byte) (frequency >> 8);
     }
 
@@ -162,19 +162,19 @@ public class NXTCommandPlayTone extends NXTCommand {
     public int getDuration() {
         return duration;
     }
-    
+
     /**
      * Sets the duration of the tone to play.
      * @param duration The frequency to play. On the two least significant bytes are considered.
      */
     public void setDuration(int duration) {
         this.duration = duration;
-        
+
         buffer[DURATION_LSB_INDEX] = (byte) duration;
-        
-        buffer[DURATION_MSB_INDEX] = (byte) (duration >> 8);            
+
+        buffer[DURATION_MSB_INDEX] = (byte) (duration >> 8);
     }
-    
-    
-    
+
+
+
 }

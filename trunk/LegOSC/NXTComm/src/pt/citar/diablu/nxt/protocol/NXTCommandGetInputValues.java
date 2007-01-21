@@ -3,7 +3,7 @@
  *
  * Created on 19 de Janeiro de 2007, 21:53
  *
- *  LegOSC: and OSC gateway to control the Lego Minstorms NXT robots.
+ *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
@@ -35,7 +35,7 @@ import java.io.IOException;
 /**
  * Represents the GETINPUTVALUES Command.
  * The response to this command (if required) is a <code>NXTResponseInputValues</code>.
- * 
+ *
  * @author Jorge Cardoso
  * @see NXTResponseInputValues
  */
@@ -44,33 +44,33 @@ public class NXTCommandGetInputValues extends NXTCommand {
      * Output port index on buffer;
      */
     private final static int INPUT_PORT_INDEX = 2;
-    
-    
+
+
     /**
      * The input port to read values from.
      */
     private byte inputPort;
-    
+
     /**
      * The response to this command.
      */
     private NXTResponseInputValues response;
-    
-    /** 
+
+    /**
      * Constructs a new <code>NXTCommandGetInputValues</code> object which will read values from input port 0.
      *
-     */  
+     */
     public NXTCommandGetInputValues() {
         // just to override the default constructor from the base class.
         this((byte)0);
     }
-    
-    
+
+
     /**
-     * 
+     *
      * Constructs a new <code>NXTCommandGetInputValues</code> object with a given input port.
-     * 
-     * 
+     *
+     *
      * @param inputPort The input port to read values from. Range: (0 - 3).
      */
     public NXTCommandGetInputValues(byte inputPort) {
@@ -79,10 +79,10 @@ public class NXTCommandGetInputValues extends NXTCommand {
         buffer = new byte[] {DIRECT_COMMAND_RESPONSE_REQUIRED, 0x07, inputPort};
         response = new NXTResponseInputValues();
     }
-    
 
-    
-    
+
+
+
     protected NXTResponseInputValues getResponse() {
         return this.response;
     }
@@ -95,9 +95,9 @@ public class NXTCommandGetInputValues extends NXTCommand {
         this.inputPort = inputPort;
     }
 
-   
 
-    
-    
-    
+
+
+
+
 }

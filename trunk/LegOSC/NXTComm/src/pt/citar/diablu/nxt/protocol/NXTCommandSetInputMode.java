@@ -3,7 +3,7 @@
  *
  * Created on 20 de Janeiro de 2007, 16:19
  *
- *  LegOSC: and OSC gateway to control the Lego Minstorms NXT robots.
+ *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
@@ -37,30 +37,30 @@ import java.io.IOException;
  * @author Jorge Cardoso
  */
 public class NXTCommandSetInputMode extends NXTCommand {
-    
+
     /**
      * The response to this command.
      */
     private NXTResponseStatus response;
-    
+
     /**
-     * Constructs a new <code>NXTCommandSetInputMode</code> object with input port = 0, no sensor type, raw sensor mode and 
+     * Constructs a new <code>NXTCommandSetInputMode</code> object with input port = 0, no sensor type, raw sensor mode and
      * with no response requirement.
      */
     public NXTCommandSetInputMode() {
         this((byte)0, NXTResponseInputValues.NO_SENSOR_TYPE, NXTResponseInputValues.RAW_MODE);
     }
-    
+
     /**
-     * Constructs a new <code>NXTCommandSetInputMode</code> object with the input port, sensor type, sensor mode and 
+     * Constructs a new <code>NXTCommandSetInputMode</code> object with the input port, sensor type, sensor mode and
      * with no response requirement.
      */
     public  NXTCommandSetInputMode(byte inputPort, byte sensorType, byte sensorMode) {
         this(inputPort, sensorType, sensorMode, false);
     }
-    
+
     /**
-     * Constructs a new <code>NXTCommandSetInputMode</code> object with the input port, sensor type, sensor mode and 
+     * Constructs a new <code>NXTCommandSetInputMode</code> object with the input port, sensor type, sensor mode and
      * response requirement specified.
      */
     public NXTCommandSetInputMode(byte inputPort, byte sensorType, byte sensorMode, boolean responseRequired) {
@@ -68,11 +68,11 @@ public class NXTCommandSetInputMode extends NXTCommand {
         buffer = new byte[] {responseRequired ? DIRECT_COMMAND_RESPONSE_REQUIRED : DIRECT_COMMAND_NO_RESPONSE, 0x05, inputPort, sensorType, sensorMode};
         response = new NXTResponseStatus();
     }
-    
+
     protected NXTResponseStatus getResponse() {
         return this.response;
     }
-    
+
     /**
      * TODO: getter/setter for input port, sensor type and sensor mode
      */
