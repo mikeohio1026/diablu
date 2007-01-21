@@ -3,8 +3,8 @@
  *
  * Created on 19 de Janeiro de 2007, 21:39
  *
- * 
- *  LegOSC: and OSC gateway to control the Lego Minstorms NXT robots.
+ *
+ *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
@@ -33,7 +33,7 @@ import java.util.Formatter;
 
 
 /**
- * Represents a Response to a Command that can be received from the NXTBrick. This class cannot be instantiated. 
+ * Represents a Response to a Command that can be received from the NXTBrick. This class cannot be instantiated.
  * Only subclasses which represent concrete Responses should be used.
  *
  * Subclasses should implement the <code>receiveResponse()</code> method and any specific parameter getter methods.
@@ -43,7 +43,7 @@ public abstract class NXTResponse {
     /* The position of the status byte in the response packet */
     protected static final int STATUS_BYTE_INDEX = 2;
 
-    
+
     /**
      * Success status code.
      */
@@ -68,26 +68,26 @@ public abstract class NXTResponse {
     public static final byte BAD_INPUT_OR_OUTPUT_SPECIFIED = (byte)0xF0;
     public static final byte INSUFFICIENT_MEMORY_AVAILABLE = (byte)0xFB;
     public static final byte BAD_ARGUMENTS = (byte)0xFF;
-        
+
     /**
-     * The response packet. 
+     * The response packet.
      */
     protected byte []buffer;
-    
+
     /**
      * The length of the response packet.
      */
     protected int packetLength;
-    
+
     /**
      * Constructs a new response object.
      */
     public NXTResponse() {
     }
-    
+
     /**
-     * Receives a response from the NXTBrick. 
-     * 
+     * Receives a response from the NXTBrick.
+     *
      * Subclasses should verify the packet.
      */
     public void receiveResponse(InputStream is) throws IOException {
@@ -95,8 +95,8 @@ public abstract class NXTResponse {
         buffer  = new byte[packetLength];
         is.read(buffer);
     }
-    
-    
+
+
     private void readLength(InputStream is) throws IOException {
         /* wait for output from NXTBrick */
         packetLength = 0;
@@ -105,10 +105,10 @@ public abstract class NXTResponse {
         } while (packetLength < 0);
         int lengthMSB = is.read();
         packetLength = (0xff & packetLength) | ((0xff & lengthMSB) << 8);
-        
+
         System.out.println(packetLength);
     }
-    
+
     /**
      * Returns the status of the response. A text message describing the status can be obtained by
      * invoking the <code>toString()</code> method.
@@ -118,7 +118,7 @@ public abstract class NXTResponse {
     public int getStatus() {
         return buffer[STATUS_BYTE_INDEX];
     }
-    
+
     /**
      * Returns a textual representation of the status code.
      *
@@ -126,9 +126,9 @@ public abstract class NXTResponse {
      */
     public String getStatusDescription() {
         switch (this.getStatus()) {
-            case SUCCESS: return "Success"; 
-            case PENDING_COMMUNICATION_TRANSACTION_IN_PROGRESS: return "Pending communication transaction in progress"; 
-            case SPECIFIED_MAILBOX_QUEUE_IS_EMPTY: return "Specified mailbox queue is empty"; 
+            case SUCCESS: return "Success";
+            case PENDING_COMMUNICATION_TRANSACTION_IN_PROGRESS: return "Pending communication transaction in progress";
+            case SPECIFIED_MAILBOX_QUEUE_IS_EMPTY: return "Specified mailbox queue is empty";
             case REQUEST_FAILED: return "Request failed (i.e. specified file not found)";
             case UNKNOWN_COMMAND_OPCODE: return "Unknown command opcode";
             case INSANE_PACKET: return "Insane packet";
@@ -147,7 +147,7 @@ public abstract class NXTResponse {
             default: return "Panic!: Unkown Status Response!";
         }
     }
-    
+
         /**
      * Formats the command packet in hex form.
      *
@@ -160,6 +160,6 @@ public abstract class NXTResponse {
             f.format("%x ", buffer[i]);
         }
         return f.toString();
-        
+
     }
 }

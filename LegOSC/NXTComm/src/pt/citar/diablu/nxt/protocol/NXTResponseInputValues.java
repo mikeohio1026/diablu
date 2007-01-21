@@ -3,7 +3,7 @@
  *
  * Created on 20 de Janeiro de 2007, 13:52
  *
- *  LegOSC: and OSC gateway to control the Lego Minstorms NXT robots.
+ *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
@@ -36,8 +36,8 @@ import java.io.IOException;
  * @author Jorge Cardoso
  */
 public class NXTResponseInputValues extends NXTResponse {
-    
-    /** 
+
+    /**
      * No sensor type defined.
      */
     public static final byte NO_SENSOR_TYPE = 0x00;
@@ -45,12 +45,12 @@ public class NXTResponseInputValues extends NXTResponse {
      * Switch sensor type.
      */
     public static final byte SWITCH_TYPE = 0x01;
-    
-    /** 
+
+    /**
      * Temperature sensor type.
      */
     public static final byte TEMPERATURE_TYPE = 0x02;
-    
+
     /**  */
     public static final byte REFLECTION_TYPE = 0x03;
     /**  */
@@ -71,8 +71,8 @@ public class NXTResponseInputValues extends NXTResponse {
     public static final byte LOWSPEED_9V_TYPE = 0x0B;
     /**  */
     public static final byte NO_OF_SENSOR_TYPES_TYPE = 0x0C;
-        
-    
+
+
 
     /**  */
     public static final byte RAW_MODE = 0x00;
@@ -94,55 +94,55 @@ public class NXTResponseInputValues extends NXTResponse {
     public static final byte SLOPE_MASK_MODE = 0x1F;
     /**  */
     public static final byte MODE_MASK_MODE = (byte)0xE0;
-    
+
     /**
      * The input port value index on packet.
      */
     private byte INPUT_PORT_INDEX = 3;
-    
+
     /**
      * The valid value index on packet.
      */
     private byte VALID_INDEX = 4;
-    
+
     /**
      * The calibrated value index on packet.
      */
     private byte CALIBRATED_INDEX = 5;
-    
+
     /**
      * The sensor type value index on packet.
      */
     private byte SENSOR_TYPE_INDEX = 6;
-    
+
     /**
      * The sensor mode value index on packet.
      */
     private byte SENSOR_MODE_INDEX = 7;
-    
+
     /**
      * Raw A/D value index on packet (two bytes).
      */
     private byte RAW_VALUE_INDEX = 8;
-    
+
     /**
      * The normalized value index on packet (two bytes).
      */
     private byte NORMALIZED_VALUE_INDEX = 10;
-    
+
     /**
      * Scaled value index on packet (two bytes).
      */
-    private byte SCALED_VALUE_INDEX = 12;    
-    
+    private byte SCALED_VALUE_INDEX = 12;
+
     /**
      * Calibrated value index on packet (two bytes).
      */
-    private byte CALIBRATED_VALUE_INDEX = 14;      
+    private byte CALIBRATED_VALUE_INDEX = 14;
 
     /**
      * @return The input port from which values were read.
-     */    
+     */
     public byte getInputPort() {
         return buffer[INPUT_PORT_INDEX];
     }
@@ -153,24 +153,24 @@ public class NXTResponseInputValues extends NXTResponse {
     public boolean isValid() {
         return buffer[VALID_INDEX] == 1 ? true : false;
     }
-    
+
     /**
      * @return True, if calibration file fould and used for Calibrated Field.
      */
     public boolean isCalibrated() {
         return buffer[CALIBRATED_INDEX] == 1 ? true : false;
     }
-    
+
     /**
      * @return The sensor type. See type constant values.
      */
     public byte getSensorType() {
         return buffer[SENSOR_TYPE_INDEX];
     }
-    
+
     /**
      * @return The sensor mode. See mode constant values.
-     */ 
+     */
     public byte getSensorMode() {
         return buffer[SENSOR_MODE_INDEX];
     }
@@ -189,7 +189,7 @@ public class NXTResponseInputValues extends NXTResponse {
     public int getNormalizedValue() {
          return  (0xff & buffer[NORMALIZED_VALUE_INDEX]) | ((0xff & buffer[NORMALIZED_VALUE_INDEX+1]) << 8);
     }
-    
+
     /**
      * Scaled value (mode dependent).
      */

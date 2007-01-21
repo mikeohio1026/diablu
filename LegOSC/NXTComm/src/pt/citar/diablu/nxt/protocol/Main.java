@@ -3,7 +3,7 @@
  *
  * Created on 3 de Dezembro de 2006, 13:00
  *
- *  LegOSC: and OSC gateway to control the Lego Minstorms NXT robots.
+ *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
@@ -38,20 +38,20 @@ import java.io.*;
  * @author Jorge Cardoso
  */
 public class Main {
-    
-   
+
+
     /* Stop processing  */
     private boolean stop = false;
-    
+
     private Thread main;
-    
+
     /** Creates a new instance of Main */
     public Main() {
-         
+
         NXTCommBluetoothSerialChannel channel = new NXTCommBluetoothSerialChannel();
-        
+
         try {
-            
+
 
             channel.openPort("COM11");
 
@@ -67,7 +67,7 @@ public class Main {
             NXTCommandGetInputValues iv = new NXTCommandGetInputValues((byte)0);
             NXTResponseInputValues riv;
             do {
-                    
+
                 riv = (NXTResponseInputValues)channel.sendCommand(iv);
                 System.out.println("Valor: " + riv.getNormalizedValue() +  "Snsor type: " + riv.getSensorType());
 
@@ -77,7 +77,7 @@ public class Main {
 
                 }
             } while (c);
-            channel.closePort();    
+            channel.closePort();
         } catch (IOException ioe) {
             System.err.println("IOException: " + ioe.getMessage());
         } catch (gnu.io.PortInUseException piue) {
@@ -88,12 +88,12 @@ public class Main {
              System.err.println("NoSuchPortException: " + nspe.getMessage());
         }
 
-        
+
          System.out.println("Done!");
-            
-        
+
+
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -101,5 +101,5 @@ public class Main {
         // TODO code application logic here
         new Main();
     }
-    
+
 }

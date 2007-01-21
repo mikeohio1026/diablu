@@ -3,7 +3,7 @@
  *
  * Created on 21 de Janeiro de 2007, 12:44
  *
- *  LegOSC: and OSC gateway to control the Lego Minstorms NXT robots.
+ *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
@@ -36,6 +36,6 @@ import java.io.IOException;
  * @author Jorge Cardoso
  */
 public interface NXTCommChannel {
-    
+
     public NXTResponse sendCommand(NXTCommand command) throws IOException;
 }

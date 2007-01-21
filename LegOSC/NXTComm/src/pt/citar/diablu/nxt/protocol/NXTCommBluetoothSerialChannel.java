@@ -3,7 +3,7 @@
  *
  * Created on 21 de Janeiro de 2007, 12:48
  *
- *  LegOSC: and OSC gateway to control the Lego Minstorms NXT robots.
+ *  NXTComm: A java library to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
@@ -41,34 +41,34 @@ public class NXTCommBluetoothSerialChannel implements NXTCommChannel {
     private static final int BAUD = 9600;
     private InputStream is;
     private OutputStream os;
-    
+
     private SerialPort port;
-    
+
     /** Creates a new instance of NXTCommBluetoothChannel */
     public NXTCommBluetoothSerialChannel() {
     }
-    
-    public NXTCommBluetoothSerialChannel(String commPort) throws Exception{
+
+    public NXTCommBluetoothSerialChannel(String commPort) throws IOException, NoSuchPortException, PortInUseException, UnsupportedCommOperationException{
         openPort(commPort);
     }
-   
+
     public NXTResponse sendCommand(NXTCommand command) throws IOException {
-        
+
         /* send Length of packet, this is only necessary when sending via bluetooth */
         int length = command.getPacketLength();
         os.write((byte) length); // LSB
         os.write((byte) (0xff & (length >> 8)));   // MSB
-        
+
         return command.sendCommand(is, os);
     }
-    
+
     public void openPort(String commPort) throws IOException, NoSuchPortException, PortInUseException, UnsupportedCommOperationException {
         CommPortIdentifier portID = null;
 
-       
+
         portID = CommPortIdentifier.getPortIdentifier(commPort);
-        
-        
+
+
         /* try to open the port with a timeout of 15 seconds */
         if (portID != null) {
 
@@ -79,7 +79,7 @@ public class NXTCommBluetoothSerialChannel implements NXTCommChannel {
            os = port.getOutputStream();
         }
     }
-    
+
     public void closePort() throws IOException {
         if (is != null) {
             is.close();
