@@ -38,6 +38,10 @@ import java.io.IOException;
  */
 public class NXTCommandSetInputMode extends NXTCommand {
     
+    /**
+     * The response to this command.
+     */
+    private NXTResponseStatus response;
     
     /**
      * Constructs a new <code>NXTCommandSetInputMode</code> object with input port = 0, no sensor type, raw sensor mode and 
@@ -62,33 +66,11 @@ public class NXTCommandSetInputMode extends NXTCommand {
     public NXTCommandSetInputMode(byte inputPort, byte sensorType, byte sensorMode, boolean responseRequired) {
         this.responseRequired = responseRequired;
         buffer = new byte[] {responseRequired ? DIRECT_COMMAND_RESPONSE_REQUIRED : DIRECT_COMMAND_NO_RESPONSE, 0x05, inputPort, sensorType, sensorMode};
+        response = new NXTResponseStatus();
     }
     
-    public NXTResponseStatus sendCommand(InputStream is, OutputStream os) throws IOException {
-      
-        if (responseRequired) {
-            buffer[COMMAND_TYPE_INDEX] = DIRECT_COMMAND_RESPONSE_REQUIRED;
-            
-            /* send command */
-            os.write(buffer);
-            
-            os.flush();
-            
-            /* receive response */
-            NXTResponseStatus response = new NXTResponseStatus();
-            response.receiveResponse(is);
-            return response;
-            
-        } else {
-            buffer[COMMAND_TYPE_INDEX] = DIRECT_COMMAND_NO_RESPONSE;
-            /* send command */
-            os.write(buffer);
-            os.flush();
-            
-            /* don't need to wait for a response*/
-            return null;
-        }        
-        
+    protected NXTResponseStatus getResponse() {
+        return this.response;
     }
     
     /**

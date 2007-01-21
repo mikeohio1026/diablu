@@ -37,7 +37,7 @@ import java.io.IOException;
  * The response to this command (if required) is a <code>NXTResponseInputValues</code>.
  * 
  * @author Jorge Cardoso
- * @see NXTResponseResponseInputValues
+ * @see NXTResponseInputValues
  */
 public class NXTCommandGetInputValues extends NXTCommand {
     /**
@@ -50,6 +50,11 @@ public class NXTCommandGetInputValues extends NXTCommand {
      * The input port to read values from.
      */
     private byte inputPort;
+    
+    /**
+     * The response to this command.
+     */
+    private NXTResponseInputValues response;
     
     /** 
      * Constructs a new <code>NXTCommandGetInputValues</code> object which will read values from input port 0.
@@ -72,45 +77,14 @@ public class NXTCommandGetInputValues extends NXTCommand {
         super(true);
         this.setInputPort(inputPort);
         buffer = new byte[] {DIRECT_COMMAND_RESPONSE_REQUIRED, 0x07, inputPort};
+        response = new NXTResponseInputValues();
     }
     
-    /**
-     * Constructs a new command object with a response requirement. This was made private since it 
-     * doesn't make sense in this command to set the response requirements to false.
-     *
-     * @param responseRequired The response requirement. <code>false</code>, no response required. <code>true</code>, response
-     * required.
-     */
-    private NXTCommandGetInputValues(boolean responseRequired) {
-            
-    }
+
     
     
-    /**
-     * Sends this command to the NXT Brick.
-     *
-     * @param is The <code>InputStream</code> used to receive the response, if required. 
-     * Can be null if no response is required.
-     * @param os The <code>OutputStream</code> used to send the command.
-     *
-     * @return  A <code>NXTResponseInputValues</code> object .
-     *
-     * @see NXTCommand#sendCommand(InputStream is, OutputStream os)
-     * @see NXTResponseInputValues
-     */
-    public NXTResponseInputValues sendCommand(InputStream is, OutputStream os) throws IOException{
-      
-        /* send command */
-        os.write(buffer);
-        
-        os.flush();
-        
-        /* receive response */
-        NXTResponseInputValues response = new NXTResponseInputValues();
-        response.receiveResponse(is);
-        return response;
-            
- 
+    protected NXTResponseInputValues getResponse() {
+        return this.response;
     }
 
     public byte getInputPort() {
