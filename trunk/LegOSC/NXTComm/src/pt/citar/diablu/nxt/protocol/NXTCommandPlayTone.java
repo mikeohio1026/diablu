@@ -87,6 +87,11 @@ public class NXTCommandPlayTone extends NXTCommand {
     private int duration;
     
     
+    /**
+     * The response to this command.
+     */
+    private NXTResponseStatus response;
+    
     public NXTCommandPlayTone() {
         this(0, 0);
         
@@ -118,44 +123,12 @@ public class NXTCommandPlayTone extends NXTCommand {
         buffer = new byte[] {(byte)0x80, 0x03, 0x00, 0x00, 0x00, 0x00};
         
         this.setFrequency(frequency);
-        this.setDuration(duration);        
+        this.setDuration(duration);      
+        response = new NXTResponseStatus();
     }
-    /**
-     * Sends this command to the NXT Brick.
-     *
-     * @param is The <code>InputStream</code> used to receive the response, if required. 
-     * Can be null if no response is required.
-     * @param os The <code>OutputStream</code> used to send the command.
-     *
-     * @return Null if no response is required, <code>NXTResponseStatus</code> otherwise.
-     *
-     * @see NXTCommand#sendCommand(InputStream is, OutputStream os)
-     * @see NXTResponseStatus
-     */
-    public NXTResponseStatus sendCommand(InputStream is, OutputStream os) throws IOException{
-     
-        if (responseRequired) {
-            buffer[COMMAND_TYPE_INDEX] = DIRECT_COMMAND_RESPONSE_REQUIRED;
-            
-            /* send command */
-            os.write(buffer);
-            
-            os.flush();
-            
-            /* receive response */
-            NXTResponseStatus response = new NXTResponseStatus();
-            response.receiveResponse(is);
-            return response;
-            
-        } else {
-            buffer[COMMAND_TYPE_INDEX] = DIRECT_COMMAND_NO_RESPONSE;
-            /* send command */
-            os.write(buffer);
-            os.flush();
-            
-            /* don't need to wait for a response*/
-            return null;
-        }
+   
+    protected NXTResponseStatus getResponse() {
+        return this.response;
     }
 
     /**
