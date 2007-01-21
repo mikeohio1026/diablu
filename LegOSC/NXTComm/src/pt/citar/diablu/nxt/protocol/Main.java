@@ -9,7 +9,7 @@
  *
  */
 
-package pt.citar.diablu.nxtcomm;
+package pt.citar.diablu.nxt.protocol;
 
 import gnu.io.*;
 import java.util.Enumeration;

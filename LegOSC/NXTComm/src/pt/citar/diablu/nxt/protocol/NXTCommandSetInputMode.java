@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package pt.citar.diablu.nxtcomm;
+package pt.citar.diablu.nxt.protocol;
 
 import java.io.InputStream;
 import java.io.OutputStream;

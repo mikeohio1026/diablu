@@ -4,7 +4,7 @@
  * Created on 19 de Janeiro de 2007, 21:20
  *
  */
-package pt.citar.diablu.nxtcomm;
+package pt.citar.diablu.nxt.protocol;
 
 import java.io.InputStream;
 import java.io.OutputStream;
