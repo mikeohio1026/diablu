@@ -74,6 +74,9 @@ public abstract class NXTCommand {
     public abstract NXTResponse sendCommand(InputStream is, OutputStream os) throws IOException;
 
     
+    public int getPacketLength() {
+        return buffer.length;
+    }
     /**
      * Returns the response requirements for the command.
      *
