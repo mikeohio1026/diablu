@@ -88,11 +88,47 @@ public abstract class NXTCommand {
         this.responseRequired = responseRequired;
     }
     /**
-     * This must be implemented by each concrete Command. Only a concrete command knows
-     * how to read a response.
+     * Sends the command to the brick and returns the response (if required).
+     * 
+     * @param is The <code>InputStream</code> from which the response can be read.
+     * @param os The <code>OutputStream</code> to send the command.
+     *
+     * @return The <code>NXTResponse</code> response. This should be cast to the apropriate subclass.
      */
-    public abstract NXTResponse sendCommand(InputStream is, OutputStream os) throws IOException;
+    public NXTResponse sendCommand(InputStream is, OutputStream os) throws IOException {
+        if (isResponseRequired()) {
+            buffer[COMMAND_TYPE_INDEX] = DIRECT_COMMAND_RESPONSE_REQUIRED;
+            
+            /* send command */
+            os.write(buffer);
+            
+            os.flush();
+            
+            /* debug code */
+            System.err.println("*** Sent packet: " . toString());
+            
+            /* Ask the subclass for the apropriate response */
+            NXTResponse response = getResponse();
+            response.receiveResponse(is);
+            return response;
+            
+        } else {
+            buffer[COMMAND_TYPE_INDEX] = DIRECT_COMMAND_NO_RESPONSE;
+            
+            /* send command */
+            os.write(buffer);
+            os.flush();
+            
+            /* don't need to wait for a response*/
+            return null;
+        }
+    }
 
+    /**
+     * @return The <code>NXTResponse</code> object that know how to read the 
+     * response to this command.
+     */
+    protected abstract NXTResponse getResponse();
     
     public int getPacketLength() {
         return buffer.length;
@@ -129,8 +165,5 @@ public abstract class NXTCommand {
             f.format("%x ", buffer[i]);
         }
         return f.toString();
-        
     }
-    
-
 }
