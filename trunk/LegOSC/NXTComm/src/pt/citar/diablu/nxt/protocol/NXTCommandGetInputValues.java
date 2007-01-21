@@ -79,11 +79,7 @@ public class NXTCommandGetInputValues extends NXTCommand {
      * @see NXTResponseInputValues
      */
     public NXTResponseInputValues sendCommand(InputStream is, OutputStream os) throws IOException{
-        /* send Length, LSB */
-        os.write((byte)buffer.length);
-        /* send Length, MSB */
-        os.write(0);   
-       
+      
         /* send command */
         os.write(buffer);
         

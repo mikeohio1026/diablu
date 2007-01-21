@@ -47,11 +47,7 @@ public class NXTCommandSetInputMode extends NXTCommand {
     }
     
     public NXTResponseStatus sendCommand(InputStream is, OutputStream os) throws IOException {
-        /* send Length, LSB */
-        os.write((byte)buffer.length);
-        /* send Length, MSB */
-        os.write(0);   
-       
+      
         if (responseRequired) {
             buffer[COMMAND_TYPE_INDEX] = DIRECT_COMMAND_RESPONSE_REQUIRED;
             
