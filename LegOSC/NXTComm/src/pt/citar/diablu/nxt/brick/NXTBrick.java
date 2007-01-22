@@ -47,19 +47,23 @@ public class NXTBrick {
     }
     
     
-    public void openChannel(String commPort) {
+    public String openChannel(String commPort) {
         try {
             channel = new NXTCommBluetoothSerialChannel(commPort);
         } catch (IOException ex) {
             ex.printStackTrace();
+            return "IOException: " + ex.getMessage();
         } catch (PortInUseException ex) {
-            ex.printStackTrace();
+             ex.printStackTrace();
+            return "PortInUseException: " + ex.getMessage();
         } catch (NoSuchPortException ex) {
             ex.printStackTrace();
+            return "NoSuchPortException: " + ex.getMessage();
         } catch (UnsupportedCommOperationException ex) {
             ex.printStackTrace();
+            return "UnsupportedCommOperationException: " + ex.getMessage();
         }
-
+        return null;
     }
     
     public NXTCommChannel getChannel() {
