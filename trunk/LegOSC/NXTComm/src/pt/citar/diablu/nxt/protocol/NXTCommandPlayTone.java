@@ -38,22 +38,17 @@ import java.io.IOException;
  *
  * <br>Example 1:
  * <pre>
- *  // plays a tone of 4KHz during half a second. No response.
- *  NXTCommandPlayTone playTone = new NXTCommandPlayTone(4000, 500);
- *  playTone.sendCommand(is, os);
+
  * </pre>
  * Example 2:
  * <pre>
- * // plays a tone of 2KHz during two seconds. Requires a response.
- * playTone.setResponseRequired(true);
- * playTone.setFrequency(2000);
- * NXTResponseStatus status = playTone.sendCommand(is, os);
- * System.out.println(status);
+
  * </pre>
  * @author Jorge Cardoso
  * @see NXTResponseStatus
  */
 public class NXTCommandPlayTone extends NXTCommand {
+    
     /**
      * Frequency LSB index on buffer;
      */
