@@ -162,7 +162,7 @@ public abstract class NXTCommand {
         Formatter f = new Formatter();
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < buffer.length; i++) {
-            f.format("%x ", buffer[i]);
+          //  f.format("%x ", buffer[i]);
         }
         return f.toString();
     }

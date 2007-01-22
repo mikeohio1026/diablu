@@ -120,7 +120,7 @@ public class NXTCommandSetOutputState extends NXTCommand {
     }
 
 
-    protected NXTResponseStatus getResponse() {
+    protected NXTResponse getResponse() {
         return this.response;
     }
 }

@@ -83,7 +83,7 @@ public class NXTCommandGetInputValues extends NXTCommand {
 
 
 
-    protected NXTResponseInputValues getResponse() {
+    protected NXTResponse getResponse() {
         return this.response;
     }
 
