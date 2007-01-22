@@ -33,6 +33,7 @@ import processing.core.*;
 import pt.citar.diablu.nxt.brick.*;
 
 /**
+ * TODO: CLose port on program stop.
  *
  * @author Jorge Cardoso
  */
