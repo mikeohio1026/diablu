@@ -39,12 +39,24 @@ public class NXTSpeaker {
     
     private NXTCommandPlayTone playTone;
     
-    /** Creates a new instance of NXTSpeaker */
+    /**
+     * Creates a new instance of NXTSpeaker associated with a NXTBrick
+     *
+     * @param brick The NXTBrick instance.
+     */
     public NXTSpeaker(NXTBrick brick) {
         this.brick = brick;
         playTone = new NXTCommandPlayTone();
     }
     
+    /**
+     * Plays a tone on the brick.
+     *
+     * @param frequency The frequency of the tone.
+     * @param duration The duration of the tone.
+     *
+     * @return True if no error; False on error.
+     */
     public boolean playTone(int frequency, int duration) {
         
         playTone.setFrequency(frequency);
@@ -56,6 +68,10 @@ public class NXTSpeaker {
             return false;
         }
         return true;
+    }
+    
+    public boolean playSoundFile(String filename, boolean loop) {
+        return false;
     }
     
 }
