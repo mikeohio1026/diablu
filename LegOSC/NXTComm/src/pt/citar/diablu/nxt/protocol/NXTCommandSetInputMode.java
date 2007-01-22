@@ -69,7 +69,7 @@ public class NXTCommandSetInputMode extends NXTCommand {
         response = new NXTResponseStatus();
     }
 
-    protected NXTResponseStatus getResponse() {
+    protected NXTResponse getResponse() {
         return this.response;
     }
 
