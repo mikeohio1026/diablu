@@ -22,7 +22,9 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  You can reach me by email: jorgecardoso <> ieee org
+ *  You can reach me by
+ *  email: jorgecardoso <> ieee org
+ *  web: http://jorgecardoso.org
  */
 
 package pt.citar.diablu.nxt.brick;
@@ -68,5 +70,13 @@ public class NXTBrick {
     
     public NXTCommChannel getChannel() {
         return channel;
+    }
+    
+    public void closeChannel() {
+        try {
+            channel.closeChannel();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
