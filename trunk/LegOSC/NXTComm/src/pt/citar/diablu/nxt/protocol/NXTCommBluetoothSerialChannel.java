@@ -22,7 +22,9 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  You can reach me by email: jorgecardoso <> ieee org
+ *  You can reach me by
+ *  email: jorgecardoso <> ieee org
+ *  web: http://jorgecardoso.org
  */
 
 package pt.citar.diablu.nxt.protocol;
@@ -61,13 +63,23 @@ public class NXTCommBluetoothSerialChannel implements NXTCommChannel {
 
         return command.sendCommand(is, os);
     }
+    
+    public void openChannel(Object channel) throws UnsupportedCommOperationException, 
+            NoSuchPortException, PortInUseException, IOException {
 
-    public void openPort(String commPort) throws IOException, NoSuchPortException, PortInUseException, UnsupportedCommOperationException {
+        openPort((String)channel);
+    }
+    
+    public void closeChannel() throws IOException {
+
+            closePort();
+
+    }
+    
+    private void openPort(String commPort) throws IOException, NoSuchPortException, PortInUseException, UnsupportedCommOperationException {
         CommPortIdentifier portID = null;
 
-
         portID = CommPortIdentifier.getPortIdentifier(commPort);
-
 
         /* try to open the port with a timeout of 15 seconds */
         if (portID != null) {
@@ -80,7 +92,7 @@ public class NXTCommBluetoothSerialChannel implements NXTCommChannel {
         }
     }
 
-    public void closePort() throws IOException {
+    private void closePort() throws IOException {
         if (is != null) {
             is.close();
         }
