@@ -22,12 +22,13 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  You can reach me by email: jorgecardoso <> ieee org
- *
- *
+ *  You can reach me by
+ *  email: jorgecardoso <> ieee org
+ *  web: http://jorgecardoso.org
  */
 
 package pt.citar.diablu.nxt.protocol;
+
 
 
 import java.util.Enumeration;
@@ -53,7 +54,7 @@ public class Main {
         try {
 
 
-            channel.openPort("COM11");
+            channel.openChannel("COM11");
 
             NXTCommandPlayTone playTone = new NXTCommandPlayTone(4000, 500);
             playTone.setResponseRequired(true);
@@ -66,6 +67,26 @@ public class Main {
             channel.sendCommand(sim);
             NXTCommandGetInputValues iv = new NXTCommandGetInputValues((byte)0);
             NXTResponseInputValues riv;
+            
+            NXTCommandSetOutputState output;
+            
+            output = new NXTCommandSetOutputState((byte)0, 
+                    (byte)10, 
+                    (byte) (NXTCommandSetOutputState.MODE_MOTOR_ON| NXTCommandSetOutputState.MODE_REGULATED), 
+                    NXTCommandSetOutputState.REGULATION_MODE_MOTOR_SPEED, 
+                    (byte)0, 
+                    NXTCommandSetOutputState.RUN_STATE_RUNNING, 0);
+            
+            channel.sendCommand(output);
+            output = new NXTCommandSetOutputState((byte)0, 
+                    (byte)50, 
+                    (byte) (NXTCommandSetOutputState.MODE_MOTOR_ON| NXTCommandSetOutputState.MODE_REGULATED),
+                    NXTCommandSetOutputState.REGULATION_MODE_MOTOR_SPEED, 
+                    (byte)0, 
+                    NXTCommandSetOutputState.RUN_STATE_RAMP_UP, 
+                    100);
+            
+           //channel.sendCommand(output);
             do {
 
                 riv = (NXTResponseInputValues)channel.sendCommand(iv);
@@ -77,7 +98,7 @@ public class Main {
 
                 }
             } while (c);
-            channel.closePort();
+            channel.closeChannel();
         } catch (IOException ioe) {
             System.err.println("IOException: " + ioe.getMessage());
         } catch (gnu.io.PortInUseException piue) {
