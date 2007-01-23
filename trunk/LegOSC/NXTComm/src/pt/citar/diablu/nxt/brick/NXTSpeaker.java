@@ -22,7 +22,9 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  You can reach me by email: jorgecardoso <> ieee org
+ *  You can reach me by
+ *  email: jorgecardoso <> ieee org
+ *  web: http://jorgecardoso.org
  */
 
 package pt.citar.diablu.nxt.brick;
@@ -70,6 +72,14 @@ public class NXTSpeaker {
         return true;
     }
     
+    /**
+     * Plays a sound file.
+     *
+     * @param filename The sound file name.
+     * @param loop True: loop the sound file; False: play only once.
+     * 
+     * @return True if no error; False, otherwise.
+     */
     public boolean playSoundFile(String filename, boolean loop) {
         return false;
     }
