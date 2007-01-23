@@ -22,7 +22,9 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  You can reach me by email: jorgecardoso <> ieee org
+ *  You can reach me by
+ *  email: jorgecardoso <> ieee org
+ *  web: http://jorgecardoso.org
  */
 package pt.citar.diablu.nxt.protocol;
 
@@ -105,7 +107,7 @@ public abstract class NXTCommand {
             os.flush();
 
             /* debug code */
-            System.err.println("*** Sent packet: " . toString());
+            System.out.println("*** Sent packet: " . toString());
 
             /* Ask the subclass for the apropriate response */
             NXTResponse response = getResponse();
