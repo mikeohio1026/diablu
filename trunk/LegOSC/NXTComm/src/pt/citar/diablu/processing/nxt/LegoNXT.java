@@ -38,6 +38,9 @@ import pt.citar.diablu.nxt.brick.*;
  * @author Jorge Cardoso
  */
 public class LegoNXT {
+    public static final int MOTOR_A = 0;
+    public static final int MOTOR_B = 1;
+    public static final int MOTOR_C = 2;
     
     /**
      *  TODO: Don't know if this will be necessary yet...
@@ -50,12 +53,39 @@ public class LegoNXT {
      */
     private NXTBrick brick;
     
+    /**
+     * The NXT Speaker.
+     */
     private NXTSpeaker speaker;
     
+    /**
+     * The NXT motors.
+     */
+    private NXTMotor motor[];
+    
     /** Creates a new instance of LegoNXT */
-    public LegoNXT(PApplet parent) {
+    public LegoNXT(PApplet parent, String commPort) {
         this.parent = parent;
+        
+        /* register calls */
+        parent.registerDispose(this);
+        
+         // make the brick
+        brick = new NXTBrick();
+        
+        useCommPort(commPort);
+        
+
+        
+        // make the motors
+        motor = new NXTMotor[3];
+        motor[0] = new NXTMotor(brick, (byte)0);
+        motor[1] = new NXTMotor(brick, (byte)1);
+        motor[2] = new NXTMotor(brick, (byte)2);
+        
+        // make the sensors
     }
+   
     
     /**
      * Tells the system to use the specified comm port to communicate with the NXT Brick.
@@ -65,7 +95,7 @@ public class LegoNXT {
      * @return True if the port was opened successulfully; False otherwise.
      */
     public boolean useCommPort(String commPort) {
-        brick = new NXTBrick();
+        
         String result = brick.openChannel(commPort);
         if (result != null) {
             System.err.println(result);
@@ -78,5 +108,40 @@ public class LegoNXT {
     
     public boolean playTone(int frequency, int duration) {
         return speaker.playTone(frequency, duration);
+    }
+    
+    
+    public boolean motorForward(int motorNumber, int power) {
+        if (motorNumber > 2) {
+            System.err.println("Motor number must be 0, 1 or 2.");
+            return false;
+        }
+        if (power > 100) {
+            power = 100;
+        } else if (power < -100) {
+            power = -100;
+        }
+        System.out.println("starting motor");
+        return motor[motorNumber].forward((byte)power);
+    }
+    
+    public boolean motorHandBrake(int motorNumber) {
+        if (motorNumber > 2) {
+            System.err.println("Motor number must be 0, 1 or 2.");
+            return false;
+        }
+        return motor[motorNumber].handBrake();        
+    }
+    
+    public boolean motorStop(int motorNumber) {
+        if (motorNumber > 2) {
+            System.err.println("Motor number must be 0, 1 or 2.");
+            return false;
+        }
+        return motor[motorNumber].slowStop();
+    }
+    
+    public void dispose() {
+        brick.closeChannel();
     }
 }
