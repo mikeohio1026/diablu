@@ -22,7 +22,9 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  You can reach me by email: jorgecardoso <> ieee org
+ *  You can reach me by:
+ *  email: jorgecardoso <> ieee org
+ *  web: http://jorgecardoso.org
  */
 
 package pt.citar.diablu.nxt.protocol;
@@ -36,6 +38,8 @@ import java.io.IOException;
  * @author Jorge Cardoso
  */
 public interface NXTCommChannel {
-
+    
+    public void openChannel(Object channel) throws Exception;
+    public void closeChannel() throws Exception;
     public NXTResponse sendCommand(NXTCommand command) throws IOException;
 }
