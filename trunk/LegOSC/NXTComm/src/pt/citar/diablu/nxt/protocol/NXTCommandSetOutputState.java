@@ -22,7 +22,9 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  You can reach me by email: jorgecardoso <> ieee org
+ *  You can reach me by
+ *  email: jorgecardoso <> ieee org
+ *  web: http://jorgecardoso.org
  */
 
 package pt.citar.diablu.nxt.protocol;
@@ -37,7 +39,27 @@ import java.io.IOException;
  * @author Jorge Cardoso
  */
 public class NXTCommandSetOutputState extends NXTCommand {
-
+    
+    /**
+     * Power set point index on packet.
+     */
+    private static final int POWER_SET_POINT_INDEX = 3;
+    
+    /**
+     * The mode index on packet.
+     */
+    private static final int MODE_INDEX = 4;
+    
+    /**
+     * The run state index on packet.
+     */
+    private static final int RUN_STATE_INDEX = 7;
+    
+    /**
+     * The tacho limit index on packet. 5 bytes.
+     */
+    private static final int TACHO_LIMIT_INDEX = 8;
+        
     /**
      * The motor on mode (bit field - can be combined with other modes).
      */
@@ -86,8 +108,10 @@ public class NXTCommandSetOutputState extends NXTCommand {
     /**
      * The ramp down run state.
      */
-    public static final byte RUN_STATE_RAMPO_DOWN = 0x40;
+    public static final byte RUN_STATE_RAMP_DOWN = 0x40;
 
+    
+    
     /**
      * The response to this command.
      */
@@ -122,6 +146,79 @@ public class NXTCommandSetOutputState extends NXTCommand {
 
     protected NXTResponse getResponse() {
         return this.response;
+    }
+    
+    /**
+     * Sets the power set point.
+     * 
+     * @param power The power set point. Range: -100; 100.
+     */
+    public void setPowerSetPoint(byte power) {
+        buffer[POWER_SET_POINT_INDEX] = power;
+    }
+    
+    /**
+     * @return The current power set point.
+     */
+    public byte getPowerSetPoint() {
+        return  buffer[POWER_SET_POINT_INDEX];
+    }
+    
+    /**
+     * Sets the run state of the motor.
+     * 
+     * @param runState The run state. See RUN_STATE constants.
+     */
+    public void setRunState(byte runState) {
+        buffer[RUN_STATE_INDEX] = runState;
+    }
+    
+    /**
+     * @return The current run state.
+     */
+    public byte getRunState() {
+        return buffer[RUN_STATE_INDEX];
+    }
+    
+    /**
+     * Sets the mode.
+     *
+     * @param mode The mode. See MODE constants.
+     */
+    public void setMode(byte mode) {
+        buffer[MODE_INDEX] = mode;
+    }
+    
+    /**
+     * @return The current mode.
+     */
+    public byte getMode() {
+        return  buffer[MODE_INDEX];
+    }
+    
+    /**
+     * Sets the tacho limit.
+     *
+     * @param tachoLimit The tacho limit to set.
+     */
+    public void setTachoLimit(long tachoLimit) {
+        buffer[TACHO_LIMIT_INDEX] = (byte) (0xff & tachoLimit);
+        buffer[TACHO_LIMIT_INDEX + 1] = (byte) (tachoLimit >>> 8);
+        buffer[TACHO_LIMIT_INDEX + 2] = (byte)(tachoLimit >>> 16);
+        buffer[TACHO_LIMIT_INDEX + 3] = (byte)(tachoLimit >>> 20);
+        buffer[TACHO_LIMIT_INDEX + 4] = (byte)(tachoLimit >>> 24);        
+    }
+    
+    /**
+     * TODO: Check.
+     * @return The current tacho limit.
+     */
+    public long getTachoLimit() {
+        return buffer[TACHO_LIMIT_INDEX] + 
+               (buffer[TACHO_LIMIT_INDEX + 1] << 8) +
+               (buffer[TACHO_LIMIT_INDEX + 2] << 16) +
+               (buffer[TACHO_LIMIT_INDEX + 3] << 20) + 
+               (buffer[TACHO_LIMIT_INDEX + 4] << 24); 
     }
 }
 
