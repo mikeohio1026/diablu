@@ -22,7 +22,9 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  You can reach me by email: jorgecardoso <> ieee org
+ *  You can reach me by
+ *  email: jorgecardoso <> ieee org
+ *  web: http://jorgecardoso.org
  */
 
 package pt.citar.diablu.nxt.protocol;
@@ -87,10 +89,20 @@ public class NXTCommandGetInputValues extends NXTCommand {
         return this.response;
     }
 
+    /**
+     * Returns the input port on which we want to read values.
+     * 
+     * @return The input port.
+     */
     public byte getInputPort() {
         return inputPort;
     }
-
+    
+    /**
+     * Sets the input port on which we want to read values.
+     * 
+     * @param inputPort The input port.
+     */
     public void setInputPort(byte inputPort) {
         this.inputPort = inputPort;
     }
