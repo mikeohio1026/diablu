@@ -31,6 +31,12 @@ package pt.citar.diablu.processing.nxt;
 
 import processing.core.*;
 import pt.citar.diablu.nxt.brick.*;
+import pt.citar.diablu.nxt.protocol.NXTCommBluetoothSerialChannel;
+
+import gnu.io.NoSuchPortException;
+import gnu.io.PortInUseException;
+import gnu.io.UnsupportedCommOperationException;
+import java.io.IOException;
 
 /**
  * TODO: CLose port on program stop.
@@ -47,6 +53,11 @@ public class LegoNXT {
      * The parent PApplet. 
      */
     private PApplet parent;
+    
+    /**
+     * The bluetooth nxt channel.
+     */
+    NXTCommBluetoothSerialChannel btChannel;
     
     /**
      * The NXTBrick object.
@@ -69,12 +80,25 @@ public class LegoNXT {
         
         /* register calls */
         parent.registerDispose(this);
+        /* open bt channel */
+        try {
+            btChannel = new NXTCommBluetoothSerialChannel(commPort);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+  
+        } catch (PortInUseException ex) {
+            ex.printStackTrace();
+
+        } catch (NoSuchPortException ex) {
+            ex.printStackTrace();
+
+        } catch (UnsupportedCommOperationException ex) {
+            ex.printStackTrace();
+        }
         
          // make the brick
-        brick = new NXTBrick();
-        
-        useCommPort(commPort);
-        
+        brick = new NXTBrick(btChannel);
+         
 
         
         // make the motors
@@ -87,23 +111,7 @@ public class LegoNXT {
     }
    
     
-    /**
-     * Tells the system to use the specified comm port to communicate with the NXT Brick.
-     *
-     * @param commPort The comm port name (e.g., COM3 on windows).
-     * 
-     * @return True if the port was opened successulfully; False otherwise.
-     */
-    public boolean useCommPort(String commPort) {
-        
-        String result = brick.openChannel(commPort);
-        if (result != null) {
-            System.err.println(result);
-            return false;
-        }     
-        speaker = new NXTSpeaker(brick);
-        return true;
-    }
+
     
     
     public boolean playTone(int frequency, int duration) {
@@ -142,6 +150,10 @@ public class LegoNXT {
     }
     
     public void dispose() {
-        brick.closeChannel();
+        try {            
+            btChannel.closeChannel();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
