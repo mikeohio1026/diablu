@@ -46,6 +46,11 @@ public class LegOSC implements OSCListener {
      */
     NXTMotor motor[];
     
+    /**
+     * The button sensor.
+     */
+    NXTButtonSensor buttonSensor;
+            
     LegOSCObserver observer;
     
     /** Creates a new instance of Main */
@@ -89,6 +94,7 @@ public class LegOSC implements OSCListener {
         motor[0] = new NXTMotor(brick, (byte)0);
         motor[1] = new NXTMotor(brick, (byte)1);
         motor[2] = new NXTMotor(brick, (byte)2);
+        
         
         /* start the OSC server */ 
         try {
@@ -155,7 +161,15 @@ public class LegOSC implements OSCListener {
             int motorNumber;
             motorNumber = ((Number) msg.getArg(0)).intValue();
             motor[motorNumber%3].handBrake();            
-        }
+       
+        } else if(msg.getName().equals( "/getButtonState" )) {
+            int portNumber;
+            portNumber = ((Number) msg.getArg(0)).intValue();
+            if (buttonSensor == null) {
+                buttonSensor = new NXTButtonSensor(brick, (byte)portNumber);
+            }
+            notifyMessage("Sensor: " + buttonSensor.getValue());
+        }         
     }
     
     private String messageToString(OSCMessage msg) {
