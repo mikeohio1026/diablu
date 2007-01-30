@@ -142,9 +142,9 @@ public class LegOSC implements OSCListener {
         if( msg.getName().equals( "/motorForward" )) {
             int motorNumber;
             int power;
-                        
+            
             motorNumber = ((Number) msg.getArg(0)).intValue();
-            power = ((Number) msg.getArg(1)).intValue();
+            power = ((Number) msg.getArg(1)).intValue();            
             
             motor[motorNumber%3].forward((byte)power);                        
         } else if(msg.getName().equals( "/motorSlowStop" )) {
