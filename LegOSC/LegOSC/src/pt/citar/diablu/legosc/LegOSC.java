@@ -50,7 +50,7 @@ public class LegOSC implements OSCListener {
      * The button sensor.
      */
     NXTButtonSensor buttonSensor;
-            
+    
     LegOSCObserver observer;
     
     /** Creates a new instance of Main */
@@ -87,7 +87,7 @@ public class LegOSC implements OSCListener {
             return false;
         }
         
-        /* start the brick */        
+        /* start the brick */
         brick = new NXTBrick(btChannel);
         /* add motor A  */
         motor = new NXTMotor[3];
@@ -96,7 +96,7 @@ public class LegOSC implements OSCListener {
         motor[2] = new NXTMotor(brick, (byte)2);
         
         
-        /* start the OSC server */ 
+        /* start the OSC server */
         try {
             oscServer = OSCServer.newUsing(OSCServer.UDP, localPort, false);
             oscServer.addOSCListener(this);
@@ -124,12 +124,13 @@ public class LegOSC implements OSCListener {
     }
     
     public void stop() {
+        notifyMessage("Stopping server.");
         if (btChannel != null) {
-            try {                
+            try {
                 btChannel.closeChannel();
             } catch (IOException ex) {
                 ex.printStackTrace();
-                notifyError("IOException occurred while initializing stopping BT Comm port: " + ex.getMessage());                
+                notifyError("IOException occurred while initializing stopping BT Comm port: " + ex.getMessage());
             }
         }
         try {
@@ -138,21 +139,21 @@ public class LegOSC implements OSCListener {
             ex.printStackTrace();
             notifyError("IOException occurred while initializing stopping BT Comm port: " + ex.getMessage());
         }
-        oscServer.dispose();        
+        oscServer.dispose();
     }
     
     public void messageReceived(OSCMessage msg, SocketAddress sender, long time) {
         
         notifyMessage("Received OSC message: " + messageToString(msg) );
-       
+        
         if( msg.getName().equals( "/motorForward" )) {
             int motorNumber;
             int power;
             
             motorNumber = ((Number) msg.getArg(0)).intValue();
-            power = ((Number) msg.getArg(1)).intValue();            
+            power = ((Number) msg.getArg(1)).intValue();
             
-            motor[motorNumber%3].forward((byte)power);                        
+            motor[motorNumber%3].forward((byte)power);
         } else if(msg.getName().equals( "/motorSlowStop" )) {
             int motorNumber;
             motorNumber = ((Number) msg.getArg(0)).intValue();
@@ -160,16 +161,24 @@ public class LegOSC implements OSCListener {
         } else if(msg.getName().equals( "/motorHandBrake" )) {
             int motorNumber;
             motorNumber = ((Number) msg.getArg(0)).intValue();
-            motor[motorNumber%3].handBrake();            
-       
+            motor[motorNumber%3].handBrake();
+            
         } else if(msg.getName().equals( "/getButtonState" )) {
             int portNumber;
             portNumber = ((Number) msg.getArg(0)).intValue();
             if (buttonSensor == null) {
                 buttonSensor = new NXTButtonSensor(brick, (byte)portNumber);
             }
-            notifyMessage("Sensor: " + buttonSensor.getValue());
-        }         
+            int value = buttonSensor.getValue();
+            try {
+                
+                oscServer.send(new OSCMessage("/buttonState", new Object[] {value}), remoteSocketAddress);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            //c.send( new OSCMessage( "/done", new Object[] { m.getName() }), addr );
+            notifyMessage("Sensor: " + value);
+        }
     }
     
     private String messageToString(OSCMessage msg) {
