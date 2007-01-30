@@ -74,6 +74,11 @@ public class LegoNXT {
      */
     private NXTMotor motor[];
     
+    /**
+     * The button sensor.
+     */
+    NXTButtonSensor buttonSensor;    
+    
     /** Creates a new instance of LegoNXT */
     public LegoNXT(PApplet parent, String commPort) {
         this.parent = parent;
@@ -98,9 +103,7 @@ public class LegoNXT {
         
          // make the brick
         brick = new NXTBrick(btChannel);
-         
-
-        
+                 
         // make the motors
         motor = new NXTMotor[3];
         motor[0] = new NXTMotor(brick, (byte)0);
@@ -110,9 +113,7 @@ public class LegoNXT {
         // make the sensors
     }
    
-    
-
-    
+        
     
     public boolean playTone(int frequency, int duration) {
         return speaker.playTone(frequency, duration);
@@ -149,6 +150,14 @@ public class LegoNXT {
         return motor[motorNumber].slowStop();
     }
     
+    public boolean getButtonState(int portNumber, boolean initialize) {
+        
+        if (initialize) {
+            //buttonSensor
+        } 
+        
+    }
+            
     public void dispose() {
         try {            
             btChannel.closeChannel();
