@@ -41,9 +41,6 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
         jLabel3 = new javax.swing.JLabel();
         tfTargetPort = new javax.swing.JTextField();
         btnStartStop = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        taLog = new javax.swing.JTextArea();
-        jLabel4 = new javax.swing.JLabel();
         tfCommPort = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
 
@@ -90,20 +87,11 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
 
         getContentPane().add(btnStartStop, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, -1, -1));
 
-        taLog.setColumns(20);
-        taLog.setRows(5);
-        jScrollPane1.setViewportView(taLog);
-
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 440, 140));
-
-        jLabel4.setText("Log:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
-
         tfCommPort.setText("COM16");
-        getContentPane().add(tfCommPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 50, -1));
+        getContentPane().add(tfCommPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 50, -1));
 
         jLabel5.setText("Brick Com Port");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -136,7 +124,7 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
             if (legOSC.start(tfCommPort.getText(), localPort, tfTargetAddress.getText(), remotePort)) {
                 legOSCStarted = true;
                 btnStartStop.setText("Stop");
-                taLog.append("Server started! Ok to receive commands.\n");
+                message("Server started! Ok to receive commands.\n");
             }
         }
         
@@ -170,10 +158,7 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea taLog;
     private javax.swing.JTextField tfCommPort;
     private javax.swing.JTextField tfLocalPort;
     private javax.swing.JTextField tfTargetAddress;
