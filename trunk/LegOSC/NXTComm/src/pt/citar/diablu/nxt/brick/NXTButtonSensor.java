@@ -29,14 +29,62 @@
 
 package pt.citar.diablu.nxt.brick;
 
+import java.io.IOException;
+import pt.citar.diablu.nxt.protocol.*;
 /**
  *
  * @author Jorge Cardoso
  */
 public class NXTButtonSensor {
     
-    /** Creates a new instance of NXTButtonSensor */
-    public NXTButtonSensor() {
+    
+    /**
+     * The NXT Brick.
+     */
+    private NXTBrick brick;    
+    /**
+     * The port to which this sensor is connected. (0 - 3)
+     */
+    private byte portAttached;    
+    
+    private NXTCommandGetInputValues getInputValues;
+    private NXTResponseInputValues inputValues;
+    
+    /**
+     * Coonstructs a new NXTButtonSensor object given the NXTBrick and the port number the 
+     * sensor is connected to.
+     *
+     * @param brick The NXTBrick.
+     * @param portAttached The port to which the sensor is attached. (0 - 3).
+     */
+    public NXTButtonSensor(NXTBrick brick, byte portAttached) {
+        this.brick = brick;
+        this.portAttached = portAttached;
+        
+        NXTCommandSetInputMode inputMode = new NXTCommandSetInputMode(portAttached, 
+                NXTResponseInputValues.SWITCH_TYPE, 
+                NXTResponseInputValues.BOOLEAN_MODE);
+        try {
+            brick.getChannel().sendCommand(inputMode);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        getInputValues = new NXTCommandGetInputValues(portAttached);
+        
     }
     
+    public int getValue() {
+        try {
+            inputValues = (NXTResponseInputValues)brick.getChannel().sendCommand(getInputValues);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+        return inputValues.getScaledValue();
+    }
+    
+    public boolean isButtonPressed() {
+        return getValue() == 1 ? true : false;
+    }
+
 }
