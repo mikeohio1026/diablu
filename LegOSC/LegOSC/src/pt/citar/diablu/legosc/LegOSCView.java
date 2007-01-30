@@ -6,11 +6,13 @@
 
 package pt.citar.diablu.legosc;
 
+import java.io.IOException;
+
 /**
  *
  * @author  Jorge Cardoso
  */
-public class LegOSCView extends javax.swing.JFrame {
+public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
     
     LegOSC legOSC;
     
@@ -22,6 +24,7 @@ public class LegOSCView extends javax.swing.JFrame {
         
         legOSCStarted = false;
         legOSC = new LegOSC();
+        legOSC.registerObserver(this);
     }
     
     /** This method is called from within the constructor to
@@ -39,12 +42,20 @@ public class LegOSCView extends javax.swing.JFrame {
         tfTargetPort = new javax.swing.JTextField();
         btnStartStop = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        taLog = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
+        tfCommPort = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
+
         tfLocalPort.setText("10000");
         tfLocalPort.setToolTipText("The port on which LegOSC is listening for OSC commands.");
         getContentPane().add(tfLocalPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 50, -1));
@@ -79,17 +90,27 @@ public class LegOSCView extends javax.swing.JFrame {
 
         getContentPane().add(btnStartStop, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, -1, -1));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        taLog.setColumns(20);
+        taLog.setRows(5);
+        jScrollPane1.setViewportView(taLog);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 440, 140));
 
         jLabel4.setText("Log:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
+        tfCommPort.setText("COM16");
+        getContentPane().add(tfCommPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 50, -1));
+
+        jLabel5.setText("Brick Com Port");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        legOSC.stop(); 
+    }//GEN-LAST:event_formWindowClosed
 
     private void btnStartStopMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStartStopMousePressed
         // TODO add your handling code here:
@@ -98,14 +119,37 @@ public class LegOSCView extends javax.swing.JFrame {
             legOSCStarted = false;
             btnStartStop.setText("Start");
             
-        } else {
-            legOSC.start();
-            legOSCStarted = true;
-            btnStartStop.setText("Stop");
+        } else {            
+            int localPort = 10000;
+            int remotePort = 20000;
+            try {                
+                localPort = Integer.parseInt(tfLocalPort.getText());
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                remotePort = Integer.parseInt(tfTargetPort.getText());
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+            }
+               
+            if (legOSC.start(tfCommPort.getText(), localPort, tfTargetAddress.getText(), remotePort)) {
+                legOSCStarted = true;
+                btnStartStop.setText("Stop");
+                taLog.append("Server started! Ok to receive commands.\n");
+            }
         }
         
     }//GEN-LAST:event_btnStartStopMousePressed
-
+    public void error(String error) {
+        System.err.println(error);
+        //taLog.append("Error: " + error + "\n");
+    }
+    public void message(String message) {
+        //taLog.append("Message: " + message + "\n");
+        System.err.println(message);
+    }
+    
     private void tfTargetAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTargetAddressActionPerformed
 // TODO add your handling code here:
     }//GEN-LAST:event_tfTargetAddressActionPerformed
@@ -127,8 +171,10 @@ public class LegOSCView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea taLog;
+    private javax.swing.JTextField tfCommPort;
     private javax.swing.JTextField tfLocalPort;
     private javax.swing.JTextField tfTargetAddress;
     private javax.swing.JTextField tfTargetPort;
