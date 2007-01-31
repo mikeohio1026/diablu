@@ -79,6 +79,8 @@ public class LegoNXT {
      */
     NXTButtonSensor buttonSensor;    
     
+    Object sensorPorts[];
+    
     /** Creates a new instance of LegoNXT */
     public LegoNXT(PApplet parent, String commPort) {
         this.parent = parent;
@@ -111,6 +113,8 @@ public class LegoNXT {
         motor[2] = new NXTMotor(brick, (byte)2);
         
         // make the sensors
+        sensorPorts = new Object[4];
+        
     }
    
         
@@ -150,12 +154,17 @@ public class LegoNXT {
         return motor[motorNumber].slowStop();
     }
     
-    public boolean getButtonState(int portNumber, boolean initialize) {
+    public boolean getButtonState(int portNumber) {
         
-        if (initialize) {
-            //buttonSensor
-        } 
-        
+        if (portNumber > sensorPorts.length-1) {
+            System.err.println("Port number too large!");
+            return false;
+        }
+        if(sensorPorts[portNumber] == null || !(sensorPorts[portNumber] instanceof NXTButtonSensor)) {
+            sensorPorts[portNumber] = new NXTButtonSensor(brick, (byte)portNumber);
+            ((NXTButtonSensor)sensorPorts[portNumber]).initialize();
+        }
+        return ((NXTButtonSensor)sensorPorts[portNumber]).isButtonPressed();        
     }
             
     public void dispose() {
