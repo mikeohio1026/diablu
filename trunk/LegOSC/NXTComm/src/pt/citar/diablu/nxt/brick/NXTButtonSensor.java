@@ -60,17 +60,20 @@ public class NXTButtonSensor {
     public NXTButtonSensor(NXTBrick brick, byte portAttached) {
         this.brick = brick;
         this.portAttached = portAttached;
+        initialize();        
+    }
+
+    public void initialize() {
         
-        NXTCommandSetInputMode inputMode = new NXTCommandSetInputMode(portAttached, 
+        NXTCommandSetInputMode inputMode = new NXTCommandSetInputMode(this.portAttached, 
                 NXTResponseInputValues.SWITCH_TYPE, 
                 NXTResponseInputValues.BOOLEAN_MODE);
         try {
-            brick.getChannel().sendCommand(inputMode);
+            this.brick.getChannel().sendCommand(inputMode);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        getInputValues = new NXTCommandGetInputValues(portAttached);
-        
+        getInputValues = new NXTCommandGetInputValues(this.portAttached);        
     }
     
     public int getValue() {
