@@ -1,0 +1,15 @@
+#N canvas 0 0 454 304 12;
+#X obj 81 50 OSC;
+#X floatatom 302 86 5 0 0 0 - - -;
+#X obj 166 119 sendOSC;
+#X msg 295 133 disconnect;
+#X obj 169 172 print;
+#X msg 242 179;
+#X obj 295 196 print;
+#X msg 219 62 send /motorForward 0 30;
+#X msg 211 26 connect crpfa117a 10000;
+#X connect 2 0 4 0;
+#X connect 2 1 6 0;
+#X connect 3 0 2 0;
+#X connect 7 0 2 0;
+#X connect 8 0 2 0;
