@@ -107,7 +107,7 @@ public abstract class NXTCommand {
             os.flush();
 
             /* debug code */
-            System.out.println("*** Sent packet: " . toString());
+            //System.out.println("*** Sent packet: " . toString());
 
             /* Ask the subclass for the apropriate response */
             NXTResponse response = getResponse();

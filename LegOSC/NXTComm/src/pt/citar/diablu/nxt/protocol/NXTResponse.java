@@ -108,7 +108,7 @@ public abstract class NXTResponse {
         int lengthMSB = is.read();
         packetLength = (0xff & packetLength) | ((0xff & lengthMSB) << 8);
 
-        System.out.println(packetLength);
+       // System.out.println(packetLength);
     }
 
     /**
