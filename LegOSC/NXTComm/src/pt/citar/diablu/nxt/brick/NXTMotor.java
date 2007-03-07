@@ -35,7 +35,7 @@ import pt.citar.diablu.nxt.protocol.*;
  *
  * @author Jorge Cardoso
  */
-public class NXTMotor {
+public class NXTMotor extends NXTComponent {
     
     /**
      * The value of tacho limit that means forever.
@@ -43,24 +43,14 @@ public class NXTMotor {
     private static final int TACHO_LIMIT_FOREVER = 0;
     
     /**
-     * The NXT Brick.
-     */
-    private NXTBrick brick;
-    
-    /**
      * The command used to control the motor.
      */
     private NXTCommandSetOutputState outputState;
     
-    /**
-     * The port to which this motor is connected. (0 - 2)
-     */
-    private byte portAttached;
     
     /** Creates a new instance of NXTMotor */
     public NXTMotor(NXTBrick brick, byte portAttached) {
-        this.brick = brick;
-        this.portAttached = portAttached;
+        super(brick, portAttached);
         outputState = new NXTCommandSetOutputState(portAttached, (byte)30, 
                 (byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | NXTCommandSetOutputState.MODE_REGULATED),
                 NXTCommandSetOutputState.REGULATION_MODE_MOTOR_SPEED, 
@@ -102,6 +92,41 @@ public class NXTMotor {
         return true;
     }
     
+    public boolean forwardLimit(byte power, int tachoLimit) {
+        if (power > 100 || power < -100) {
+            System.out.println("Power must be between -100 and 100.");
+            return false;
+        }
+        try {
+            outputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | 
+                     NXTCommandSetOutputState.MODE_REGULATED));
+            
+            // make it ramp up
+            outputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RUNNING);
+            
+            // final speed
+            outputState.setPowerSetPoint((byte)1);
+            
+            // go forever
+            outputState.setTachoLimit(0);
+            
+            // send command
+            //System.out.println("Sending command");
+            brick.getChannel().sendCommand(outputState);
+            
+            // final speed
+            outputState.setPowerSetPoint(power);
+            
+            // go forever
+            outputState.setTachoLimit(tachoLimit);  
+            
+            brick.getChannel().sendCommand(outputState);            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return true;        
+    }
     /**
      * Stops the motor slowly.
      * 
@@ -127,7 +152,7 @@ public class NXTMotor {
     
     public boolean handBrake() {
           try {
-             /* must ensure that brakes aren't on */
+             
              outputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | NXTCommandSetOutputState.MODE_BRAKE | 
                      NXTCommandSetOutputState.MODE_REGULATED));
              
