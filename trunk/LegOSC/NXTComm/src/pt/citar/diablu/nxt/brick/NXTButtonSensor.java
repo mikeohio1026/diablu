@@ -35,18 +35,9 @@ import pt.citar.diablu.nxt.protocol.*;
  *
  * @author Jorge Cardoso
  */
-public class NXTButtonSensor {
+public class NXTButtonSensor extends NXTComponent {
     
-    
-    /**
-     * The NXT Brick.
-     */
-    private NXTBrick brick;    
-    /**
-     * The port to which this sensor is connected. (0 - 3)
-     */
-    private byte portAttached;    
-    
+   
     private NXTCommandGetInputValues getInputValues;
     private NXTResponseInputValues inputValues;
     
@@ -58,8 +49,7 @@ public class NXTButtonSensor {
      * @param portAttached The port to which the sensor is attached. (0 - 3).
      */
     public NXTButtonSensor(NXTBrick brick, byte portAttached) {
-        this.brick = brick;
-        this.portAttached = portAttached;
+        super(brick, portAttached);
         initialize();        
     }
 
