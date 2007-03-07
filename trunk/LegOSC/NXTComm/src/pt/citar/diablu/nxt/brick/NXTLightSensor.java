@@ -33,10 +33,10 @@ package pt.citar.diablu.nxt.brick;
  *
  * @author Jorge Cardoso
  */
-public class NXTLightSensor {
+public class NXTLightSensor extends NXTComponent {
     
-    /** Creates a new instance of NXTLightSensor */
     public NXTLightSensor() {
+        
     }
-    
+
 }
