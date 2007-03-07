@@ -138,6 +138,20 @@ public class LegoNXT {
         return motor[motorNumber].forward((byte)power);
     }
     
+    public boolean motorForwardLimit(int motorNumber, int power, int tachoLimit) {
+        if (motorNumber > 2) {
+            System.err.println("Motor number must be 0, 1 or 2.");
+            return false;
+        }
+        if (power > 100) {
+            power = 100;
+        } else if (power < -100) {
+            power = -100;
+        }
+        System.out.println("starting motor");
+        return motor[motorNumber].forwardLimit((byte)power, tachoLimit);        
+    }
+    
     public boolean motorHandBrake(int motorNumber) {
         if (motorNumber > 2) {
             System.err.println("Motor number must be 0, 1 or 2.");
@@ -162,11 +176,22 @@ public class LegoNXT {
         }
         if(sensorPorts[portNumber] == null || !(sensorPorts[portNumber] instanceof NXTButtonSensor)) {
             sensorPorts[portNumber] = new NXTButtonSensor(brick, (byte)portNumber);
-            ((NXTButtonSensor)sensorPorts[portNumber]).initialize();
         }
         return ((NXTButtonSensor)sensorPorts[portNumber]).isButtonPressed();        
     }
             
+    
+    public int getDB(int portNumber) {
+        if (portNumber > sensorPorts.length-1) {
+            System.err.println("Port number too large!");
+            return -1;
+        }
+        if(sensorPorts[portNumber] == null || !(sensorPorts[portNumber] instanceof NXTSoundSensor)) {
+            sensorPorts[portNumber] = new NXTSoundSensor(brick, (byte)portNumber);
+        }
+        return ((NXTSoundSensor)sensorPorts[portNumber]).getDB();              
+    }
+    
     public void dispose() {
         try {            
             btChannel.closeChannel();
