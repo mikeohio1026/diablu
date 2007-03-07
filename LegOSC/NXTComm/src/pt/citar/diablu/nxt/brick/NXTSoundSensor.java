@@ -29,14 +29,44 @@
 
 package pt.citar.diablu.nxt.brick;
 
+import pt.citar.diablu.nxt.protocol.*;
+import java.io.IOException;
+
+
 /**
  *
  * @author Jorge Cardoso
  */
-public class NXTSoundSensor {
+public class NXTSoundSensor extends NXTComponent {
     
-    /** Creates a new instance of NXTSoundSensor */
-    public NXTSoundSensor() {
+    private NXTCommandGetInputValues getInputValues;
+    private NXTResponseInputValues inputValues;
+    
+    public NXTSoundSensor(NXTBrick brick, byte portAttached) {
+        super(brick, portAttached);
+        initialize();
     }
     
+    public void initialize() {
+        
+        NXTCommandSetInputMode inputMode = new NXTCommandSetInputMode(this.portAttached, 
+                NXTResponseInputValues.SOUND_DB_TYPE, 
+                NXTResponseInputValues.PCT_FULL_SCALE_MODE);
+        try {
+            this.brick.getChannel().sendCommand(inputMode);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        getInputValues = new NXTCommandGetInputValues(this.portAttached);        
+    }    
+    
+    public int getDB() {
+        try {
+            inputValues = (NXTResponseInputValues)brick.getChannel().sendCommand(getInputValues);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+        return inputValues.getScaledValue();        
+    }
 }
