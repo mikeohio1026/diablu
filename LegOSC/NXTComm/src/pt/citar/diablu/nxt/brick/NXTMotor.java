@@ -99,7 +99,7 @@ public class NXTMotor extends NXTComponent {
         }
         try {
             outputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | 
-                     NXTCommandSetOutputState.MODE_REGULATED));
+                     NXTCommandSetOutputState.MODE_BRAKE));
             
             // make it ramp up
             outputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RUNNING);
