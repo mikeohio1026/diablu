@@ -59,6 +59,11 @@ public abstract class NXTCommand {
      * Command type position in message frame.
      */
     protected static final int COMMAND_TYPE_INDEX = 0;
+    
+    /**
+     * Command ID index on buffer.
+     */
+    protected static final int COMMAND_ID_INDEX = 1;
 
     /**
      * Indicates if a response to this command is required.
