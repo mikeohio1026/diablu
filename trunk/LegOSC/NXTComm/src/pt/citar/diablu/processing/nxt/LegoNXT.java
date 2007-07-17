@@ -48,9 +48,12 @@ public class LegoNXT {
     public static final int MOTOR_B = 1;
     public static final int MOTOR_C = 2;
     
+    public static final int ACTIVE = NXTLightSensor.ACTIVE;
+    public static final int INACTIVE = NXTLightSensor.INACTIVE;
+    
     /**
      *  TODO: Don't know if this will be necessary yet...
-     * The parent PApplet. 
+     * The parent PApplet.
      */
     private PApplet parent;
     
@@ -77,12 +80,25 @@ public class LegoNXT {
     /**
      * The button sensor.
      */
-    NXTButtonSensor buttonSensor;    
+    NXTButtonSensor buttonSensor;
+    
+    /**
+     * The light sensor.
+     */
+    NXTLightSensor lightSensor;
+    
+    /**
+     * The proximity sensor
+     */
+    NXTProximitySensor proximitySensor;
     
     Object sensorPorts[];
     
     /** Creates a new instance of LegoNXT */
     public LegoNXT(PApplet parent, String commPort) {
+        
+        
+        
         this.parent = parent;
         
         /* register calls */
@@ -92,20 +108,20 @@ public class LegoNXT {
             btChannel = new NXTCommBluetoothSerialChannel(commPort);
         } catch (IOException ex) {
             ex.printStackTrace();
-  
+            
         } catch (PortInUseException ex) {
             ex.printStackTrace();
-
+            
         } catch (NoSuchPortException ex) {
             ex.printStackTrace();
-
+            
         } catch (UnsupportedCommOperationException ex) {
             ex.printStackTrace();
         }
         
-         // make the brick
+        // make the brick
         brick = new NXTBrick(btChannel);
-                 
+        
         // make the motors
         motor = new NXTMotor[3];
         motor[0] = new NXTMotor(brick, (byte)0);
@@ -116,8 +132,8 @@ public class LegoNXT {
         sensorPorts = new Object[4];
         
     }
-   
-        
+    
+    
     
     public boolean playTone(int frequency, int duration) {
         return speaker.playTone(frequency, duration);
@@ -149,7 +165,7 @@ public class LegoNXT {
             power = -100;
         }
         System.out.println("starting motor");
-        return motor[motorNumber].forwardLimit((byte)power, tachoLimit);        
+        return motor[motorNumber].forwardLimit((byte)power, tachoLimit);
     }
     
     public boolean motorHandBrake(int motorNumber) {
@@ -157,7 +173,7 @@ public class LegoNXT {
             System.err.println("Motor number must be 0, 1 or 2.");
             return false;
         }
-        return motor[motorNumber].handBrake();        
+        return motor[motorNumber].handBrake();
     }
     
     public boolean motorStop(int motorNumber) {
@@ -171,29 +187,80 @@ public class LegoNXT {
     public boolean getButtonState(int portNumber) {
         
         if (portNumber > sensorPorts.length-1) {
-            System.err.println("Port number too large!");
+            System.err.println("Port number too large: " + portNumber + "!");
             return false;
         }
+        /* Check if the correct sensor instance is associated with the requester port. If it
+            is not, than create the correct sensor
+         */
         if(sensorPorts[portNumber] == null || !(sensorPorts[portNumber] instanceof NXTButtonSensor)) {
             sensorPorts[portNumber] = new NXTButtonSensor(brick, (byte)portNumber);
         }
-        return ((NXTButtonSensor)sensorPorts[portNumber]).isButtonPressed();        
+        return ((NXTButtonSensor)sensorPorts[portNumber]).isButtonPressed();
     }
-            
+    
     
     public int getDB(int portNumber) {
         if (portNumber > sensorPorts.length-1) {
-            System.err.println("Port number too large!");
+            System.err.println("Port number too large: " + portNumber + "!");
             return -1;
         }
         if(sensorPorts[portNumber] == null || !(sensorPorts[portNumber] instanceof NXTSoundSensor)) {
             sensorPorts[portNumber] = new NXTSoundSensor(brick, (byte)portNumber);
         }
-        return ((NXTSoundSensor)sensorPorts[portNumber]).getDB();              
+        return ((NXTSoundSensor)sensorPorts[portNumber]).getDB();
+    }
+    
+    /**
+     * Returns the light level from the light sensor attached to the specified port.
+     * @param portNumber The port number (0, 1, 2 or 3) to which the sensor is attached.
+     * @return The light level (0..100).
+     */
+    public int getLight(int portNumber) {
+        if (portNumber > sensorPorts.length-1) {
+            System.err.println("Port number too large: " + portNumber + "!");
+            return -1;
+        }
+        if(sensorPorts[portNumber] == null || !(sensorPorts[portNumber] instanceof NXTLightSensor)) {
+            sensorPorts[portNumber] = new NXTLightSensor(brick, (byte)portNumber);
+        }
+        return ((NXTLightSensor)sensorPorts[portNumber]).getValue();
+    }
+    
+    public void setLightSensorType(int type, int portNumber) {
+        if (portNumber > sensorPorts.length-1) {
+            System.err.println("Port number too large: " + portNumber + "!");
+            return;
+        }
+        if (type != ACTIVE && type != INACTIVE) {
+            System.err.println("Wrong sensor type. Must be ACTIVE or INACTIVE");
+            return;
+        }
+        if(sensorPorts[portNumber] == null || !(sensorPorts[portNumber] instanceof NXTLightSensor)) {
+            sensorPorts[portNumber] = new NXTLightSensor(brick, (byte)portNumber);
+        }
+        
+        ((NXTLightSensor)sensorPorts[portNumber]).setType(type);
+    }
+    
+    /**
+     * Returns the proximity to an obstacle, measured by the ultrasonic sensor.
+     * @param portNumber  The port number (0, 1, 2 or 3) to which the sensor is attached.
+     * @return The distance measured.
+     */
+    public int getDistance(int portNumber) {
+        if (portNumber > sensorPorts.length-1) {
+            System.err.println("Port number too large: " + portNumber + "!");
+            return -1;
+        }
+        if(sensorPorts[portNumber] == null || !(sensorPorts[portNumber] instanceof NXTProximitySensor)) {
+            sensorPorts[portNumber] = new NXTProximitySensor(brick, (byte)portNumber);
+        }
+        return ((NXTProximitySensor)sensorPorts[portNumber]).getDistance();
     }
     
     public void dispose() {
-        try {            
+        try {
             btChannel.closeChannel();
         } catch (IOException ex) {
             ex.printStackTrace();
