@@ -26,7 +26,16 @@ import pt.citar.diablu.nxt.protocol.*;
  *
  * @author Jorge Cardoso
  */
-public class LegOSC implements OSCListener {
+public class LegOSC implements OSCListener, Runnable {
+    
+    /**
+     * The sensor types used for the mapping between port and sensor type.
+     */
+    public enum SensorType { NONE, SOUND, LIGHT, ULTRASONIC, PRESSURE};
+    
+    /**
+     * The OSC server.
+     */
     OSCServer oscServer;
     
     InetSocketAddress remoteSocketAddress;
@@ -52,6 +61,23 @@ public class LegOSC implements OSCListener {
     NXTButtonSensor buttonSensor;
     
     LegOSCObserver observer;
+    
+    
+    /**
+     * Determines if LegOSC will poll the NXT for sensor readings periodically.
+     */
+    private boolean poll = false;
+    
+    /**
+     * Flag to stop the thread.
+     */
+    private boolean running = false;
+    
+    /**
+     * The mapping port->sensor type. Used to determine the type of sensor when
+     * automatically polling sensor readings.
+     */
+    private SensorType[] sensorMap = {SensorType.NONE, SensorType.NONE,SensorType.NONE,SensorType.NONE};
     
     /** Creates a new instance of Main */
     public LegOSC() {
@@ -108,6 +134,13 @@ public class LegOSC implements OSCListener {
         }
         
         this.remoteSocketAddress = new InetSocketAddress(remoteHostname, remotPort);
+        
+        // See if we need to poll for sensor readings
+        if (poll) {
+            running = true;
+            (new Thread(this)).start();
+        }
+        
         return true;
     }
     
@@ -122,12 +155,19 @@ public class LegOSC implements OSCListener {
             observer.message(msg);
         }
     }
+    private void notifyVerbose(String msg) {
+        if (observer != null) {
+            observer.verbose(msg);
+        }
+    }
     
     public void stop() {
-        notifyMessage("Stopping server.");
+        running = false;
+        notifyMessage("Stopping server...");
         if (btChannel != null) {
             try {
                 btChannel.closeChannel();
+                
             } catch (IOException ex) {
                 ex.printStackTrace();
                 notifyError("IOException occurred while initializing stopping BT Comm port: " + ex.getMessage());
@@ -140,6 +180,7 @@ public class LegOSC implements OSCListener {
             notifyError("IOException occurred while initializing stopping BT Comm port: " + ex.getMessage());
         }
         oscServer.dispose();
+        notifyMessage("Stopped");
     }
     
     public void messageReceived(OSCMessage msg, SocketAddress sender, long time) {
@@ -190,4 +231,107 @@ public class LegOSC implements OSCListener {
         return sb.toString();
     }
     
+    
+    
+    public void run() {
+        /* create the sensors based on the mapping */
+        Object port[] = new Object[4];
+        
+        for (byte i = 0; i < 4; i++) {
+            switch(sensorMap[i]) {
+                case NONE:
+                    port[i] = null;
+                    break;
+                case SOUND:
+                    port[i] = new NXTSoundSensor(brick, i);
+                    break;
+                case LIGHT:
+                    port[i] = new NXTLightSensor(brick, i);
+                    break;
+                case ULTRASONIC:
+                    port[i] = new NXTProximitySensor(brick, i);
+                    break;
+                case PRESSURE:
+                    port[i] = new NXTButtonSensor(brick, i);
+                    break;
+            }
+        }
+        
+        while(running) {
+            int reading;
+            OSCMessage msg;
+            for (byte i = 0; i < 4; i++) {
+                switch(sensorMap[i]) {
+                    case NONE:
+                        break;
+                    case SOUND:
+                        reading = ((NXTSoundSensor)port[i]).getDB();
+                        
+                        try {
+                            msg  = new OSCMessage("/soundLevel", new Object[] {i, reading});
+                            oscServer.send(msg, remoteSocketAddress);
+                            notifyVerbose(messageToString(msg));
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        break;
+                    case LIGHT:
+                        reading = ((NXTLightSensor)port[i]).getValue();
+                        
+                        try {
+                            msg  = new OSCMessage("/lightState", new Object[] {i, reading});
+                            oscServer.send(msg, remoteSocketAddress);
+                            notifyVerbose(messageToString(msg));
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        
+                        break;
+                    case ULTRASONIC:
+                        reading = ((NXTProximitySensor)port[i]).getDistance();
+                        
+                        try {
+                            msg  = new OSCMessage("/proximityState", new Object[] {i, reading});
+                            oscServer.send(msg, remoteSocketAddress);
+                            notifyVerbose(messageToString(msg));
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        
+                        break;
+                    case PRESSURE:
+                        reading = ((NXTButtonSensor)port[i]).getValue();
+                        
+                        try {
+                            msg  = new OSCMessage("/buttonState", new Object[] {i, reading});
+                            oscServer.send(msg, remoteSocketAddress);
+                            notifyVerbose(messageToString(msg));
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        
+                        break;
+                }
+            }
+            
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    public void setPoll(boolean poll) {
+        this.poll = poll;
+    }
+    
+    
+    public void mapSensor(int port, SensorType type) {
+        if (port < 0 || port > 3) {
+            throw new IllegalArgumentException("Port number must be between 0 and 3.");
+        }
+        
+        sensorMap[port] = type;
+    }
 }
