@@ -7,6 +7,7 @@
 package pt.citar.diablu.legosc;
 
 import java.io.IOException;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -20,10 +21,18 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
     
     /** Creates new form NewJFrame */
     public LegOSCView() {
+        /* must be created before the components because component initialization
+         uses this object */
+        legOSC = new LegOSC();
+        
         initComponents();
         
+        /* Set the Sensor Configuration pane to be enabled or disable
+            according to the state of the check box*/
+        enableSensorConfigurationPane();
+        
         legOSCStarted = false;
-        legOSC = new LegOSC();
+        
         legOSC.registerObserver(this);
     }
     
@@ -34,15 +43,30 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        tfLocalPort = new javax.swing.JTextField();
+        tpPanel = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        tfLocalPort = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         tfTargetAddress = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         tfTargetPort = new javax.swing.JTextField();
-        btnStartStop = new javax.swing.JButton();
-        tfCommPort = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        tfCommPort = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        cbAutoSensor = new javax.swing.JCheckBox();
+        pSensorConfiguration = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jComboBox2 = new javax.swing.JComboBox();
+        jComboBox4 = new javax.swing.JComboBox();
+        jComboBox5 = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        btnStartStop = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        taLog = new javax.swing.JTextArea();
 
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -53,30 +77,186 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
             }
         });
 
+        tpPanel.setName("teste");
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("LegOSC Port:");
+        jLabel1.setToolTipText("");
+
         tfLocalPort.setText("10000");
-        tfLocalPort.setToolTipText("The port on which LegOSC is listening for OSC commands.");
-        getContentPane().add(tfLocalPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 50, -1));
+        tfLocalPort.setToolTipText("LegOSC will listen for OSC messages on this port. Send messages to this port from your app.");
 
-        jLabel1.setText("Local Port:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
-
-        jLabel2.setText("Target Address:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("Hostname:");
 
         tfTargetAddress.setText("localhost");
+        tfTargetAddress.setToolTipText("The name or IP of the computer on which your application is running.");
         tfTargetAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfTargetAddressActionPerformed(evt);
             }
         });
 
-        getContentPane().add(tfTargetAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 120, -1));
-
-        jLabel3.setText("Target Port:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, -1, -1));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Port:");
 
         tfTargetPort.setText("20000");
-        getContentPane().add(tfTargetPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 50, -1, -1));
+        tfTargetPort.setToolTipText("The port number your application is listening to.");
+
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Brick COM Port:");
+
+        tfCommPort.setText("COM16");
+        tfCommPort.setToolTipText("The COM port you connected the NXT Brick to.");
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Your application address:");
+
+        cbAutoSensor.setText("Automatically send sensor readings");
+        cbAutoSensor.setToolTipText("If checked, LegOSC will automatically send OSC messages to your application. Configure the sensors in the Sensor Configuration Tab.");
+        cbAutoSensor.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        cbAutoSensor.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        cbAutoSensor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAutoSensorActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(39, 39, 39)
+                        .add(cbAutoSensor))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(jLabel1)
+                            .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 78, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel4))
+                        .add(16, 16, 16)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(tfTargetAddress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(19, 19, 19)
+                                .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 59, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(tfTargetPort, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 63, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(tfLocalPort, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(tfCommPort, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(163, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .add(11, 11, 11)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel1)
+                    .add(tfLocalPort, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(27, 27, 27)
+                .add(jLabel4)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tfTargetAddress, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tfTargetPort, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(41, 41, 41)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tfCommPort, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 33, Short.MAX_VALUE)
+                .add(cbAutoSensor)
+                .add(28, 28, 28))
+        );
+        tpPanel.addTab("Conection", jPanel1);
+
+        jLabel6.setText("Port 1:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sound Sensor", "Light Sensor", "Ultrasonic", "Button", "None" }));
+        jComboBox1.setSelectedIndex(4);
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sound Sensor", "Light Sensor", "Ultrasonic", "Button", "None" }));
+        jComboBox2.setSelectedIndex(4);
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sound Sensor", "Light Sensor", "Ultrasonic", "Button", "None" }));
+        jComboBox4.setSelectedIndex(4);
+        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox4ActionPerformed(evt);
+            }
+        });
+
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sound Sensor", "Light Sensor", "Ultrasonic", "Button", "None" }));
+        jComboBox5.setSelectedIndex(4);
+        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox5ActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Port 4:");
+
+        jLabel8.setText("Port 3:");
+
+        jLabel9.setText("Port 2:");
+
+        org.jdesktop.layout.GroupLayout pSensorConfigurationLayout = new org.jdesktop.layout.GroupLayout(pSensorConfiguration);
+        pSensorConfiguration.setLayout(pSensorConfigurationLayout);
+        pSensorConfigurationLayout.setHorizontalGroup(
+            pSensorConfigurationLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pSensorConfigurationLayout.createSequentialGroup()
+                .add(23, 23, 23)
+                .add(pSensorConfigurationLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jLabel9)
+                    .add(jLabel6)
+                    .add(jLabel8)
+                    .add(jLabel7))
+                .add(60, 60, 60)
+                .add(pSensorConfigurationLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jComboBox4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jComboBox5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(367, Short.MAX_VALUE))
+        );
+        pSensorConfigurationLayout.setVerticalGroup(
+            pSensorConfigurationLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pSensorConfigurationLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(pSensorConfigurationLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel6)
+                    .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(22, 22, 22)
+                .add(pSensorConfigurationLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel9))
+                .add(30, 30, 30)
+                .add(pSensorConfigurationLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jComboBox5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel8))
+                .add(29, 29, 29)
+                .add(pSensorConfigurationLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jComboBox4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel7))
+                .addContainerGap(55, Short.MAX_VALUE))
+        );
+        tpPanel.addTab("Sensor Configuration", pSensorConfiguration);
+
+        getContentPane().add(tpPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 260));
 
         btnStartStop.setText("Start");
         btnStartStop.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -85,21 +265,61 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
             }
         });
 
-        getContentPane().add(btnStartStop, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, -1, -1));
+        getContentPane().add(btnStartStop, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, 140, 70));
 
-        tfCommPort.setText("COM16");
-        getContentPane().add(tfCommPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 50, -1));
+        taLog.setColumns(20);
+        taLog.setRows(5);
+        jScrollPane1.setViewportView(taLog);
 
-        jLabel5.setText("Brick Com Port");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 460, 120));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
+        mapSensor(jComboBox4, 3);
+    }//GEN-LAST:event_jComboBox4ActionPerformed
+    
+    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
+        mapSensor(jComboBox5, 2);
+    }//GEN-LAST:event_jComboBox5ActionPerformed
+    
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        mapSensor(jComboBox2, 1);
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+    
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        mapSensor(jComboBox1, 0);
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+    
+    private void mapSensor(JComboBox combo, int port) {
+        if (combo.getSelectedItem().toString().equalsIgnoreCase("none")) {
+            legOSC.mapSensor(port, LegOSC.SensorType.NONE);
+        } else if (combo.getSelectedItem().toString().equalsIgnoreCase("sound sensor")) {
+            legOSC.mapSensor(port, LegOSC.SensorType.SOUND);
+        } else if (combo.getSelectedItem().toString().equalsIgnoreCase("light sensor")) {
+            legOSC.mapSensor(port, LegOSC.SensorType.LIGHT);
+        } else if (combo.getSelectedItem().toString().equalsIgnoreCase("ultrasonic")) {
+            legOSC.mapSensor(port, LegOSC.SensorType.ULTRASONIC);
+        } else if (combo.getSelectedItem().toString().equalsIgnoreCase("button sensor")) {
+            legOSC.mapSensor(port, LegOSC.SensorType.PRESSURE);
+        }
+    }
+    
+    private void cbAutoSensorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAutoSensorActionPerformed
+        enableSensorConfigurationPane();
+    }//GEN-LAST:event_cbAutoSensorActionPerformed
+    
+    private void enableSensorConfigurationPane() {
+        
+        tpPanel.setEnabledAt(1, cbAutoSensor.isSelected());
+        legOSC.setPoll(cbAutoSensor.isSelected());
+    }
+    
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        legOSC.stop(); 
+        legOSC.stop();
     }//GEN-LAST:event_formWindowClosed
-
+    
     private void btnStartStopMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStartStopMousePressed
         // TODO add your handling code here:
         if (legOSCStarted) {
@@ -107,10 +327,10 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
             legOSCStarted = false;
             btnStartStop.setText("Start");
             
-        } else {            
+        } else {
             int localPort = 10000;
             int remotePort = 20000;
-            try {                
+            try {
                 localPort = Integer.parseInt(tfLocalPort.getText());
             } catch (NumberFormatException ex) {
                 ex.printStackTrace();
@@ -120,7 +340,7 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
             } catch (NumberFormatException ex) {
                 ex.printStackTrace();
             }
-               
+            
             if (legOSC.start(tfCommPort.getText(), localPort, tfTargetAddress.getText(), remotePort)) {
                 legOSCStarted = true;
                 btnStartStop.setText("Stop");
@@ -130,11 +350,19 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
         
     }//GEN-LAST:event_btnStartStopMousePressed
     public void error(String error) {
+        taLog.insert(error+"\n", 0);
+        
         System.err.println(error);
         //taLog.append("Error: " + error + "\n");
     }
     public void message(String message) {
         //taLog.append("Message: " + message + "\n");
+        taLog.insert(message+"\n", 0);
+        System.err.println(message);
+    }
+    
+    public void verbose(String message) {
+        taLog.insert(message+"\n", 0);
         System.err.println(message);
     }
     
@@ -153,16 +381,33 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
         });
     }
     
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnStartStop;
+    private javax.swing.JCheckBox cbAutoSensor;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox jComboBox4;
+    private javax.swing.JComboBox jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel pSensorConfiguration;
+    private javax.swing.JTextArea taLog;
     private javax.swing.JTextField tfCommPort;
     private javax.swing.JTextField tfLocalPort;
     private javax.swing.JTextField tfTargetAddress;
     private javax.swing.JTextField tfTargetPort;
+    private javax.swing.JTabbedPane tpPanel;
     // End of variables declaration//GEN-END:variables
     
 }
