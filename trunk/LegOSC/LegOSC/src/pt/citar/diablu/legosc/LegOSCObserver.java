@@ -17,5 +17,5 @@ public interface LegOSCObserver {
     
     public void error(String error);
     public void message(String message);
-    
+    public void verbose(String message);
 }
