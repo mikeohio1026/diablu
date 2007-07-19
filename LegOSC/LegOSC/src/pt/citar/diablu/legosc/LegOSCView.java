@@ -504,6 +504,10 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
     }
     
     public void notifyStart() {
+        /* Make sure the server gets the config even if no changed were made before. */
+        notifyConfigurationChanged();
+        notifySensorMap();
+        
         for (LegOSCViewObserver observer : observers) {
             observer.startStop();
         }
