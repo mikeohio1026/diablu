@@ -3,7 +3,7 @@
  *
  * Created on 19 de Julho de 2007, 13:28
  *
- *  NXTComm: A java library to control the NXT Brick.
+ *  LegOSC: An OSC gateway to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
