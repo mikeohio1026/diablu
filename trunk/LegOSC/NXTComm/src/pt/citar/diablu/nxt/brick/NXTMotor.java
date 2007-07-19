@@ -71,7 +71,7 @@ public class NXTMotor extends NXTComponent {
         }
         try {
             outputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | 
-                     NXTCommandSetOutputState.MODE_REGULATED));
+                    NXTCommandSetOutputState.MODE_REGULATED));
             
             // make it ramp up
             outputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RUNNING);
@@ -99,7 +99,8 @@ public class NXTMotor extends NXTComponent {
         }
         try {
             outputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | 
-                     NXTCommandSetOutputState.MODE_BRAKE));
+                     NXTCommandSetOutputState.MODE_BRAKE |
+                    NXTCommandSetOutputState.MODE_REGULATED));
             
             // make it ramp up
             outputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RUNNING);
@@ -127,6 +128,7 @@ public class NXTMotor extends NXTComponent {
         }
         return true;        
     }
+    
     /**
      * Stops the motor slowly.
      * 
@@ -141,6 +143,7 @@ public class NXTMotor extends NXTComponent {
              outputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RAMP_DOWN);
              
              outputState.setPowerSetPoint((byte)0);
+             
              /* TODO: See if we need to set a tacho limit.*/
              brick.getChannel().sendCommand(outputState);
         } catch (IOException ex) {
