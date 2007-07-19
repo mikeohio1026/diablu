@@ -1,34 +1,56 @@
-/**
- * oscP5message by andreas schlegel
- * example shows how to create osc messages.
- * oscP5 website at http://www.sojamo.de/oscP5
- */
-
 import oscP5.*;
 import netP5.*;
 
 OscP5 oscP5;
 NetAddress myRemoteLocation;
+PFont font;
+
+int lightLevel;
+int soundLevel;
+int buttonState;
+int proximityLevel;
+
 
 void setup() {
   size(400,400);
-  frameRate(25);
-  /* start oscP5, listening for incoming messages at port 12000 */
+  frameRate(15);
+
   oscP5 = new OscP5(this, 20000);
 
-  /* myRemoteLocation is a NetAddress. a NetAddress takes 2 parameters,
-   * an ip address and a port number. myRemoteLocation is used as parameter in
-   * oscP5.send() when sending osc packets to another computer, device, 
-   * application. usage see below. for testing purposes the listening port
-   * and the port of the remote location address are the same, hence you will
-   * send messages back to this sketch.
-   */
-  myRemoteLocation = new NetAddress("crpfa117a", 10000);
+  myRemoteLocation = new NetAddress("localhost", 10000);
+  
+  font = loadFont("ArialNarrow-24.vlw");
+  textFont(font);
 }
 
 
 void draw() {
   background(0);  
+  
+  textAlign(CENTER);
+  textMode(SCREEN);
+  
+  
+  
+  // draw light level;
+  fill(255);
+  rect(10, height, 60, -lightLevel*2);
+  text("Light: " + lightLevel, 40, height-lightLevel*2);
+  
+  // draw sound level;
+  fill(255, 0, 0);
+  rect( 90, height, 60, -soundLevel*2);
+  text("Sound: " + soundLevel, 120, height-soundLevel*2);
+  
+  // draw proximity
+  fill(0, 255, 0);
+  rect(170, height, 60, -proximityLevel*2);
+  text("Proximity: " + proximityLevel, 200, height-proximityLevel*2);
+  
+  // draw button state
+  fill(0, 0, 255);
+  rect(250, height, 60, -buttonState*200);
+  text("Button: " + buttonState, 280, height-buttonState*200);
 }
 
 void mousePressed() {
@@ -67,10 +89,20 @@ void keyPressed() {
 }
 
 
-/* incoming osc message are forwarded to the oscEvent method. */
-void oscEvent(OscMessage theOscMessage) {
-  /* print the address pattern and the typetag of the received OscMessage */
-  print("### received an osc message.");
-  print(" addrpattern: "+theOscMessage.addrPattern());
-  println(" typetag: "+theOscMessage.typetag());
+
+void oscEvent(OscMessage msg) {
+  if (msg.checkAddrPattern("/lightLevel")) {
+    lightLevel = msg.get(1).intValue();
+     println("Light Level: " + lightLevel);
+    
+  } else if (msg.checkAddrPattern("/soundLevel")) {
+    soundLevel = msg.get(1).intValue();
+     println("Sound Level: " + soundLevel);
+  }  else if (msg.checkAddrPattern("/proximityLevel")) {
+    proximityLevel = msg.get(1).intValue();
+     println("Proximity Level: " + proximityLevel);
+  }  else if (msg.checkAddrPattern("/buttonState")) {
+    buttonState = msg.get(1).intValue();
+     println("Button State: " + buttonState);
+  }
 }
