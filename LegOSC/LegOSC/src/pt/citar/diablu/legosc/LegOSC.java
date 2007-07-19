@@ -81,12 +81,28 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
      */
     NXTButtonSensor buttonSensor;
     
+    /**
+     * The Light sensor.
+     */
+    NXTLightSensor lightSensor;
     
+    /**
+     * The proximity sensor.
+     */
+    NXTProximitySensor proximitySensor;
+    
+    /**
+     * The Sound sensor.
+     */
+    NXTSoundSensor soundSensor;
+    
+    /* Our observer (the View) */
     LegOSCObserver observer;
     
     boolean legOSCStarted = false;
     
     
+    /* Communication config */
     int legOSCPort;
     String appHostname;
     int appPort;
@@ -120,10 +136,11 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
     
     public boolean start() {
         String result = null;
-        System.out.println("Starting server at port " + this.legOSCPort);
+        notifyMessage("Starting server...");
         
         /* open bt channel */
         try {
+            notifyMessage("Opening " + this.brickCOM + " port.");
             btChannel = new NXTCommBluetoothSerialChannel(this.brickCOM);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -170,7 +187,10 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
             running = true;
             (new Thread(this)).start();
         }
-        
+        notifyMessage("OSC Server running and listening on  " + oscServer.getLocalAddress().getHostName()+ ":" + this.legOSCPort + 
+                "\nSend OSC messages to this port. ");
+        notifyMessage("LegOSC will try to send messages to " + this.appHostname + ":" + this.appPort + 
+                "\nMake sure your application is listening.");
         return true;
     }
     
@@ -243,13 +263,59 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
             int value = buttonSensor.getValue();
             try {
                 
-                oscServer.send(new OSCMessage("/buttonState", new Object[] {value}), remoteSocketAddress);
+                oscServer.send(new OSCMessage("/buttonState", new Object[] {portNumber, value}), remoteSocketAddress);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
             //c.send( new OSCMessage( "/done", new Object[] { m.getName() }), addr );
-            notifyMessage("Sensor: " + value);
-        }
+            notifyMessage("Button Sensor: " + value);
+        } else if(msg.getName().equals( "/getLightLevel" )) {
+            int portNumber;
+            portNumber = ((Number) msg.getArg(0)).intValue();
+            if (lightSensor == null) {
+                lightSensor = new NXTLightSensor(brick, (byte)portNumber);
+            }
+            int value = lightSensor.getValue();
+            try {
+                
+                oscServer.send(new OSCMessage("/lightLevel", new Object[] {portNumber, value}), remoteSocketAddress);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            //c.send( new OSCMessage( "/done", new Object[] { m.getName() }), addr );
+            notifyMessage("Light Sensor: " + value);
+        } else if(msg.getName().equals( "/getSoundLevel" )) {
+            int portNumber;
+            portNumber = ((Number) msg.getArg(0)).intValue();
+            if (soundSensor == null) {
+                soundSensor = new NXTSoundSensor(brick, (byte)portNumber);
+            }
+            int value = soundSensor.getDB();
+            try {
+                
+                oscServer.send(new OSCMessage("/soundLevel", new Object[] {portNumber, value}), remoteSocketAddress);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            //c.send( new OSCMessage( "/done", new Object[] { m.getName() }), addr );
+            notifyMessage("Sound Sensor: " + value);
+        } else if(msg.getName().equals( "/getProximityLevel" )) {
+            int portNumber;
+            portNumber = ((Number) msg.getArg(0)).intValue();
+            if (proximitySensor == null) {
+                proximitySensor = new NXTProximitySensor(brick, (byte)portNumber);
+            }
+            int value = proximitySensor.getDistance();
+            try {
+                
+                oscServer.send(new OSCMessage("/proximityLevel", new Object[] {portNumber, value}), remoteSocketAddress);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            //c.send( new OSCMessage( "/done", new Object[] { m.getName() }), addr );
+            notifyMessage("Proximity Sensor: " + value);
+        } 
+        
     }
     
     private String messageToString(OSCMessage msg) {
