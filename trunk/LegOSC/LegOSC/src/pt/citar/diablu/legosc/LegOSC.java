@@ -26,13 +26,14 @@ import pt.citar.diablu.nxt.protocol.*;
  *
  * @author Jorge Cardoso
  */
-public class LegOSC implements OSCListener, Runnable {
+public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
     
     /**
      * The sensor types used for the mapping between port and sensor type.
      */
-    public enum SensorType { NONE, SOUND, LIGHT, ULTRASONIC, PRESSURE};
-    
+    public enum SensorType {NONE, SOUND, LIGHT, ULTRASONIC, PRESSURE};
+        
+            
     /**
      * The OSC server.
      */
@@ -60,8 +61,16 @@ public class LegOSC implements OSCListener, Runnable {
      */
     NXTButtonSensor buttonSensor;
     
+    
     LegOSCObserver observer;
     
+    boolean legOSCStarted = false;
+    
+    
+    int legOSCPort;
+    String appHostname;
+    int appPort;
+    String brickCOM;
     
     /**
      * Determines if LegOSC will poll the NXT for sensor readings periodically.
@@ -82,19 +91,20 @@ public class LegOSC implements OSCListener, Runnable {
     /** Creates a new instance of Main */
     public LegOSC() {
         btChannel = null;
+       
     }
     
     public void registerObserver(LegOSCObserver ob) {
         this.observer = ob;
     }
     
-    public boolean start(String legoCommPort, int localPort, String remoteHostname, int remotPort) {
+    public boolean start() {
         String result = null;
-        System.out.println("Starting server at port " + localPort);
+        System.out.println("Starting server at port " + this.legOSCPort);
         
         /* open bt channel */
         try {
-            btChannel = new NXTCommBluetoothSerialChannel(legoCommPort);
+            btChannel = new NXTCommBluetoothSerialChannel(this.brickCOM);
         } catch (IOException ex) {
             ex.printStackTrace();
             notifyError("IOException occurred while initializing BT Comm port: " + ex.getMessage());
@@ -124,7 +134,7 @@ public class LegOSC implements OSCListener, Runnable {
         
         /* start the OSC server */
         try {
-            oscServer = OSCServer.newUsing(OSCServer.UDP, localPort, false);
+            oscServer = OSCServer.newUsing(OSCServer.UDP, this.legOSCPort, false);
             oscServer.addOSCListener(this);
             oscServer.start();
         }catch (IOException ioe) {
@@ -133,7 +143,7 @@ public class LegOSC implements OSCListener, Runnable {
             return false;
         }
         
-        this.remoteSocketAddress = new InetSocketAddress(remoteHostname, remotPort);
+        this.remoteSocketAddress = new InetSocketAddress(this.appHostname, this.appPort);
         
         // See if we need to poll for sensor readings
         if (poll) {
@@ -268,9 +278,9 @@ public class LegOSC implements OSCListener, Runnable {
                         reading = ((NXTSoundSensor)port[i]).getDB();
                         
                         try {
-                            msg  = new OSCMessage("/soundLevel", new Object[] {i, reading});
+                            msg  = new OSCMessage("/soundLevel", new Object[] {(int)i, reading});
                             oscServer.send(msg, remoteSocketAddress);
-                            notifyVerbose(messageToString(msg));
+                            //notifyVerbose(messageToString(msg));
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -279,9 +289,9 @@ public class LegOSC implements OSCListener, Runnable {
                         reading = ((NXTLightSensor)port[i]).getValue();
                         
                         try {
-                            msg  = new OSCMessage("/lightState", new Object[] {i, reading});
+                            msg  = new OSCMessage("/lightLevel", new Object[] {(int)i, reading});
                             oscServer.send(msg, remoteSocketAddress);
-                            notifyVerbose(messageToString(msg));
+                            //notifyVerbose(messageToString(msg));
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -291,9 +301,9 @@ public class LegOSC implements OSCListener, Runnable {
                         reading = ((NXTProximitySensor)port[i]).getDistance();
                         
                         try {
-                            msg  = new OSCMessage("/proximityState", new Object[] {i, reading});
+                            msg  = new OSCMessage("/proximityLevel", new Object[] {(int)i, reading});
                             oscServer.send(msg, remoteSocketAddress);
-                            notifyVerbose(messageToString(msg));
+                            //notifyVerbose(messageToString(msg));
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -303,9 +313,9 @@ public class LegOSC implements OSCListener, Runnable {
                         reading = ((NXTButtonSensor)port[i]).getValue();
                         
                         try {
-                            msg  = new OSCMessage("/buttonState", new Object[] {i, reading});
+                            msg  = new OSCMessage("/buttonState", new Object[] {(int)i, reading});
                             oscServer.send(msg, remoteSocketAddress);
-                            notifyVerbose(messageToString(msg));
+                            //notifyVerbose(messageToString(msg));
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -333,5 +343,56 @@ public class LegOSC implements OSCListener, Runnable {
         }
         
         sensorMap[port] = type;
+    }
+    
+    public void configChanged(String legOSCPort, String appHostname, String appPort, String brickCOM, boolean autoSensor) {
+        this.legOSCPort = 10000;
+        try {
+            this.legOSCPort = Integer.parseInt(legOSCPort);
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+        }
+        
+        this.appHostname = appHostname;
+        this.appPort = 20000;
+        
+        try {
+            this.appPort = Integer.parseInt(appPort);
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+        }
+        this.brickCOM = brickCOM;
+        setPoll(autoSensor);
+    }
+    
+    public void sensorMapChanged(String[] sensorType) {
+        for (int i = 0; i < 4; i++) {
+
+            if (sensorType[i].equalsIgnoreCase("none")) {
+                this.mapSensor(i, LegOSC.SensorType.NONE);
+            } else if (sensorType[i].equalsIgnoreCase("sound sensor")) {
+                this.mapSensor(i, LegOSC.SensorType.SOUND);
+            } else if (sensorType[i].equalsIgnoreCase("light sensor")) {
+                this.mapSensor(i, LegOSC.SensorType.LIGHT);
+            } else if (sensorType[i].equalsIgnoreCase("ultrasonic")) {
+                this.mapSensor(i, LegOSC.SensorType.ULTRASONIC);
+            } else if (sensorType[i].equalsIgnoreCase("button")) {
+                this.mapSensor(i, LegOSC.SensorType.PRESSURE);
+            }
+        }
+    }
+    
+    public void startStop() {
+        if (legOSCStarted) {
+            this.stop();
+            legOSCStarted = false;
+            
+            
+        } else {
+            if (start()) {
+                legOSCStarted = true;
+            }
+        }
+        observer.start(legOSCStarted);
     }
 }
