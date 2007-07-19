@@ -405,6 +405,9 @@
             <Property name="editable" type="boolean" value="false"/>
             <Property name="rows" type="int" value="5"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="taLog.setAutoscrolls(true);"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
