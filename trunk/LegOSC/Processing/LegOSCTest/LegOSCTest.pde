@@ -17,7 +17,7 @@ void setup() {
 
   oscP5 = new OscP5(this, 20000);
 
-  myRemoteLocation = new NetAddress("localhost", 10000);
+  myRemoteLocation = new NetAddress("crpfa117l.ucpcrp.pt", 10000);
   
   font = loadFont("ArialNarrow-24.vlw");
   textFont(font);
