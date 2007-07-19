@@ -371,6 +371,7 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
         taLog.setColumns(20);
         taLog.setEditable(false);
         taLog.setRows(5);
+        taLog.setAutoscrolls(true);
         jScrollPane1.setViewportView(taLog);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 580, 130));
@@ -472,21 +473,24 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
         
     }//GEN-LAST:event_btnStartStopMousePressed
     public void error(String error) {
-        taLog.insert(error+"\n", 0);
+        taLog.append(error+"\n");
         
         System.err.println(error);
         //taLog.append("Error: " + error + "\n");
     }
     public void message(String message) {
         //taLog.append("Message: " + message + "\n");
-        taLog.insert(message+"\n", 0);
+        taLog.append(message+"\n");
         System.err.println(message);
+        
     }
     
     public void verbose(String message) {
-        taLog.insert(message+"\n", 0);
+        taLog.append(message+"\n");
         System.err.println(message);
     }
+    
+ 
     
     private void tfTargetAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTargetAddressActionPerformed
         notifyConfigurationChanged();
