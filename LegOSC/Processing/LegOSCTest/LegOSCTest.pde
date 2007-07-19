@@ -54,39 +54,32 @@ void draw() {
 }
 
 void mousePressed() {
-  OscMessage myMessage;
-  if (mouseButton == LEFT) {
-    /* in the following different ways of creating osc messages are shown by example */
-    myMessage = new OscMessage("/motorForward");
+  OscMessage msg;
+  
+  // get light sensor on port 1
+  msg = new OscMessage("/getLightLevel");
+  msg.add(0); /* add an int to the osc message */
+  oscP5.send(msg, myRemoteLocation);
 
-    myMessage.add((int)random(0, 3)); /* add an int to the osc message */
-    myMessage.add((int)random(0, 100)); /* add a float to the osc message */
-
-
-    /* send the message */
-
-  } 
-  else {
-    myMessage = new OscMessage("/motorSlowStop");
-
-    myMessage.add((int)random(0, 3)); /* add an int to the osc message */
-
-  }
-  oscP5.send(myMessage, myRemoteLocation); 
-  println("sending message");
+  // get sound sensor on port 2
+  msg = new OscMessage("/getSoundLevel");
+  msg.add(1); /* add an int to the osc message */
+  oscP5.send(msg, myRemoteLocation);
+  
+  // get proximity sensor on port 3
+  msg = new OscMessage("/getProximityLevel");
+  msg.add(2); /* add an int to the osc message */
+  oscP5.send(msg, myRemoteLocation); 
+  
+  // get button sensor on port 4
+  msg = new OscMessage("/getButtonState");
+  msg.add(3); /* add an int to the osc message */
+  oscP5.send(msg, myRemoteLocation);   
+  
+  println("Sent messages");
 }
 
-void keyPressed() {
-  if (key == 'b') {
-    OscMessage myMessage;
 
-    myMessage = new OscMessage("/getButtonState");
-
-    myMessage.add(0); /* add an int to the osc message */
-
-    oscP5.send(myMessage, myRemoteLocation);     
-  }
-}
 
 
 
