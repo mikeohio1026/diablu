@@ -26,6 +26,7 @@
  *  email: jorgecardoso <> ieee org
  *  web: http://jorgecardoso.org
  */
+ 
 import pt.citar.diablu.processing.nxt.*;
 
 PFont font;
@@ -35,11 +36,11 @@ LegoNXT lego;
 
 void setup() {
   size(400, 400);
-  
-  
+
+
   font = loadFont("ArialNarrow-24.vlw");
   textFont(font);
-  
+
   lego = new LegoNXT(this, "COM18");
   frameRate(20);
 }
@@ -48,22 +49,29 @@ void setup() {
 void draw() {
 
   background(0);
+  int pA = (mouseX-width/2)/4 + 20;
+  int pB = (-mouseX+width/2)/4 + 20;
+  println("Power A: " + pA + " Power B: " + pB);
   
+  if (mousePressed) {
+    lego.motorForward(LegoNXT.MOTOR_A, pA);
+    lego.motorForward(LegoNXT.MOTOR_B, pB);
+  }
 }
 
 
 void keyPressed() {
   println(key);
-  
+
   if (key == '1') {
-    println(lego.motorForwardLimit(LegoNXT.MOTOR_A, 60, 180));
-    lego.motorForward(LegoNXT.MOTOR_A, 40);
+    lego.motorForwardLimit(LegoNXT.MOTOR_A, 60, 180);
+    lego.motorForwardLimit(LegoNXT.MOTOR_B, 60, 180);
   } 
   else if(key =='2') {
-    lego.motorForward(LegoNXT.MOTOR_B, 40);
+    lego.motorForwardLimit(LegoNXT.MOTOR_A, 60, 90);
   } 
   else if (key == '3') {
-    lego.motorForward(LegoNXT.MOTOR_C, 50);
+    lego.motorForwardLimit(LegoNXT.MOTOR_A, 30, 90);
   } 
   else if (key =='q') {
     lego.motorStop(LegoNXT.MOTOR_A);
