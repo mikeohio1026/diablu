@@ -53,7 +53,7 @@ public class NXTButtonSensor extends NXTComponent {
         initialize();        
     }
 
-    public void initialize() {
+    private void initialize() {
         
         NXTCommandSetInputMode inputMode = new NXTCommandSetInputMode(this.portAttached, 
                 NXTResponseInputValues.SWITCH_TYPE, 
