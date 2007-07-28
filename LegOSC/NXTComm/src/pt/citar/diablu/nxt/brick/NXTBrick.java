@@ -33,6 +33,7 @@ package pt.citar.diablu.nxt.brick;
 import pt.citar.diablu.nxt.protocol.*;
 
 /**
+ * The NXTBrick class just holds de connection channel for the Brick.
  *
  * @author Jorge Cardoso
  */
@@ -40,21 +41,21 @@ public class NXTBrick {
     
     private static NXTCommChannel channel;
     
-    /** Creates a new instance of NXTBrick */
+    /** Creates a new instance of NXTBrick
+     *
+     * @param channel The NXTCommChannel used to communicate with the brick.
+     */
     public NXTBrick(NXTCommChannel channel) {
         this.channel = channel;
     }
     
  
+    /**
+     * Returns the channel used to communicate.
+     *
+     * @return The NXTCommChannel used to communicate with the brick.
+     */
     public NXTCommChannel getChannel() {
         return channel;
     }
-    /*
-    public void closeChannel() {
-        try {
-            channel.closeChannel();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }*/
 }
