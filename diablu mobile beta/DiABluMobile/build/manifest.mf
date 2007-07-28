@@ -1,7 +1,0 @@
-MIDlet-1: DiABlu Mobile,/miniIconDiABlu2.png,bc.gui.msgMain
-MIDlet-Vendor: CITAR[JC&NR]
-MIDlet-Icon: miniIconDiABlu2.png
-MIDlet-Name: DiABlu Mobile alpha
-MIDlet-Version: 1.1.8
-MicroEdition-Configuration: CLDC-1.1
-MicroEdition-Profile: MIDP-2.0
