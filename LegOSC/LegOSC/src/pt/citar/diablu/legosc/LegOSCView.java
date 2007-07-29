@@ -106,6 +106,8 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
+        sAutoSensorInterval = new javax.swing.JSpinner();
+        jLabel10 = new javax.swing.JLabel();
         pSensorConfiguration = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         cbSensorType1 = new javax.swing.JComboBox();
@@ -130,6 +132,7 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
         btnStartStop = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         taLog = new javax.swing.JTextArea();
+        jLabel11 = new javax.swing.JLabel();
 
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -199,7 +202,7 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Your application address:");
 
-        cbAutoSensor.setText("Automatically send sensor readings");
+        cbAutoSensor.setText("Automatically send sensor readings every ");
         cbAutoSensor.setToolTipText("If checked, LegOSC will automatically send OSC messages to your application. Configure the sensors in the Sensor Configuration Tab.");
         cbAutoSensor.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         cbAutoSensor.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -209,15 +212,21 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
             }
         });
 
+        sAutoSensorInterval.setValue(properties.getAutoSensorInterval());
+        sAutoSensorInterval.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sAutoSensorIntervalStateChanged(evt);
+            }
+        });
+
+        jLabel10.setText("milliseconds");
+
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(39, 39, 39)
-                        .add(cbAutoSensor))
                     .add(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
@@ -247,6 +256,14 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
                 .addContainerGap()
                 .add(jSeparator3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
                 .add(32, 32, 32))
+            .add(jPanel1Layout.createSequentialGroup()
+                .add(39, 39, 39)
+                .add(cbAutoSensor)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(sAutoSensorInterval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(15, 15, 15)
+                .add(jLabel10)
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -271,13 +288,16 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(tfCommPort, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 12, Short.MAX_VALUE)
                 .add(jSeparator3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(cbAutoSensor)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(cbAutoSensor)
+                    .add(sAutoSensorInterval, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel10))
                 .add(28, 28, 28))
         );
-        tpPanel.addTab("Conection", jPanel1);
+        tpPanel.addTab("Connection", jPanel1);
 
         jLabel6.setText("Port 1:");
 
@@ -366,7 +386,7 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
             }
         });
 
-        getContentPane().add(btnStartStop, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 260, 250, 140));
+        getContentPane().add(btnStartStop, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 290, 180, 100));
 
         taLog.setColumns(20);
         taLog.setEditable(false);
@@ -374,10 +394,17 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
         taLog.setAutoscrolls(true);
         jScrollPane1.setViewportView(taLog);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 580, 130));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 580, 100));
+
+        jLabel11.setText("Message Log:");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void sAutoSensorIntervalStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sAutoSensorIntervalStateChanged
+        notifyConfigurationChanged();
+    }//GEN-LAST:event_sAutoSensorIntervalStateChanged
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         //legOSC.stop();
@@ -456,8 +483,9 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
         properties.setAppPort(tfTargetPort.getText());
         properties.setBrickCOMPort(tfCommPort.getText());
         properties.setAutoSensor(cbAutoSensor.isSelected());
+        properties.setAutoSensorInterval(((Integer)sAutoSensorInterval.getValue()).intValue());
         for (LegOSCViewObserver observer : observers) {
-            observer.configChanged(tfLocalPort.getText(), tfTargetAddress.getText(), tfTargetPort.getText(), tfCommPort.getText(), cbAutoSensor.isSelected());
+            observer.configChanged(tfLocalPort.getText(), tfTargetAddress.getText(), tfTargetPort.getText(), tfCommPort.getText(), cbAutoSensor.isSelected(), ((Integer)sAutoSensorInterval.getValue()).intValue());
         }
     }
     
@@ -468,9 +496,7 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
     private void btnStartStopMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStartStopMousePressed
         // TODO add your handling code here:
         notifyStart();
-        
-        
-        
+       
     }//GEN-LAST:event_btnStartStopMousePressed
     public void error(String error) {
         taLog.append(error+"\n");
@@ -534,6 +560,8 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
     private javax.swing.JComboBox cbSensorType3;
     private javax.swing.JComboBox cbSensorType4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -548,6 +576,7 @@ public class LegOSCView extends javax.swing.JFrame implements LegOSCObserver {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JPanel pSensorConfiguration;
+    private javax.swing.JSpinner sAutoSensorInterval;
     private javax.swing.JTextArea taLog;
     private javax.swing.JTextField tfCommPort;
     private javax.swing.JTextField tfLocalPort;
