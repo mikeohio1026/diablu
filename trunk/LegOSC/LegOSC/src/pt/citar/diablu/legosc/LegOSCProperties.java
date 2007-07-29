@@ -136,6 +136,14 @@ public class LegOSCProperties {
         }
     }
     
+    public void setAutoSensorInterval(int interval) {
+        properties.setProperty("autosensorinterval", String.valueOf(interval));
+    }
+    
+    public int getAutoSensorInterval() {
+        return Integer.parseInt(properties.getProperty("autosensorinterval", "250"));
+    }
+    
     public void save() {
         FileOutputStream fos = null;
         try {
