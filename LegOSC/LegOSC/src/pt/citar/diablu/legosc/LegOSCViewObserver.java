@@ -34,7 +34,7 @@ package pt.citar.diablu.legosc;
  * @author Jorge Cardoso
  */
 public interface LegOSCViewObserver {
-    public void configChanged(String legOSCPort, String appHostname, String appPort, String brickCOM, boolean autoSensor);
+    public void configChanged(String legOSCPort, String appHostname, String appPort, String brickCOM, boolean autoSensor, int autoSensorInterval);
     public void sensorMapChanged(String []sensorType);
     public void startStop();
 }
