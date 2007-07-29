@@ -44,6 +44,7 @@ import pt.citar.diablu.nxt.protocol.*;
 
 /**
  *
+ * @todo Implement OSC messages to configure polling.
  * @author Jorge Cardoso
  */
 public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
@@ -52,8 +53,8 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
      * The sensor types used for the mapping between port and sensor type.
      */
     public enum SensorType {NONE, SOUND, LIGHT, ULTRASONIC, PRESSURE};
-        
-            
+    
+    
     /**
      * The OSC server.
      */
@@ -102,16 +103,36 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
     boolean legOSCStarted = false;
     
     
-    /* Communication config */
+    /**
+     * The port on which LegOSC listens. Apps should direct OSC traffic to this port.
+     */
     int legOSCPort;
+    
+    /**
+     * The hostname of the machine where the user application is running.
+     */
     String appHostname;
+    
+    /**
+     * The port on which the user application is listening.
+     */
     int appPort;
+    
+    /**
+     * The COM port which the brick uses to connect to the machine. This is a
+     * virtual bluetooth COM port.
+     */
     String brickCOM;
     
     /**
      * Determines if LegOSC will poll the NXT for sensor readings periodically.
      */
     private boolean poll = false;
+    
+    /**
+     * The interval for polling the sensor state and sending to the user application.
+     */
+    private int pollInterval = 100;
     
     /**
      * Flag to stop the thread.
@@ -127,7 +148,7 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
     /** Creates a new instance of Main */
     public LegOSC() {
         btChannel = null;
-       
+        
     }
     
     public void registerObserver(LegOSCObserver ob) {
@@ -185,11 +206,31 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
         // See if we need to poll for sensor readings
         if (poll) {
             running = true;
+            /* print mapping */
+            for (byte i = 0; i < 4; i++) {
+                switch(sensorMap[i]) {
+                    case NONE:
+                        notifyMessage("Port " + (i+1) +": NONE");
+                        break;
+                    case SOUND:
+                        notifyMessage("Port " + (i+1) +": SOUND");
+                        break;
+                    case LIGHT:
+                        notifyMessage("Port " + (i+1) +": LIGHT");
+                        break;
+                    case ULTRASONIC:
+                        notifyMessage("Port " + (i+1) +": ULTRASONIC");
+                        break;
+                    case PRESSURE:
+                        notifyMessage("Port " + (i+1) +": PRESSURE");
+                        break;
+                }
+            }
             (new Thread(this)).start();
         }
-        notifyMessage("OSC Server running and listening on  " + oscServer.getLocalAddress().getHostName()+ ":" + this.legOSCPort + 
+        notifyMessage("OSC Server running and listening on  " + oscServer.getLocalAddress().getHostName()+ ":" + this.legOSCPort +
                 "\nSend OSC messages to this port. ");
-        notifyMessage("LegOSC will try to send messages to " + this.appHostname + ":" + this.appPort + 
+        notifyMessage("LegOSC will try to send messages to " + this.appHostname + ":" + this.appPort +
                 "\nMake sure your application is listening.");
         return true;
     }
@@ -314,7 +355,7 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
             }
             //c.send( new OSCMessage( "/done", new Object[] { m.getName() }), addr );
             notifyMessage("Proximity Sensor: " + value);
-        } 
+        }
         
     }
     
@@ -411,7 +452,7 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
             }
             
             try {
-                Thread.sleep(250);
+                Thread.sleep(this.pollInterval);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
@@ -431,7 +472,7 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
         sensorMap[port] = type;
     }
     
-    public void configChanged(String legOSCPort, String appHostname, String appPort, String brickCOM, boolean autoSensor) {
+    public void configChanged(String legOSCPort, String appHostname, String appPort, String brickCOM, boolean autoSensor, int autoSensorInterval) {
         this.legOSCPort = 10000;
         try {
             this.legOSCPort = Integer.parseInt(legOSCPort);
@@ -448,21 +489,22 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
             ex.printStackTrace();
         }
         this.brickCOM = brickCOM;
+        this.pollInterval = autoSensorInterval;
         setPoll(autoSensor);
     }
     
     public void sensorMapChanged(String[] sensorType) {
         for (int i = 0; i < 4; i++) {
-
-            if (sensorType[i].equalsIgnoreCase("none")) {
+            
+            if (sensorType[i].equalsIgnoreCase(SensorType.NONE.toString())) {
                 this.mapSensor(i, LegOSC.SensorType.NONE);
-            } else if (sensorType[i].equalsIgnoreCase("sound sensor")) {
+            } else if (sensorType[i].equalsIgnoreCase(SensorType.SOUND.toString())) {
                 this.mapSensor(i, LegOSC.SensorType.SOUND);
-            } else if (sensorType[i].equalsIgnoreCase("light sensor")) {
+            } else if (sensorType[i].equalsIgnoreCase(SensorType.LIGHT.toString())) {
                 this.mapSensor(i, LegOSC.SensorType.LIGHT);
-            } else if (sensorType[i].equalsIgnoreCase("ultrasonic")) {
+            } else if (sensorType[i].equalsIgnoreCase(SensorType.ULTRASONIC.toString())) {
                 this.mapSensor(i, LegOSC.SensorType.ULTRASONIC);
-            } else if (sensorType[i].equalsIgnoreCase("button")) {
+            } else if (sensorType[i].equalsIgnoreCase(SensorType.PRESSURE.toString())) {
                 this.mapSensor(i, LegOSC.SensorType.PRESSURE);
             }
         }
