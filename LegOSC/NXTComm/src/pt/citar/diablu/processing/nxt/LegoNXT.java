@@ -171,6 +171,8 @@ public class LegoNXT {
         // make the sensors
         sensorPorts = new Object[4];
         
+        // make the speaker
+        speaker = new NXTSpeaker(brick);
     }
     
     
