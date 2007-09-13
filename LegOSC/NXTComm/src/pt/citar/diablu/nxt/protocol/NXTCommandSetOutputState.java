@@ -205,8 +205,8 @@ public class NXTCommandSetOutputState extends NXTCommand {
         buffer[TACHO_LIMIT_INDEX] = (byte) (0xff & tachoLimit);
         buffer[TACHO_LIMIT_INDEX + 1] = (byte) (tachoLimit >>> 8);
         buffer[TACHO_LIMIT_INDEX + 2] = (byte)(tachoLimit >>> 16);
-        buffer[TACHO_LIMIT_INDEX + 3] = (byte)(tachoLimit >>> 20);
-        buffer[TACHO_LIMIT_INDEX + 4] = (byte)(tachoLimit >>> 24);        
+        buffer[TACHO_LIMIT_INDEX + 3] = (byte)(tachoLimit >>> 24);
+        buffer[TACHO_LIMIT_INDEX + 4] = (byte)(tachoLimit >>> 32);        
     }
     
     /**
@@ -217,8 +217,8 @@ public class NXTCommandSetOutputState extends NXTCommand {
         return buffer[TACHO_LIMIT_INDEX] + 
                (buffer[TACHO_LIMIT_INDEX + 1] << 8) +
                (buffer[TACHO_LIMIT_INDEX + 2] << 16) +
-               (buffer[TACHO_LIMIT_INDEX + 3] << 20) + 
-               (buffer[TACHO_LIMIT_INDEX + 4] << 24); 
+               (buffer[TACHO_LIMIT_INDEX + 3] << 24) + 
+               (buffer[TACHO_LIMIT_INDEX + 4] << 32); 
     }
 }
 
