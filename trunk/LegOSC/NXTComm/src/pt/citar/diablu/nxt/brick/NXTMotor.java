@@ -45,16 +45,19 @@ public class NXTMotor extends NXTComponent {
     /**
      * The command used to control the motor.
      */
-    private NXTCommandSetOutputState outputState;
+    private NXTCommandSetOutputState setOutputState;
+    
+    private NXTCommandGetOutputState getOutputState;
     
     
     /** Creates a new instance of NXTMotor */
     public NXTMotor(NXTBrick brick, byte portAttached) {
         super(brick, portAttached);
-        outputState = new NXTCommandSetOutputState(portAttached, (byte)30, 
+        setOutputState = new NXTCommandSetOutputState(portAttached, (byte)30,
                 (byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | NXTCommandSetOutputState.MODE_REGULATED),
-                NXTCommandSetOutputState.REGULATION_MODE_MOTOR_SPEED, 
+                NXTCommandSetOutputState.REGULATION_MODE_MOTOR_SPEED,
                 (byte)0, NXTCommandSetOutputState.RUN_STATE_RUNNING, TACHO_LIMIT_FOREVER);
+        getOutputState = new NXTCommandGetOutputState(portAttached);
     }
     
     
@@ -70,21 +73,21 @@ public class NXTMotor extends NXTComponent {
             return false;
         }
         try {
-            outputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | 
+            setOutputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON |
                     NXTCommandSetOutputState.MODE_REGULATED));
             
             // make it ramp up
-            outputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RUNNING);
+            setOutputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RUNNING);
             
             // final speed
-            outputState.setPowerSetPoint(power);
+            setOutputState.setPowerSetPoint(power);
             
             // go forever
-            outputState.setTachoLimit(TACHO_LIMIT_FOREVER);
+            setOutputState.setTachoLimit(TACHO_LIMIT_FOREVER);
             
             // send command
             System.out.println("Sending command");
-            brick.getChannel().sendCommand(outputState);
+            brick.getChannel().sendCommand(setOutputState);
         } catch (IOException ex) {
             ex.printStackTrace();
             return false;
@@ -98,83 +101,133 @@ public class NXTMotor extends NXTComponent {
             return false;
         }
         try {
-            outputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | 
-                     NXTCommandSetOutputState.MODE_BRAKE |
+            //long target = getTachoCount() + tachoLimit;
+            setOutputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON |
+                    NXTCommandSetOutputState.MODE_BRAKE |
                     NXTCommandSetOutputState.MODE_REGULATED));
             
+            //setOutputState.set
             // make it ramp up
-            outputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RUNNING);
+            setOutputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RUNNING);
             
             // final speed
-            outputState.setPowerSetPoint((byte)1);
-            
+            setOutputState.setPowerSetPoint((byte)1);
+            //setOutputState.setPowerSetPoint(power);
             // go forever
-            outputState.setTachoLimit(0);
+            setOutputState.setTachoLimit(0);
             
             // send command
             //System.out.println("Sending command");
-            brick.getChannel().sendCommand(outputState);
+            brick.getChannel().sendCommand(setOutputState);
+            /*
+            long tacho = 0;
+		do {
+			tacho = getTachoCount();
+			//System.out.println("Tacho: " + tacho + "  Target: " + target);	
+		} while(tacho < target - 15);
+            slowStop();*/
             
             // final speed
-            outputState.setPowerSetPoint(power);
+            setOutputState.setPowerSetPoint(power);
             
             // go forever
-            outputState.setTachoLimit(tachoLimit);  
+            setOutputState.setTachoLimit(tachoLimit);
             
-            brick.getChannel().sendCommand(outputState);            
+            brick.getChannel().sendCommand(setOutputState);
+            
         } catch (IOException ex) {
             ex.printStackTrace();
             return false;
         }
-        return true;        
+        return true;
     }
     
     /**
      * Stops the motor slowly.
-     * 
+     *
      * @return True, if no error; False otherwise.
      */
     public boolean slowStop() {
-         try {
-             /* must ensure that brakes aren't on */
-             outputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | 
-                     NXTCommandSetOutputState.MODE_REGULATED));
-             
-             outputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RAMP_DOWN);
-             
-             outputState.setPowerSetPoint((byte)0);
-             
-             /* TODO: See if we need to set a tacho limit.*/
-             brick.getChannel().sendCommand(outputState);
+        try {
+            /* must ensure that brakes aren't on */
+            setOutputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON |
+                    NXTCommandSetOutputState.MODE_REGULATED));
+            
+            setOutputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RAMP_DOWN);
+            
+            setOutputState.setPowerSetPoint((byte)0);
+            
+            /* TODO: See if we need to set a tacho limit.*/
+            brick.getChannel().sendCommand(setOutputState);
         } catch (IOException ex) {
             ex.printStackTrace();
             return false;
         }
-        return true;   
+        return true;
     }
     
     public boolean handBrake() {
-          try {
-             
-             outputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | NXTCommandSetOutputState.MODE_BRAKE | 
-                     NXTCommandSetOutputState.MODE_REGULATED));
-             
-             outputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RUNNING);
-             
-             outputState.setPowerSetPoint((byte)0);
-             
-             /* TODO: See if we need to set a tacho limit.*/
-             brick.getChannel().sendCommand(outputState);
+        try {
+            
+            setOutputState.setMode((byte)(NXTCommandSetOutputState.MODE_MOTOR_ON | NXTCommandSetOutputState.MODE_BRAKE |
+                    NXTCommandSetOutputState.MODE_REGULATED));
+            
+            setOutputState.setRunState(NXTCommandSetOutputState.RUN_STATE_RUNNING);
+            
+            setOutputState.setPowerSetPoint((byte)0);
+            
+            /* TODO: See if we need to set a tacho limit.*/
+            brick.getChannel().sendCommand(setOutputState);
         } catch (IOException ex) {
             ex.printStackTrace();
             return false;
         }
-        return true;      
+        return true;
     }
     
     public boolean fastStop() {
         return false;
-    
+        
     }
     
+    
+    public long getTachoLimit() {
+        try {
+            NXTResponseGetOutputState response = (NXTResponseGetOutputState)brick.getChannel().sendCommand(getOutputState);
+            return response.getTachoLimit();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }
+    
+    public long getTachoCount() {
+        try {
+            NXTResponseGetOutputState response = (NXTResponseGetOutputState)brick.getChannel().sendCommand(getOutputState);
+            return response.getTachoCount();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }
+    
+    public long getBlockTachoCount() {
+        try {
+            NXTResponseGetOutputState response = (NXTResponseGetOutputState)brick.getChannel().sendCommand(getOutputState);
+            return response.getBlockTachoCount();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }
+    
+    public long getRotationCount() {
+        try {
+            NXTResponseGetOutputState response = (NXTResponseGetOutputState)brick.getChannel().sendCommand(getOutputState);
+            return response.getRotationCount();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }    
 }
