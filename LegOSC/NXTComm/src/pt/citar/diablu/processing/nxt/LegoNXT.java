@@ -265,6 +265,37 @@ public class LegoNXT {
         return motor[motorNumber].slowStop();
     }
     
+    public long getMotorTachoLimit(int motorNumber) {
+        if (motorNumber > 2) {
+            System.err.println("Motor number must be 0, 1 or 2.");
+            return -1;
+        }
+        return motor[motorNumber].getTachoLimit();
+    }
+    
+    public long getMotorTachoCount(int motorNumber) {
+        if (motorNumber > 2) {
+            System.err.println("Motor number must be 0, 1 or 2.");
+            return -1;
+        }
+        return motor[motorNumber].getTachoCount();
+    }    
+    
+    public long getMotorBlockTachoCount(int motorNumber) {
+        if (motorNumber > 2) {
+            System.err.println("Motor number must be 0, 1 or 2.");
+            return -1;
+        }
+        return motor[motorNumber].getBlockTachoCount();
+    }  
+    
+    public long getMotorRotationCount(int motorNumber) {
+        if (motorNumber > 2) {
+            System.err.println("Motor number must be 0, 1 or 2.");
+            return -1;
+        }
+        return motor[motorNumber].getRotationCount();
+    }      
     /**
      * Returns the state of the pressure sensor at the specifiec port.
      *
