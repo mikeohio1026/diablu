@@ -47,7 +47,15 @@ public class NXTMotor extends NXTComponent {
      */
     private NXTCommandSetOutputState setOutputState;
     
+    /**
+     * The command used to get the output state of the motor.
+     */
     private NXTCommandGetOutputState getOutputState;
+    
+    /**
+     * The command used to reset the motor position.
+     */
+    private NXTCommandResetMotorPosition resetMotorPosition;
     
     
     /** Creates a new instance of NXTMotor */
@@ -58,6 +66,7 @@ public class NXTMotor extends NXTComponent {
                 NXTCommandSetOutputState.REGULATION_MODE_MOTOR_SPEED,
                 (byte)0, NXTCommandSetOutputState.RUN_STATE_RUNNING, TACHO_LIMIT_FOREVER);
         getOutputState = new NXTCommandGetOutputState(portAttached);
+        resetMotorPosition = new NXTCommandResetMotorPosition(portAttached);
     }
     
     
@@ -159,6 +168,8 @@ public class NXTMotor extends NXTComponent {
             
             /* TODO: See if we need to set a tacho limit.*/
             brick.getChannel().sendCommand(setOutputState);
+            
+            
         } catch (IOException ex) {
             ex.printStackTrace();
             return false;
@@ -178,6 +189,13 @@ public class NXTMotor extends NXTComponent {
             
             /* TODO: See if we need to set a tacho limit.*/
             brick.getChannel().sendCommand(setOutputState);
+            
+           /* 
+           setOutputState.setRunState(NXTCommandSetOutputState.RUN_STATE_IDLE);
+           setOutputState.setRegulationMode(NXTCommandSetOutputState.REGULATION_MODE_IDLE);
+           
+            brick.getChannel().sendCommand(setOutputState);
+         */
         } catch (IOException ex) {
             ex.printStackTrace();
             return false;
@@ -230,4 +248,16 @@ public class NXTMotor extends NXTComponent {
             return -1;
         }
     }    
+    
+    
+    public void resetMotorPosition(boolean relative) {
+        resetMotorPosition.setRelative(relative);
+        try {
+            brick.getChannel().sendCommand(resetMotorPosition);
+           // return response.getRotationCount();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            //return -1;
+        }        
+    }
 }

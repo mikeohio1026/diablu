@@ -53,6 +53,7 @@ public class NXTCommandGetOutputState extends NXTCommand {
     protected NXTResponse getResponse() {
         return this.response;
     }
+    
     /**
      * Returns the input port on which we want to read values.
      * 
