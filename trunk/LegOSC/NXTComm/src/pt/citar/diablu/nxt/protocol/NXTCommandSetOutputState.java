@@ -50,6 +50,12 @@ public class NXTCommandSetOutputState extends NXTCommand {
      */
     private static final int MODE_INDEX = 4;
     
+    
+    /**
+     * The regulation mode index.
+     */
+    private static final int REGULATION_MODE_INDEX = 5;
+    
     /**
      * The run state index on packet.
      */
@@ -178,6 +184,15 @@ public class NXTCommandSetOutputState extends NXTCommand {
      */
     public byte getRunState() {
         return buffer[RUN_STATE_INDEX];
+    }
+    
+    /**
+     * Sets the regulation mode of the motor.
+     * 
+     * @param regulationMode The regulation mode. See REGULATION_MODE constants.
+     */
+    public void setRegulationMode(byte regulationMode) {
+        buffer[REGULATION_MODE_INDEX] = regulationMode;
     }
     
     /**

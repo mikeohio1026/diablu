@@ -52,7 +52,7 @@ public class LegoNXT {
     public static final int MOTOR_A = 0;
     /**
      * The motor port B.
-     */    
+     */
     public static final int MOTOR_B = 1;
     /**
      * The motor port C.
@@ -61,19 +61,19 @@ public class LegoNXT {
     
     /**
      * The sensor port 1.
-     */    
+     */
     public static final int PORT_1 = 0;
     /**
      * The sensor port 2.
-     */        
+     */
     public static final int PORT_2 = 1;
     /**
      * The sensor port 3.
-     */    
+     */
     public static final int PORT_3 = 2;
     /**
      * The sensor port 4.
-     */    
+     */
     public static final int PORT_4 = 3;
     
     /**
@@ -131,9 +131,9 @@ public class LegoNXT {
      */
     private Object sensorPorts[];
     
-    /** 
-     * Creates a new instance of LegoNXT 
-     * 
+    /**
+     * Creates a new instance of LegoNXT
+     *
      * @param parent The PApplet. Use <code>this</code>.
      * @param commPort The COM port where you connected the NXT. This is the name
      * of the virtual COM port that was assigned to the NXT.
@@ -190,7 +190,7 @@ public class LegoNXT {
     
     /**
      * Sets the power to the specified motor.
-     * 
+     *
      * @param motorNumber The motor port (0, 1 or 2). The constants MOTOR_A,
      * MOTOR_B and MOTOR_C should be used.
      * @param power The power of the motor (-100, 100). Positive values make
@@ -256,7 +256,7 @@ public class LegoNXT {
      * @param motorNumber The motor port (0, 1 or 2). The constants MOTOR_A,
      * MOTOR_B and MOTOR_C should be used.
      * @return True if all ok. False on error.
-     */    
+     */
     public boolean motorStop(int motorNumber) {
         if (motorNumber > 2) {
             System.err.println("Motor number must be 0, 1 or 2.");
@@ -279,7 +279,7 @@ public class LegoNXT {
             return -1;
         }
         return motor[motorNumber].getTachoCount();
-    }    
+    }
     
     public long getMotorBlockTachoCount(int motorNumber) {
         if (motorNumber > 2) {
@@ -287,7 +287,7 @@ public class LegoNXT {
             return -1;
         }
         return motor[motorNumber].getBlockTachoCount();
-    }  
+    }
     
     public long getMotorRotationCount(int motorNumber) {
         if (motorNumber > 2) {
@@ -295,7 +295,15 @@ public class LegoNXT {
             return -1;
         }
         return motor[motorNumber].getRotationCount();
-    }      
+    }
+    
+    public void resetMotorPosition(int motorNumber, boolean relative) {
+        if (motorNumber > 2) {
+            System.err.println("Motor number must be 0, 1 or 2.");
+        }
+        motor[motorNumber].resetMotorPosition(relative);
+    }
+    
     /**
      * Returns the state of the pressure sensor at the specifiec port.
      *
