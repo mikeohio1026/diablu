@@ -265,6 +265,13 @@ public class LegoNXT {
         return motor[motorNumber].slowStop();
     }
     
+    /**
+     * Returns the current limit on a movement in progress.
+     *
+     * @return The current limit on a movement in progress, if any.
+     * @param motorNumber The motor port (0, 1 or 2). The constants MOTOR_A,
+     * MOTOR_B and MOTOR_C should be used.
+     */
     public long getMotorTachoLimit(int motorNumber) {
         if (motorNumber > 2) {
             System.err.println("Motor number must be 0, 1 or 2.");
@@ -273,6 +280,13 @@ public class LegoNXT {
         return motor[motorNumber].getTachoLimit();
     }
     
+    /**
+     * Returns number of counts since last reset of the motor counter.
+     *
+     * @return  The number of counts since last reset of the motor counter.
+     * @param motorNumber The motor port (0, 1 or 2). The constants MOTOR_A,
+     * MOTOR_B and MOTOR_C should be used.
+     */    
     public long getMotorTachoCount(int motorNumber) {
         if (motorNumber > 2) {
             System.err.println("Motor number must be 0, 1 or 2.");
@@ -281,6 +295,12 @@ public class LegoNXT {
         return motor[motorNumber].getTachoCount();
     }
     
+    /**
+     * Returns the current position realative to the last programmed movement.
+     * @return The current position realative to the last programmed movement.
+     * @param motorNumber The motor port (0, 1 or 2). The constants MOTOR_A,
+     * MOTOR_B and MOTOR_C should be used.
+     */
     public long getMotorBlockTachoCount(int motorNumber) {
         if (motorNumber > 2) {
             System.err.println("Motor number must be 0, 1 or 2.");
@@ -289,6 +309,13 @@ public class LegoNXT {
         return motor[motorNumber].getBlockTachoCount();
     }
     
+    /**
+     * The current position relative to the last reset of the rotation sensor for this motor.
+     *
+     * @return The current position relative to the last reset of the rotation sensor for this motor.
+     * @param motorNumber The motor port (0, 1 or 2). The constants MOTOR_A,
+     * MOTOR_B and MOTOR_C should be used.
+     */
     public long getMotorRotationCount(int motorNumber) {
         if (motorNumber > 2) {
             System.err.println("Motor number must be 0, 1 or 2.");
@@ -297,6 +324,13 @@ public class LegoNXT {
         return motor[motorNumber].getRotationCount();
     }
     
+    /**
+     * Resets the motor position.
+     *
+     * @param motorNumber The motor port (0, 1 or 2). The constants MOTOR_A,
+     * MOTOR_B and MOTOR_C should be used.
+     * @param motorNumber
+     */
     public void resetMotorPosition(int motorNumber, boolean relative) {
         if (motorNumber > 2) {
             System.err.println("Motor number must be 0, 1 or 2.");
@@ -402,6 +436,15 @@ public class LegoNXT {
             sensorPorts[portNumber] = new NXTProximitySensor(brick, (byte)portNumber);
         }
         return ((NXTProximitySensor)sensorPorts[portNumber]).getDistance();
+    }
+    
+    /**
+     * Returns the battery level.
+     *
+     * @return The battery level in millivolts.
+     */
+    public int getBatteryLevel() {
+        return brick.getBatteryLevel();
     }
     
     public void dispose() {

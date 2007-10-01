@@ -31,7 +31,7 @@ package pt.citar.diablu.nxt.brick;
 
 
 import pt.citar.diablu.nxt.protocol.*;
-
+import java.io.*;
 /**
  * The NXTBrick class just holds de connection channel for the Brick.
  *
@@ -41,12 +41,16 @@ public class NXTBrick {
     
     private static NXTCommChannel channel;
     
+    private NXTCommandGetBatteryLevel getBatteryLevel;
+    private NXTResponseGetBatteryLevel batteryLevel;
+    
     /** Creates a new instance of NXTBrick
      *
      * @param channel The NXTCommChannel used to communicate with the brick.
      */
     public NXTBrick(NXTCommChannel channel) {
         this.channel = channel;
+        getBatteryLevel = new NXTCommandGetBatteryLevel();
     }
     
  
@@ -57,5 +61,23 @@ public class NXTBrick {
      */
     public NXTCommChannel getChannel() {
         return channel;
+    }
+    
+    
+    /**
+     * Returns the battery level.
+     *
+     * @return The battery level in millivolts.
+     */
+    public int getBatteryLevel() {
+        
+        try {
+            batteryLevel = (NXTResponseGetBatteryLevel)channel.sendCommand(getBatteryLevel);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+        return batteryLevel.getBatteryLevel();
+        
     }
 }
