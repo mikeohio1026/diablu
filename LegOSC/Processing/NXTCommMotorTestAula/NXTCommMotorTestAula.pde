@@ -42,33 +42,23 @@ void setup() {
   textFont(font);
 
   lego = new LegoNXT(this, "COM18");
-  frameRate(20);
+  frameRate(10);
 }
 
 
 void draw() {
 
-  background(0);
-  int pA = (mouseX-width/2)/4 + 20;
-  int pB = (-mouseX+width/2)/4 + 20;
-  println("Power A: " + pA + " Power B: " + pB);
-  
-  if (mousePressed) {
-    lego.motorForward(LegoNXT.MOTOR_A, pA);
-    lego.motorForward(LegoNXT.MOTOR_B, pB);
-  }
 }
 
 
 void keyPressed() {
-  println(key);
 
   if (key == '1') {
     lego.motorForwardLimit(LegoNXT.MOTOR_A, 60, 180);
     //lego.motorForwardLimit(LegoNXT.MOTOR_B, 60, 180);
   } 
   else if(key =='2') {
-    lego.motorForwardLimit(LegoNXT.MOTOR_A, 60, 90);
+    lego.motorForward(LegoNXT.MOTOR_A, 60);
   } 
   else if (key == '3') {
     lego.motorForwardLimit(LegoNXT.MOTOR_A, 30, 90);
