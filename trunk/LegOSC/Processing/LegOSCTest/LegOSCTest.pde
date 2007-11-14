@@ -80,9 +80,6 @@ void mousePressed() {
 }
 
 
-
-
-
 void oscEvent(OscMessage msg) {
   if (msg.checkAddrPattern("/lightLevel")) {
     lightLevel = msg.get(1).intValue();

@@ -1,5 +1,5 @@
 /*
- * NXTCommTest.pde
+ * NXTCommBatteruTest.pde
  *
  * Created on 07 de March 2007
  *
@@ -26,11 +26,12 @@
  *  email: jorgecardoso <> ieee org
  *  web: http://jorgecardoso.org
  */
- 
+
 import pt.citar.diablu.processing.nxt.*;
 
 PFont font;
 
+int power = 50;
 LegoNXT lego;
 
 
@@ -42,52 +43,23 @@ void setup() {
   textFont(font);
 
   lego = new LegoNXT(this, "COM18");
-  frameRate(20);
+  frameRate(10);
 }
 
 
 void draw() {
-
-  background(0);
-  int pA = (mouseX-width/2)/4 + 20;
-  int pB = (-mouseX+width/2)/4 + 20;
-  println("Power A: " + pA + " Power B: " + pB);
+  background(0);  
   
-  if (mousePressed) {
-    lego.motorForward(LegoNXT.MOTOR_A, pA);
-    lego.motorForward(LegoNXT.MOTOR_B, pB);
-  }
+  textAlign(CENTER);
+  textMode(SCREEN);
+  
+  
+  int batteryLevel = lego.getBatteryLevel();
+  
+  // draw battery level;
+  fill(255);
+  rect(170, height, 60, -batteryLevel/90);
+  text("Battery: " + batteryLevel + " mv", 140, height-batteryLevel/90);
+
 }
 
-
-void keyPressed() {
-  println(key);
-
-  if (key == '1') {
-    lego.motorForwardLimit(LegoNXT.MOTOR_A, 60, 180);
-    //lego.motorForwardLimit(LegoNXT.MOTOR_B, 60, 180);
-  } 
-  else if(key =='2') {
-    lego.motorForwardLimit(LegoNXT.MOTOR_A, 60, 90);
-  } 
-  else if (key == '3') {
-    lego.motorForwardLimit(LegoNXT.MOTOR_A, 30, 90);
-  } 
-  else if (key =='q') {
-    lego.motorStop(LegoNXT.MOTOR_A);
-  } 
-  else if(key == 'w') {
-    lego.motorHandBrake(LegoNXT.MOTOR_B);
-  } 
-  else if (key == 'e') {
-    lego.motorStop(LegoNXT.MOTOR_C);
-  }
-}
-
-
-void stop() {
-  println("Stop");
-  lego.motorStop(LegoNXT.MOTOR_A);
-  lego.motorStop(LegoNXT.MOTOR_B);
-  lego.motorStop(LegoNXT.MOTOR_C);
-}
