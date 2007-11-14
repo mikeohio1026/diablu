@@ -4,7 +4,7 @@
  * Created on 23 de Janeiro de 2007, 0:13
  *
  *  LegOSC: An OSC gateway to control the NXT Brick.
- *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
+ *  This is part of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
  *
@@ -47,7 +47,7 @@ import pt.citar.diablu.nxt.protocol.*;
  * @todo Implement OSC messages to configure polling.
  * @author Jorge Cardoso
  */
-public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
+public class LegOSC implements OSCListener, Runnable, LegOSCWindowObserver {
     
     /**
      * The sensor types used for the mapping between port and sensor type.
@@ -290,11 +290,23 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
             int motorNumber;
             motorNumber = ((Number) msg.getArg(0)).intValue();
             motor[motorNumber%3].slowStop();
-        } else if(msg.getName().equals( "/motorHandBrake" )) {
+        } else if(msg.getName().equals( "/motorHandBrake" ) || msg.getName().equals( "/motorBrake" ) ) {
             int motorNumber;
             motorNumber = ((Number) msg.getArg(0)).intValue();
             motor[motorNumber%3].handBrake();
-            
+        } else if (msg.getName().equals("/resetMotor")) {
+            int motorNumber = ((Number) msg.getArg(0)).intValue();
+            motor[motorNumber%3].resetMotorPosition(false);
+        } else if (msg.getName().equals("/getMotorTachoCount")) {
+            int motorNumber = ((Number) msg.getArg(0)).intValue();
+            long count = motor[motorNumber%3].getTachoCount();
+            try {
+                
+                oscServer.send(new OSCMessage("/motorTachoCount", new Object[] {motorNumber, count}), remoteSocketAddress);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            notifyMessage("Motor Tacho Count : " + count);
         } else if(msg.getName().equals( "/getButtonState" )) {
             int portNumber;
             portNumber = ((Number) msg.getArg(0)).intValue();
@@ -355,6 +367,14 @@ public class LegOSC implements OSCListener, Runnable, LegOSCViewObserver {
             }
             //c.send( new OSCMessage( "/done", new Object[] { m.getName() }), addr );
             notifyMessage("Proximity Sensor: " + value);
+        } else if (msg.getName().equals("/getBatteryLevel")) {
+            int batLevel = brick.getBatteryLevel();
+            try {
+                
+                oscServer.send(new OSCMessage("/batteryLevel", new Object[] {batLevel}), remoteSocketAddress);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         
     }

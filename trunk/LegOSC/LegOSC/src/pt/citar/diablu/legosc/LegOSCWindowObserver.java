@@ -1,10 +1,10 @@
 /*
- * LegOSCViewObserver.java
+ * LegOSCWindowObserver.java
  *
  * Created on 19 de Julho de 2007, 10:48
  *
  *  LegOSC: An OSC gateway to control the NXT Brick.
- *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
+ *  This is part of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
  *
@@ -33,7 +33,7 @@ package pt.citar.diablu.legosc;
  *
  * @author Jorge Cardoso
  */
-public interface LegOSCViewObserver {
+public interface LegOSCWindowObserver {
     public void configChanged(String legOSCPort, String appHostname, String appPort, String brickCOM, boolean autoSensor, int autoSensorInterval);
     public void sensorMapChanged(String []sensorType);
     public void startStop();
