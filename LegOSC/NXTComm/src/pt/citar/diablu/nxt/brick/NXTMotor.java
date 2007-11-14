@@ -4,7 +4,7 @@
  * Created on 21 de Janeiro de 2007, 14:46
  *
  *  NXTComm: A java library to control the NXT Brick.
- *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
+ *  This is part of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
  *
