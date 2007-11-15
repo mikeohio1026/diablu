@@ -125,7 +125,7 @@ public class DiABluUI extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("DiABlu Server 0.91");
+        setTitle("DiABlu Scout 0.99");
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -289,14 +289,14 @@ public class DiABluUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "UUID  ", "Friendly Name", "Device Type", "Last Msg", "Last Key"
+                "UUID  ", "Friendly Name", "Device Type"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -307,10 +307,11 @@ public class DiABluUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        detectedTable_jt.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(310);
         detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);
         detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(80);
-        detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(120);
+        //detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(120);
         //detectedTable_jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //Ask to be notified of selection changes.
         ListSelectionModel rowSM = detectedTable_jt.getSelectionModel();
@@ -337,7 +338,7 @@ public class DiABluUI extends javax.swing.JFrame {
         detected_jp.setLayout(detected_jpLayout);
         detected_jpLayout.setHorizontalGroup(
             detected_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(detected_jpLayout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, detected_jpLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
                 .addContainerGap())
