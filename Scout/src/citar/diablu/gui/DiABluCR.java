@@ -49,48 +49,62 @@ public class DiABluCR extends javax.swing.JDialog {
         citar_jl = new javax.swing.JLabel();
         version_jl1 = new javax.swing.JLabel();
         development_jl1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("About DiABlu Scout");
         development_jl.setText("A project by Jorge Cardoso");
 
-        citar_jl.setText("CITAR - Research Center for Science and Technology  in Art");
+        citar_jl.setText("at CITAR - Research Center for Science and Technology  in Art");
 
         version_jl1.setText("DiABlu Scout version 0.99");
 
         development_jl1.setText("with development by Nuno Rodrigues, Jorge Cardoso");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diablufinal.gif")));
+
+        jButton1.setText("Close");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout about_jpLayout = new org.jdesktop.layout.GroupLayout(about_jp);
         about_jp.setLayout(about_jpLayout);
         about_jpLayout.setHorizontalGroup(
             about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(about_jpLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(version_jl1)
-                    .add(development_jl))
-                .addContainerGap(370, Short.MAX_VALUE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, about_jpLayout.createSequentialGroup()
-                .addContainerGap(209, Short.MAX_VALUE)
-                .add(citar_jl)
-                .addContainerGap())
-            .add(about_jpLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(development_jl1)
-                .addContainerGap(246, Short.MAX_VALUE))
+                .add(jLabel1)
+                .add(about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(about_jpLayout.createSequentialGroup()
+                        .add(10, 10, 10)
+                        .add(about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(version_jl1)
+                            .add(development_jl)
+                            .add(development_jl1)
+                            .add(citar_jl))
+                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(about_jpLayout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jButton1)
+                        .addContainerGap())))
         );
         about_jpLayout.setVerticalGroup(
             about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(about_jpLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(version_jl1)
-                .add(31, 31, 31)
+                .add(22, 22, 22)
                 .add(development_jl)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(development_jl1)
-                .add(91, 91, 91)
+                .add(6, 6, 6)
                 .add(citar_jl)
-                .add(32, 32, 32))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 38, Short.MAX_VALUE)
+                .add(jButton1))
+            .add(jLabel1)
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -98,17 +112,22 @@ public class DiABluCR extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(about_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(about_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(about_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 227, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(about_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -126,6 +145,8 @@ public class DiABluCR extends javax.swing.JDialog {
     private javax.swing.JLabel citar_jl;
     private javax.swing.JLabel development_jl;
     private javax.swing.JLabel development_jl1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel version_jl1;
     // End of variables declaration//GEN-END:variables
     

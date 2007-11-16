@@ -72,6 +72,7 @@
             <copy
                 todir="dist">
                 <fileset dir="externLibs" includes="*.txt" />    
+                <fileset dir="externLibs" includes="*.dll" />  
             </copy>
 	</target> 
 	
