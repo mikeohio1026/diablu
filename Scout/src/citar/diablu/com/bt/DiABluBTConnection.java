@@ -96,7 +96,7 @@ public class DiABluBTConnection extends Thread {
                         // get the string message
                         message = in.readUTF();
                         log(4,"Message received = " + message);
-                        processMsg(message,clientUUID);
+                        //processMsg(message,clientUUID);
                                                     
                  } catch (IOException e) {
                      
@@ -152,7 +152,7 @@ public class DiABluBTConnection extends Thread {
     }   
     
    
-    
+    /*
     private void processMsg(String msg,String id){
         
         DiABluID dID = this.clientDID;
@@ -182,7 +182,9 @@ public class DiABluBTConnection extends Thread {
         
         }
         
-    }
+    }*/
+    
+    
     /**
      * This method returns the corresponding String of a given String(int(keycode))
      * The constants values used by this method are defined in the DiABluBTCONSTANTS
@@ -222,13 +224,13 @@ public class DiABluBTConnection extends Thread {
         }
         return javaString;
     }
-    
+    /*
     private void createMsg(String msg,String id){
         
         DiABluID dID = this.clientDID;
         DiABluMsg dM = new DiABluMsg(dID,msg);
         outInfo.newMsg(dM);
         
-    }
+    }*/
     
 }   

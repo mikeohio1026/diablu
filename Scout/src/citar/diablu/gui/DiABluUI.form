@@ -77,17 +77,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="settings_jp" alignment="0" max="32767" attributes="0"/>
-                  <Component id="sim_jp" alignment="1" max="32767" attributes="0"/>
-                  <Component id="detected_jp" alignment="0" max="32767" attributes="0"/>
+                  <Component id="log_jp" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="471" max="-2" attributes="0"/>
                       <Component id="jPanel2" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="log_jp" alignment="0" max="32767" attributes="0"/>
+                  <Component id="detected_jp" alignment="0" max="32767" attributes="0"/>
+                  <Component id="sim_jp" alignment="0" max="32767" attributes="0"/>
+                  <Component id="settings_jp" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -96,17 +96,16 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
+              <Component id="detected_jp" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="detected_jp" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="sim_jp" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="settings_jp" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="log_jp" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="29" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -179,7 +178,7 @@
                       <Component id="add_jb" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="uuid_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="51" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -245,34 +244,30 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="27" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="adress_jl" min="-2" max="-2" attributes="0"/>
-                      <Component id="service_jl" alignment="1" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="307" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="service_jtf" min="-2" pref="254" max="-2" attributes="1"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="31" pref="31" max="31" attributes="0"/>
                           <Component id="delay_jl" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="1">
-                          <Component id="adress_jtf" min="-2" pref="73" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="1">
+                          <Component id="adress_jl" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="adress_jtf" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="port_jl" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="port_jtf" alignment="1" max="32767" attributes="1"/>
-                      <Component id="delay_jtf" alignment="1" pref="46" max="32767" attributes="1"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="port_jtf" pref="92" max="32767" attributes="1"/>
+                      <Component id="delay_jtf" alignment="1" pref="92" max="32767" attributes="1"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -281,38 +276,32 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="delay_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="delay_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="service_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="service_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="29" max="32767" attributes="0"/>
+                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="delay_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="delay_jl" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="17" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="adress_jl" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="port_jl" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="port_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="adress_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="port_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="port_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="adress_jl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="adress_jtf" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="service_jl">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Service Name:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="service_jtf">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="DiABlu666"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="adress_jl">
           <Properties>
             <Property name="text" type="java.lang.String" value="Target Address:"/>
@@ -343,7 +332,7 @@
         <Component class="javax.swing.JTextField" name="delay_jtf">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="10"/>
+            <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
           <Events>
             <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="delay_jtfPropertyChange"/>
@@ -403,16 +392,18 @@
             <Component class="javax.swing.JTable" name="detectedTable_jt">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="3" rowCount="0">
+                  <Table columnCount="5" rowCount="0">
                     <Column editable="false" title="UUID  " type="java.lang.String"/>
                     <Column editable="false" title="Friendly Name" type="java.lang.String"/>
-                    <Column editable="false" title="Device Type" type="java.lang.String"/>
+                    <Column editable="false" title="Major Class" type="java.lang.String"/>
+                    <Column editable="false" title="Minor Class" type="java.lang.String"/>
+                    <Column editable="false" title="Manufacturer" type="java.lang.String"/>
                   </Table>
                 </Property>
-                <Property name="autoResizeMode" type="int" value="4"/>
+                <Property name="columnSelectionAllowed" type="boolean" value="true"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(310);&#xa;detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);&#xa;detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(80);&#xa;//detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(120);&#xa;//detectedTable_jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);&#xa;//Ask to be notified of selection changes.&#xa;ListSelectionModel rowSM = detectedTable_jt.getSelectionModel();&#xa;rowSM.addListSelectionListener(new ListSelectionListener() {&#xa;    public void valueChanged(ListSelectionEvent e) {&#xa;        //Ignore extra messages.&#xa;        if (e.getValueIsAdjusting()) return;&#xa;&#xa;        ListSelectionModel lsm =&#xa;            (ListSelectionModel)e.getSource();&#xa;        if (lsm.isSelectionEmpty()) {&#xa;            //no rows are selected&#xa;        } else {&#xa;            int selectedRow = lsm.getMinSelectionIndex();&#xa;            //selectedRow is selected&#xa;            setUUID(detectedTable_jt.getValueAt(selectedRow,0).toString());&#xa;            setFName(detectedTable_jt.getValueAt(selectedRow,1).toString());&#xa;        }&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="//detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(310);&#xa;//detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);&#xa;//detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(80);&#xa;//detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(120);&#xa;//detectedTable_jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);&#xa;//Ask to be notified of selection changes.&#xa;ListSelectionModel rowSM = detectedTable_jt.getSelectionModel();&#xa;rowSM.addListSelectionListener(new ListSelectionListener() {&#xa;    public void valueChanged(ListSelectionEvent e) {&#xa;        //Ignore extra messages.&#xa;        if (e.getValueIsAdjusting()) return;&#xa;&#xa;        ListSelectionModel lsm =&#xa;            (ListSelectionModel)e.getSource();&#xa;        if (lsm.isSelectionEmpty()) {&#xa;            //no rows are selected&#xa;        } else {&#xa;            int selectedRow = lsm.getMinSelectionIndex();&#xa;            //selectedRow is selected&#xa;            setUUID(detectedTable_jt.getValueAt(selectedRow,0).toString());&#xa;            setFName(detectedTable_jt.getValueAt(selectedRow,1).toString());&#xa;        }&#xa;    }&#xa;});"/>
                 <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="DiABlu1UI_detectedTable_jt"/>
               </AuxValues>
             </Component>
@@ -434,17 +425,17 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="log_jsp" alignment="0" pref="669" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
                           <Component id="logDetail_jl" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="comboLog" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="478" max="32767" attributes="0"/>
                           <Component id="clearLog_jb" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="log_jsp" alignment="0" pref="669" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -453,7 +444,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <Component id="log_jsp" min="-2" pref="100" max="-2" attributes="0"/>
+                  <Component id="log_jsp" pref="259" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="comboLog" alignment="3" min="-2" max="-2" attributes="0"/>

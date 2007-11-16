@@ -1,0 +1,21 @@
+DiABlu Scout
+
+Release 0.99 - 16 November 2007
+
+This release introduced a new name for this application (was DiABlu Server). It also 
+introduced a change in the project structure: Scout only deals with finding devices 
+and info about them; it does not allow communication with the mobile version.
+
+[ changes ]
+
++ Now determines major, minor device class and manufacturer and sends this info over OSC
+
++ OSC messages changed to accomodate the extra info. This may break some target applications...
+
+- Does not support receiving messages from DiABlu Mobile anymore.
+
+- Does not allow setting the service name, since it doesn't run any BT service anymore.
+
+- Does not support the servicename command line parameter anymore.
+
+

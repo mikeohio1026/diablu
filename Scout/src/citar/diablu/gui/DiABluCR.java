@@ -45,23 +45,20 @@ public class DiABluCR extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         about_jp = new javax.swing.JPanel();
-        ds_jl = new javax.swing.JLabel();
-        version_jl = new javax.swing.JLabel();
         development_jl = new javax.swing.JLabel();
         citar_jl = new javax.swing.JLabel();
+        version_jl1 = new javax.swing.JLabel();
+        development_jl1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("About DiABlu Server");
-        ds_jl.setFont(new java.awt.Font("Tahoma", 1, 36));
-        ds_jl.setForeground(java.awt.Color.blue);
-        ds_jl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ds_jl.setText("DiABlu Server");
+        setTitle("About DiABlu Scout");
+        development_jl.setText("A project by Jorge Cardoso");
 
-        version_jl.setText("Version 1.0");
+        citar_jl.setText("CITAR - Research Center for Science and Technology  in Art");
 
-        development_jl.setText("Development: Jorge Cardoso, Nuno Rodrigues");
+        version_jl1.setText("DiABlu Scout version 0.99");
 
-        citar_jl.setText("CITAR - Center of ....");
+        development_jl1.setText("with development by Nuno Rodrigues, Jorge Cardoso");
 
         org.jdesktop.layout.GroupLayout about_jpLayout = new org.jdesktop.layout.GroupLayout(about_jp);
         about_jp.setLayout(about_jpLayout);
@@ -70,27 +67,30 @@ public class DiABluCR extends javax.swing.JDialog {
             .add(about_jpLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(about_jpLayout.createSequentialGroup()
-                        .add(ds_jl, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .add(about_jpLayout.createSequentialGroup()
-                        .add(about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(version_jl)
-                            .add(citar_jl)
-                            .add(development_jl))
-                        .add(135, 135, 135))))
+                    .add(version_jl1)
+                    .add(development_jl))
+                .addContainerGap(370, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, about_jpLayout.createSequentialGroup()
+                .addContainerGap(209, Short.MAX_VALUE)
+                .add(citar_jl)
+                .addContainerGap())
+            .add(about_jpLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(development_jl1)
+                .addContainerGap(246, Short.MAX_VALUE))
         );
         about_jpLayout.setVerticalGroup(
             about_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(about_jpLayout.createSequentialGroup()
-                .add(ds_jl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(version_jl)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(citar_jl)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addContainerGap()
+                .add(version_jl1)
+                .add(31, 31, 31)
                 .add(development_jl)
-                .add(42, 42, 42))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(development_jl1)
+                .add(91, 91, 91)
+                .add(citar_jl)
+                .add(32, 32, 32))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -125,8 +125,8 @@ public class DiABluCR extends javax.swing.JDialog {
     private javax.swing.JPanel about_jp;
     private javax.swing.JLabel citar_jl;
     private javax.swing.JLabel development_jl;
-    private javax.swing.JLabel ds_jl;
-    private javax.swing.JLabel version_jl;
+    private javax.swing.JLabel development_jl1;
+    private javax.swing.JLabel version_jl1;
     // End of variables declaration//GEN-END:variables
     
 }

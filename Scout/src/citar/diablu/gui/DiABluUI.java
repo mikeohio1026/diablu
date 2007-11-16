@@ -88,8 +88,6 @@ public class DiABluUI extends javax.swing.JFrame {
         edit_jb = new javax.swing.JButton();
         remove_jb = new javax.swing.JButton();
         settings_jp = new javax.swing.JPanel();
-        service_jl = new javax.swing.JLabel();
-        service_jtf = new javax.swing.JTextField();
         adress_jl = new javax.swing.JLabel();
         adress_jtf = new javax.swing.JTextField();
         port_jl = new javax.swing.JLabel();
@@ -202,14 +200,10 @@ public class DiABluUI extends javax.swing.JFrame {
                     .add(edit_jb)
                     .add(add_jb)
                     .add(uuid_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         settings_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Settings", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
-        service_jl.setText("Service Name:");
-
-        service_jtf.setText("DiABlu666");
-
         adress_jl.setText("Target Address:");
 
         adress_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -223,7 +217,7 @@ public class DiABluUI extends javax.swing.JFrame {
         delay_jl.setText("Delay between bluetooth discoverys(s):");
 
         delay_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        delay_jtf.setText("10");
+        delay_jtf.setText("0");
         delay_jtf.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 delay_jtfPropertyChange(evt);
@@ -238,49 +232,47 @@ public class DiABluUI extends javax.swing.JFrame {
         settings_jp.setLayout(settings_jpLayout);
         settings_jpLayout.setHorizontalGroup(
             settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, settings_jpLayout.createSequentialGroup()
-                .add(30, 30, 30)
+            .add(settings_jpLayout.createSequentialGroup()
+                .addContainerGap()
                 .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jLabel5)
                     .add(jLabel6))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 27, Short.MAX_VALUE)
-                .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                    .add(adress_jl)
-                    .add(service_jl))
-                .add(4, 4, 4)
+                .add(307, 307, 307)
                 .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, settings_jpLayout.createSequentialGroup()
-                        .add(service_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 254, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                    .add(settings_jpLayout.createSequentialGroup()
+                        .add(31, 31, 31)
                         .add(delay_jl))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, settings_jpLayout.createSequentialGroup()
-                        .add(adress_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 73, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(settings_jpLayout.createSequentialGroup()
+                        .add(adress_jl)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(adress_jtf)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(port_jl)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, port_jtf)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, delay_jtf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
+                .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(port_jtf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                    .add(delay_jtf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
                 .addContainerGap())
         );
         settings_jpLayout.setVerticalGroup(
             settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(settings_jpLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(delay_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(delay_jl)
-                    .add(service_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(service_jl)
-                    .add(jLabel5))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(port_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(port_jl)
-                    .add(jLabel6)
-                    .add(adress_jl)
-                    .add(adress_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(settings_jpLayout.createSequentialGroup()
+                        .add(jLabel5)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 29, Short.MAX_VALUE)
+                        .add(jLabel6))
+                    .add(settings_jpLayout.createSequentialGroup()
+                        .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(delay_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(delay_jl))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 17, Short.MAX_VALUE)
+                        .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(adress_jl)
+                            .add(port_jl)
+                            .add(port_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(adress_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
 
         detected_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Detected Devices", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
@@ -289,14 +281,14 @@ public class DiABluUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "UUID  ", "Friendly Name", "Device Type"
+                "UUID  ", "Friendly Name", "Major Class", "Minor Class", "Manufacturer"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -307,10 +299,10 @@ public class DiABluUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        detectedTable_jt.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(310);
-        detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);
-        detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(80);
+        detectedTable_jt.setColumnSelectionAllowed(true);
+        //detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(310);
+        //detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);
+        //detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(80);
         //detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(120);
         //detectedTable_jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //Ask to be notified of selection changes.
@@ -371,22 +363,22 @@ public class DiABluUI extends javax.swing.JFrame {
         log_jp.setLayout(log_jpLayout);
         log_jpLayout.setHorizontalGroup(
             log_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(log_jpLayout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, log_jpLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(log_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(log_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, log_jsp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
                     .add(log_jpLayout.createSequentialGroup()
                         .add(logDetail_jl)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(comboLog, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 478, Short.MAX_VALUE)
-                        .add(clearLog_jb))
-                    .add(log_jsp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE))
+                        .add(clearLog_jb)))
                 .addContainerGap())
         );
         log_jpLayout.setVerticalGroup(
             log_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, log_jpLayout.createSequentialGroup()
-                .add(log_jsp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(log_jsp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(log_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(comboLog, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -440,29 +432,28 @@ public class DiABluUI extends javax.swing.JFrame {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(settings_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, sim_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(detected_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, log_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
                         .add(471, 471, 471)
                         .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(log_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(detected_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(sim_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(settings_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(detected_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(sim_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(settings_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(log_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -475,7 +466,9 @@ public class DiABluUI extends javax.swing.JFrame {
         
         log_jta.setText("");
     }//GEN-LAST:event_clearLog_jbActionPerformed
-
+ /*
+  * BUG: removing simulated devices sends wrong major minor info on osc messages...
+  */
     private void remove_jbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remove_jbActionPerformed
                                        
         // Create & initialize the temporary variables needed
@@ -484,7 +477,7 @@ public class DiABluUI extends javax.swing.JFrame {
         DiABluDevice DBdvT = null;
         DiABluID DBidT = null;
         Vector <DiABluDevice>dDevicesRemove = new Vector<DiABluDevice>();
-        Vector dDevicesList = new Vector();
+        Vector <DiABluDevice>dDevicesList = new Vector<DiABluDevice>();
                
         // Get the target address
         InetSocketAddress addr = getSocketAddress();
@@ -587,7 +580,7 @@ public class DiABluUI extends javax.swing.JFrame {
     private void edit_jbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_jbActionPerformed
         
         // TODO: What about nothing was changed ? Check for this.
-        Vector dDevicesList = new Vector();          // DiABlu Devices List to be send at the end
+        Vector <DiABluDevice>dDevicesList = new Vector<DiABluDevice>();          // DiABlu Devices List to be send at the end
         InetSocketAddress addr = getSocketAddress(); // Get the target address
         
         if ( detectedTable_jt.getSelectedRow() == -1 ) {
@@ -826,26 +819,26 @@ public class DiABluUI extends javax.swing.JFrame {
     
     // OUTWatcher        
     // Forward the methods parameters to DB Business Code
-    public void sendAddDevices(Vector aDevices, InetSocketAddress addr){
+    public void sendAddDevices(Vector <DiABluDevice>aDevices, InetSocketAddress addr){
         
         DBbc.sendAddDevices(aDevices,addr);
     }
     
-    public void sendRemoveDevices(Vector rDevices, InetSocketAddress addr){
+    public void sendRemoveDevices(Vector <DiABluDevice>rDevices, InetSocketAddress addr){
         DBbc.sendRemoveDevices(rDevices,addr);
     }
     
-    public void sendDeviceList(Vector lDevices, InetSocketAddress addr){
+    public void sendDeviceList(Vector <DiABluDevice>lDevices, InetSocketAddress addr){
         DBbc.sendDeviceList(lDevices,addr);
     }
-        
+        /*
     public void sendMsg(DiABluMsg newDMsg, InetSocketAddress addr){
         DBbc.sendMsg(newDMsg,addr);
-    }
-    
+    }*/
+    /*
     public void sendKeys(DiABluKey newDKey, InetSocketAddress addr){
         DBbc.sendKeys(newDKey,addr);
-    }
+    }*/
     
     public void sendDeviceCount(int dCount, InetSocketAddress addr){
         DBbc.sendDeviceCount(dCount,addr);
@@ -982,18 +975,18 @@ public class DiABluUI extends javax.swing.JFrame {
     /**
      * Sets the DiABlu's Server Service Name
      */
-    public void setServiceName (String newServiceName) {
+    /*public void setServiceName (String newServiceName) {
         
         service_jtf.setText(newServiceName);
-    }
+    }*/
     
     /**
      * Returns the DiABlu's Server Service Name & desc
      */
-    public String getServiceName () {
+    /*public String getServiceName () {
         
         return service_jtf.getText();
-    }    
+    }   */ 
     
     // Target Address
     /**
@@ -1037,6 +1030,10 @@ public class DiABluUI extends javax.swing.JFrame {
         
     }
     
+    /**
+     * This does not make sense, so its now deprecated.
+     * @deprecated
+     */
     public Vector<DiABluDevice> getDiABluList(){
         
         // get our current list (TableModel)
@@ -1056,13 +1053,13 @@ public class DiABluUI extends javax.swing.JFrame {
         // get the info on the device
         String uuidT = newDD.getID().getUUID();
         String fnameT = newDD.getID().getFName();
-        String deviceT = newDD.getStringDevice();
+        //String deviceT = newDD.getStringDevice();
         //String statusT = newDD.getStringStatus();
                         
         newLog(4,"[DiABluUI-addDevice()]UUID:"+uuidT+"|FNAME:"+fnameT);
         DefaultTableModel modelT = (DefaultTableModel) detectedTable_jt.getModel();
         
-        modelT.addRow(new Object[] { uuidT, fnameT, deviceT, "" });
+        modelT.addRow(new Object[] { uuidT, fnameT, newDD.getMajorDeviceClassString(), newDD.getMinorDeviceClassString(), newDD.getManufacturer() });
         //newLog(4,"[DiABluUI-addDevice()]Updating table...");
         detectedTable_jt.setModel( (TableModel) modelT );        
         
@@ -1321,6 +1318,8 @@ public class DiABluUI extends javax.swing.JFrame {
     
     /**
      * Converts a tablemodel object into a Vector of DiABlu Devices
+     *
+     * BUG: Why do this? the List of devices should be kept at all times by the BC not the GUI!
      */
     public Vector<DiABluDevice> modelTOvector ( TableModel temp ) {
         
@@ -1401,8 +1400,6 @@ public class DiABluUI extends javax.swing.JFrame {
     private javax.swing.JLabel port_jl;
     private javax.swing.JTextField port_jtf;
     private javax.swing.JButton remove_jb;
-    private javax.swing.JLabel service_jl;
-    private javax.swing.JTextField service_jtf;
     private javax.swing.JPanel settings_jp;
     private javax.swing.JPanel sim_jp;
     private javax.swing.JLabel uuid_jl;
