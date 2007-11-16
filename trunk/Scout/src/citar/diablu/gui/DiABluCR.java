@@ -58,7 +58,7 @@ public class DiABluCR extends javax.swing.JDialog {
 
         citar_jl.setText("at CITAR - Research Center for Science and Technology  in Art");
 
-        version_jl1.setText("DiABlu Scout version 0.99");
+        version_jl1.setText("DiABlu Scout version 0.991");
 
         development_jl1.setText("with development by Nuno Rodrigues, Jorge Cardoso");
 

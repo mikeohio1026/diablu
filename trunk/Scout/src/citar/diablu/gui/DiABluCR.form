@@ -93,7 +93,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="version_jl1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="DiABlu Scout version 0.99"/>
+            <Property name="text" type="java.lang.String" value="DiABlu Scout version 0.991"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="development_jl1">

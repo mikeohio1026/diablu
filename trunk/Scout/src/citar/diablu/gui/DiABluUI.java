@@ -123,7 +123,7 @@ public class DiABluUI extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("DiABlu Scout 0.99");
+        setTitle("DiABlu Scout 0.991");
         sim_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Simulated Devices", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
         uuid_jl.setText("UUID:");
 

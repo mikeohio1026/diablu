@@ -464,6 +464,9 @@ public class DiABluBC implements INWatcher {
         
     }
     
+    /**
+     * @todo Should build the list of removed devices based on devices in the device list to ensure proper minor, major..
+     */
     public void sendRemoveDevices(Vector <DiABluDevice>rDevices, InetSocketAddress addr){
         
         if (rDevices == null || rDevices.size()==0){
@@ -478,7 +481,11 @@ public class DiABluBC implements INWatcher {
             
             DiABluDevice removedDevice = (DiABluDevice) rDevices.elementAt(i);
             newLog(0,"DeviceOut:["+removedDevice.getID().getUUID()+"]["+removedDevice.getID().getFName()+"]");
-            
+            /* we need to remove it from the device list */
+            if (deviceList.contains(removedDevice)) {
+                deviceList.remove(removedDevice);
+                
+            }
         }
         
         DBui.removeDevices(rDevices);
@@ -627,7 +634,7 @@ public class DiABluBC implements INWatcher {
                         
                         if (temp.equalsIgnoreCase("servicename")) {
                             
-                           // sName = commandLineParameters[1];
+                            // sName = commandLineParameters[1];
                             //DBui.setServiceName(sName);
                             
                             
@@ -674,7 +681,7 @@ public class DiABluBC implements INWatcher {
         
         
         // System.out.println("[DiABluBC]Calling service provider class...");
-       // DiABluBTServer dBTs = new DiABluBTServer(this,sName);
+        // DiABluBTServer dBTs = new DiABluBTServer(this,sName);
         //dBTs.start();
         //DiABluBTrfcommJSR82b DBspp = new DiABluBTrfcommJSR82b();
         //DBspp.start();
