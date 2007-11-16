@@ -160,6 +160,14 @@ public class DiABluDevice {
         
         
     }
+
+    public DiABluID getId() {
+        return id;
+    }
+    
+    public boolean equals(Object d) {
+        return ((DiABluDevice)d).getId().UUID.equalsIgnoreCase(this.getId().UUID);
+    }
     
     /**
      * This method returns the string equivalent to the int code
