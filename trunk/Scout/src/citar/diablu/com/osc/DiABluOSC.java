@@ -49,11 +49,11 @@ public class DiABluOSC {
      * OSC Commands used
      */
     String DEVICEIN="/DeviceIn";                    // New Device entered
-    String DEVICESIN="/DeviceListIn";               // Newly entered devices //ss ss ss
+    String DEVICESLISTIN="/DeviceListIn";               // Newly entered devices //ss ss ss
     String DEVICEOUT="/DeviceOut";                  // Single Device exited
-    String DEVICESOUT="/DeviceListOut";             // Multiple Devices out //ss ss ss
-    String MESSAGEIN="/MessageIn";                  // Text Message sended
-    String KEYIN="/KeyIn";                          // Key pressed from device
+    String DEVICESLISTOUT="/DeviceListOut";             // Multiple Devices out //ss ss ss
+    //String MESSAGEIN="/MessageIn";                  // Text Message sended
+    //String KEYIN="/KeyIn";                          // Key pressed from device
     String DEVICECOUNT="/DeviceCount";              // Number of devices present
     String DEVICELIST="/DeviceList";                // Actual list of devices present //ss ss ss
     String NAMECHANGED="/NameChanged";              // Device's Friendly Name has changedOSC
@@ -71,7 +71,7 @@ public class DiABluOSC {
      * /devicesin sends a Single OSC Message with all the devices concatenated in
      *
      */
-    public void sendAddDevices(Vector aDevices, InetSocketAddress addr){
+    public void sendAddDevices(Vector <DiABluDevice>aDevices, InetSocketAddress addr){
         
         int totalDevicesAdded = 0;  // size of the list
         String[][] tempAddDevices1 = null;
@@ -85,8 +85,8 @@ public class DiABluOSC {
         
         // get the vector's size'
         totalDevicesAdded = aDevices.size();
-        
-        tempAddDevices1 = new String[totalDevicesAdded][totalDevicesAdded]; // devicein
+        /* we send 5 parameter in the osc message : uuid, friendly name, major, minor, manufacturer */
+        tempAddDevices1 = new String[totalDevicesAdded][5]; // devicein
         tempAddDevices2 = new Object[totalDevicesAdded];                    // devicesin
         
         // Convert the info
@@ -96,10 +96,11 @@ public class DiABluOSC {
         // Send it...
         
         // OSC /devicein
+        /* we have to send multiple /deviceIn messages so lets bundle them*/
         sendBundle(DEVICEIN,tempAddDevices1,addr);
         
         // OSC /devicesin
-        sendMessage(DEVICESIN,tempAddDevices2,addr);
+        sendMessage(DEVICESLISTIN,tempAddDevices2,addr);
         
     }
     
@@ -110,23 +111,27 @@ public class DiABluOSC {
      * /devicesout sends a Single OSC Message with all the devices concatenated in
      *
      */
-    public void sendRemoveDevices(Vector rDevices, InetSocketAddress addr){
+    public void sendRemoveDevices(Vector <DiABluDevice>rDevices, InetSocketAddress addr){
         
         int totalDevicesRemoved = rDevices.size();
-        String[][] tempRemoveDevices1 = new String[totalDevicesRemoved][totalDevicesRemoved];
+        /* we send 5 parameter in the osc message : uuid, friendly name, major, minor, manufacturer */        
+        String[][] tempRemoveDevices1 = new String[totalDevicesRemoved][5];
         Object[] tempRemoveDevices2 = new Object[totalDevicesRemoved];
         
         // Convert the info
         tempRemoveDevices1 = vectorTOstring(rDevices);
         tempRemoveDevices2 = vectorTOobject(rDevices);
-        
+         System.out.println("remove");
+        for (int i = 0; i < tempRemoveDevices2.length; i++) {
+            System.out.print((String)tempRemoveDevices2[i] + " ");
+        }
         // Send it...
         
         // OSC /deviceout
         sendBundle(DEVICEOUT,tempRemoveDevices1,addr);
         
         // OSC /devicesout
-        sendMessage(DEVICESOUT,tempRemoveDevices2,addr);
+        sendMessage(DEVICESLISTOUT,tempRemoveDevices2,addr);
         
     }
     
@@ -135,7 +140,7 @@ public class DiABluOSC {
      * to the OSC commands /devicelist
      *
      */
-    public void sendDeviceList(Vector lDevices, InetSocketAddress addr){
+    public void sendDeviceList(Vector <DiABluDevice>lDevices, InetSocketAddress addr){
         
         // first verify that we've got some info
         if (lDevices != null) {
@@ -151,7 +156,7 @@ public class DiABluOSC {
         } else return;
         
     }
-    
+    /*
     public void sendMsg(DiABluMsg newDMsg, InetSocketAddress addr){
         
         // get the sender's related ID
@@ -167,8 +172,8 @@ public class DiABluOSC {
         // send the message
         sendMessage(MESSAGEIN,oscMsg,addr);
         
-    }
-    
+    }*/
+    /*
     public void sendKeys(DiABluKey newDKey, InetSocketAddress addr){
         
         // get the sender's related id'
@@ -185,7 +190,7 @@ public class DiABluOSC {
         // send the keys
         sendMessage(KEYIN,oscMsg,addr);
         
-    }
+    }*/
     
     public void sendNamesChanged(Vector nDevices, InetSocketAddress addr){
         
@@ -213,7 +218,7 @@ public class DiABluOSC {
             fnameT = dbT.getID().getFName();
             
             // convert the info
-            oscMsg = new Object[] { uuidT, fnameT };
+            oscMsg = new Object[] { uuidT, fnameT, dbT.getMajorDeviceClassString(), dbT.getMinorDeviceClassString(), dbT.getManufacturer() };
             
             // send it...
             sendMessage(NAMECHANGED,oscMsg,addr);
@@ -236,13 +241,14 @@ public class DiABluOSC {
      *  by the sendMessage() method.
      *  TODO:Validation for an empty list
      */
-    private String[][] vectorTOstring(Vector xDevices) {
+    private String[][] vectorTOstring(Vector <DiABluDevice>xDevices) {
         
         String uuidT = "";
         String fnameT = "";
         DiABluDevice ddT;
         int tempSize = xDevices.size();
-        String[][] tempDBstring = new String[tempSize][2];
+        
+        String[][] tempDBstring = new String[tempSize][5];
         
         for (int i=0; i<tempSize; i++){
             
@@ -256,7 +262,9 @@ public class DiABluOSC {
             // copy the device info
             tempDBstring[i][0]=uuidT;
             tempDBstring[i][1]=fnameT;
-            
+            tempDBstring[i][2]=ddT.getMajorDeviceClassString();
+            tempDBstring[i][3]=ddT.getMinorDeviceClassString();
+            tempDBstring[i][4]= ddT.getManufacturer();            
         }
         
         return tempDBstring;
@@ -267,8 +275,9 @@ public class DiABluOSC {
      *  The returned array only contains the DiABlu's ID's (UUID & FName) ready to be sent
      *  by the sendMessage() method.
      *  TODO:Further refine the checking of an empty or null vector
+     * TODO: remove this method and use only the vector to String ?
      */
-    private Object[] vectorTOobject(Vector xDevices){
+    private Object[] vectorTOobject(Vector <DiABluDevice>xDevices){
         
         String uuidT = "";                 // temporary uuid
         String fnameT = "";                // temporary friendly name
@@ -287,8 +296,9 @@ public class DiABluOSC {
         // get the size
         tempSize = xDevices.size();
         
-        // initialize the returned array which has 2x nº elements of the incoming list
-        tempDBobject = new Object[2*tempSize];
+        // initialize the returned array which has 5x nº elements of the incoming list
+        /* we send 5 parameters in the osc message...*/
+        tempDBobject = new Object[5*tempSize];
         
         // debug info
         // System.out.println("[DiABluOSC-vectorTOobject()]List size:"+xDevices.size());
@@ -296,7 +306,7 @@ public class DiABluOSC {
         for (int i=0; i<tempSize; i++){
             
             // get the device
-            ddT = (DiABluDevice) xDevices.get(i);
+            ddT = xDevices.get(i);
             
             // get the device info
             uuidT = ddT.getID().getUUID();
@@ -305,7 +315,10 @@ public class DiABluOSC {
             // copy the device info
             tempDBobject[tempCounter] = uuidT;
             tempDBobject[tempCounter+1] = fnameT;
-            tempCounter+=2;
+            tempDBobject[tempCounter+2] = ddT.getMajorDeviceClassString();
+            tempDBobject[tempCounter+3] = ddT.getMinorDeviceClassString();            
+            tempDBobject[tempCounter+4] = ddT.getManufacturer();
+            tempCounter+=5;
             
         }
         
@@ -344,7 +357,11 @@ public class DiABluOSC {
             for ( int i = 0; i < brutus.length ; i++ ){
                 
                 // System.out.println("[DiABluOSC-sendBundle()]Processing packets...["+brutus[i][0]+"]["+brutus[i][1]+"]\n");
-                Object[] objT = new Object[] { brutus[i][0] , brutus[i][1] };
+                Object[] objT = new Object[brutus[i].length];
+                for (int j = 0; j < brutus[i].length; j++) {
+                    objT[j] = brutus[i][j];
+                }
+                //Object[] objT = new Object[] { brutus[i][0] , brutus[i][1] };
                 bundle.addPacket( new OSCMessage(oscCommand, objT));
                 
             }
@@ -410,7 +427,7 @@ public class DiABluOSC {
     /**
      * Sends a composite Object[] message
      */
-    public static void sendMessage( String oscCommand, Object[] brutus , InetSocketAddress addr ){
+    private static void sendMessage( String oscCommand, Object[] brutus , InetSocketAddress addr ){
         
         
         DatagramChannel dch = null;
@@ -419,7 +436,6 @@ public class DiABluOSC {
         try {
             dch = DatagramChannel.open();
             trns = new OSCTransmitter(dch, addr);
-            
             
             /* Sending message */
             //System.out.println("Sending [OSC Command:" + oscCommand + "] | [List Size:"+brutus.length+"]\n");
@@ -445,7 +461,7 @@ public class DiABluOSC {
      * Sends simple OSC message with a [int]
      * Suited for /devicecount
      */
-    public static void sendMessage( String oscCommand, int num , InetSocketAddress addr ){
+    private static void sendMessage( String oscCommand, int num , InetSocketAddress addr ){
         
         DatagramChannel dch = null;
         OSCTransmitter trns;

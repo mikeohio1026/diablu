@@ -66,4 +66,13 @@
     nbproject/build-impl.xml file. 
 
     -->
+
+    <target name="-post-jar">
+    	<delete file="${dist.dir}/README.txt"/>
+            <copy
+                todir="dist">
+                <fileset dir="externLibs" includes="*.txt" />    
+            </copy>
+	</target> 
+	
 </project>

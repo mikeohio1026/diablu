@@ -36,9 +36,9 @@ public interface INWatcher {
     
     public void newDeviceList (Vector <DiABluDevice>nDeviceList, int type);
     
-    public void newMsg (DiABluMsg newMsg);
+ //   public void newMsg (DiABluMsg newMsg);
     
-    public void newKey (DiABluKey newKey);
+ //   public void newKey (DiABluKey newKey);
     
     public void newLog (int priority,String log);
     
