@@ -1,9 +1,9 @@
 /*
- * LegOSC.java
+ * LegOSCServer.java
  *
  * Created on 23 de Janeiro de 2007, 0:13
  *
- *  LegOSC: An OSC gateway to control the NXT Brick.
+ *  LegOSCServer: An OSC gateway to control the NXT Brick.
  *  This is part of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
@@ -47,7 +47,7 @@ import pt.citar.diablu.nxt.protocol.*;
  * @todo Implement OSC messages to configure polling.
  * @author Jorge Cardoso
  */
-public class LegOSC implements OSCListener, Runnable, LegOSCWindowObserver {
+public class LegOSCServer implements OSCListener, Runnable, LegOSCWindowObserver {
     
     /**
      * The sensor types used for the mapping between port and sensor type.
@@ -98,13 +98,13 @@ public class LegOSC implements OSCListener, Runnable, LegOSCWindowObserver {
     NXTSoundSensor soundSensor;
     
     /* Our observer (the View) */
-    LegOSCObserver observer;
+    LegOSCServerObserver observer;
     
     boolean legOSCStarted = false;
     
     
     /**
-     * The port on which LegOSC listens. Apps should direct OSC traffic to this port.
+     * The port on which LegOSCServer listens. Apps should direct OSC traffic to this port.
      */
     int legOSCPort;
     
@@ -125,7 +125,7 @@ public class LegOSC implements OSCListener, Runnable, LegOSCWindowObserver {
     String brickCOM;
     
     /**
-     * Determines if LegOSC will poll the NXT for sensor readings periodically.
+     * Determines if LegOSCServer will poll the NXT for sensor readings periodically.
      */
     private boolean poll = false;
     
@@ -146,12 +146,12 @@ public class LegOSC implements OSCListener, Runnable, LegOSCWindowObserver {
     private SensorType[] sensorMap = {SensorType.NONE, SensorType.NONE,SensorType.NONE,SensorType.NONE};
     
     /** Creates a new instance of Main */
-    public LegOSC() {
+    public LegOSCServer() {
         btChannel = null;
         
     }
     
-    public void registerObserver(LegOSCObserver ob) {
+    public void registerObserver(LegOSCServerObserver ob) {
         this.observer = ob;
     }
     
@@ -181,7 +181,7 @@ public class LegOSC implements OSCListener, Runnable, LegOSCWindowObserver {
             return false;
         }
         
-        /* start the brick */
+        /* legOSCStarted the brick */
         brick = new NXTBrick(btChannel);
         /* add motor A  */
         motor = new NXTMotor[3];
@@ -190,7 +190,7 @@ public class LegOSC implements OSCListener, Runnable, LegOSCWindowObserver {
         motor[2] = new NXTMotor(brick, (byte)2);
         
         
-        /* start the OSC server */
+        /* legOSCStarted the OSC server */
         try {
             oscServer = OSCServer.newUsing(OSCServer.UDP, this.legOSCPort, false);
             oscServer.addOSCListener(this);
@@ -237,18 +237,18 @@ public class LegOSC implements OSCListener, Runnable, LegOSCWindowObserver {
     
     private void notifyError(String error) {
         if (observer != null) {
-            observer.error(error);
+            observer.legOSCError(error);
         }
     }
     
     private void notifyMessage(String msg) {
         if (observer != null) {
-            observer.message(msg);
+            observer.legOSCMessage(msg);
         }
     }
     private void notifyVerbose(String msg) {
         if (observer != null) {
-            observer.verbose(msg);
+            observer.legOSCVerbose(msg);
         }
     }
     
@@ -513,24 +513,24 @@ public class LegOSC implements OSCListener, Runnable, LegOSCWindowObserver {
         setPoll(autoSensor);
     }
     
-    public void sensorMapChanged(String[] sensorType) {
+    public void legOSCWindowSensorMapChanged(String[] sensorType) {
         for (int i = 0; i < 4; i++) {
             
             if (sensorType[i].equalsIgnoreCase(SensorType.NONE.toString())) {
-                this.mapSensor(i, LegOSC.SensorType.NONE);
+                this.mapSensor(i, LegOSCServer.SensorType.NONE);
             } else if (sensorType[i].equalsIgnoreCase(SensorType.SOUND.toString())) {
-                this.mapSensor(i, LegOSC.SensorType.SOUND);
+                this.mapSensor(i, LegOSCServer.SensorType.SOUND);
             } else if (sensorType[i].equalsIgnoreCase(SensorType.LIGHT.toString())) {
-                this.mapSensor(i, LegOSC.SensorType.LIGHT);
+                this.mapSensor(i, LegOSCServer.SensorType.LIGHT);
             } else if (sensorType[i].equalsIgnoreCase(SensorType.ULTRASONIC.toString())) {
-                this.mapSensor(i, LegOSC.SensorType.ULTRASONIC);
+                this.mapSensor(i, LegOSCServer.SensorType.ULTRASONIC);
             } else if (sensorType[i].equalsIgnoreCase(SensorType.PRESSURE.toString())) {
-                this.mapSensor(i, LegOSC.SensorType.PRESSURE);
+                this.mapSensor(i, LegOSCServer.SensorType.PRESSURE);
             }
         }
     }
     
-    public void startStop() {
+    public void legOSCWindowStartButtonPressed() {
         if (legOSCStarted) {
             this.stop();
             legOSCStarted = false;
@@ -541,6 +541,6 @@ public class LegOSC implements OSCListener, Runnable, LegOSCWindowObserver {
                 legOSCStarted = true;
             }
         }
-        observer.start(legOSCStarted);
+        observer.legOSCStarted(legOSCStarted);
     }
 }

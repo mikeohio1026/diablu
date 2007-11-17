@@ -34,7 +34,17 @@ package pt.citar.diablu.legosc;
  * @author Jorge Cardoso
  */
 public interface LegOSCWindowObserver {
+    
     public void configChanged(String legOSCPort, String appHostname, String appPort, String brickCOM, boolean autoSensor, int autoSensorInterval);
-    public void sensorMapChanged(String []sensorType);
-    public void startStop();
+    
+    
+    /**
+     * Indicates that the sensor mapping was changed in the LegOSC Window.
+     */    
+    public void legOSCWindowSensorMapChanged(String []sensorType);
+    
+    /**
+     * Indicates that the Start button was pressed on the LegOSC Window.
+     */
+    public void legOSCWindowStartButtonPressed();
 }

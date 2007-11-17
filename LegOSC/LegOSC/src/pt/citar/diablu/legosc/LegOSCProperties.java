@@ -3,7 +3,7 @@
  *
  * Created on 19 de Julho de 2007, 13:28
  *
- *  LegOSC: An OSC gateway to control the NXT Brick.
+ *  LegOSCServer: An OSC gateway to control the NXT Brick.
  *  This is part a of the DiABlu Project (http://diablu.jorgecardoso.org)
  *
  *  Copyright (C) 2007  Jorge Cardoso
@@ -115,24 +115,24 @@ public class LegOSCProperties {
         properties.setProperty("autosensor", autoSensor? "true" : "false");
     }
     
-    public void setSensorMap(int port, LegOSC.SensorType type) {
+    public void setSensorMap(int port, LegOSCServer.SensorType type) {
         properties.setProperty("port"+port, type.toString());
     }
     
-    public LegOSC.SensorType getSensorMap(int port) {
+    public LegOSCServer.SensorType getSensorMap(int port) {
         
         if (properties.getProperty("port"+port, "None").equalsIgnoreCase("none")) {
-            return LegOSC.SensorType.NONE;
+            return LegOSCServer.SensorType.NONE;
         } else if (properties.getProperty("port"+port, "None").equalsIgnoreCase("light")) {
-            return LegOSC.SensorType.LIGHT;
+            return LegOSCServer.SensorType.LIGHT;
         } else if (properties.getProperty("port"+port, "None").equalsIgnoreCase("sound")) {
-            return LegOSC.SensorType.SOUND;
+            return LegOSCServer.SensorType.SOUND;
         } else if (properties.getProperty("port"+port, "None").equalsIgnoreCase("ultrasonic")) {
-            return LegOSC.SensorType.ULTRASONIC;
+            return LegOSCServer.SensorType.ULTRASONIC;
         } else if (properties.getProperty("port"+port, "None").equalsIgnoreCase("pressure")) {
-            return LegOSC.SensorType.PRESSURE;
+            return LegOSCServer.SensorType.PRESSURE;
         } else {
-            return LegOSC.SensorType.NONE;
+            return LegOSCServer.SensorType.NONE;
         }
     }
     

@@ -1,5 +1,5 @@
 /*
- * LegOSCObserver.java
+ * LegOSCServerObserver.java
  *
  * Created on 30 de Janeiro de 2007, 12:31
  *
@@ -33,11 +33,29 @@ package pt.citar.diablu.legosc;
  *
  * @author jccardoso
  */
-public interface LegOSCObserver {
+public interface LegOSCServerObserver {
     
-    public void error(String error);
-    public void message(String message);
-    public void verbose(String message);
+    /**
+     * Indicates an error message produced by LegOSC.
+     * @param error The String description of the error message.
+     */
+    public void legOSCError(String error);
     
-    public void start(boolean started);
+    /**
+     * Indicates a message produced by LegOSC.
+     * @param error The String description of the message.
+     */    
+    public void legOSCMessage(String message);
+    
+    /**
+     * Indicates a verbose message produced by LegOSC.
+     * @param error The String description of the verbose message.
+     */     
+    public void legOSCVerbose(String message);
+    
+    /**
+     * Indicates if LegOSC was really started or not (in response to the start command).
+     * @param started true, if LegOSC started ok; false, otherwise.
+     */
+    public void legOSCStarted(boolean started);
 }
