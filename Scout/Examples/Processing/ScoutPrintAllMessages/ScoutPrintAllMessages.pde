@@ -4,7 +4,7 @@ import netP5.*;
 OscP5 oscP5;
 
 void setup(){
-  /* listen on port 10000 (scout send osc to this port by default) */
+  /* listen on port 10000 (scout sends osc to this port by default) */
   oscP5 = new OscP5(this, 10000);
 }
 
