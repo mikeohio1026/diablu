@@ -416,7 +416,7 @@
                           <Component id="logDetail_jl" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="comboLog" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="606" max="32767" attributes="0"/>
+                          <EmptySpace pref="609" max="32767" attributes="0"/>
                           <Component id="clearLog_jb" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -469,13 +469,21 @@
         <Component class="javax.swing.JComboBox" name="comboLog">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
-                <StringItem index="0" value="Simple"/>
-                <StringItem index="1" value="Detailed"/>
-                <StringItem index="2" value="Errors only"/>
+              <StringArray count="7">
+                <StringItem index="0" value="SEVERE"/>
+                <StringItem index="1" value="WARNING"/>
+                <StringItem index="2" value="INFO"/>
+                <StringItem index="3" value="CONFIG"/>
+                <StringItem index="4" value="FINE"/>
+                <StringItem index="5" value="FINER"/>
+                <StringItem index="6" value="FINEST"/>
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="comboLogItemStateChanged"/>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="comboLogPropertyChange"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

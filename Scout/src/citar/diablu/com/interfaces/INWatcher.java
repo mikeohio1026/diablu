@@ -24,8 +24,6 @@
 package citar.diablu.com.interfaces;
 
 import citar.diablu.classes.DiABluDevice;
-import citar.diablu.classes.DiABluMsg;
-import citar.diablu.classes.DiABluKey;
 import java.util.Vector;
 
 /**
