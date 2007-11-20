@@ -95,10 +95,8 @@ public class DiABluID {
     public String getFName() {
         
         if (this.FName.equalsIgnoreCase("")){
-            
             return "[none yet]";
         } else {
-            
             return this.FName;
         }
     }

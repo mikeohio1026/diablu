@@ -27,9 +27,7 @@ import java.io.*;
 import javax.microedition.io.*;
 import javax.bluetooth.*;
 import citar.diablu.com.interfaces.INWatcher;
-import citar.diablu.classes.DiABluMsg;
 import citar.diablu.classes.DiABluID;
-import citar.diablu.classes.DiABluKey;
 
 import citar.diablu.com.bt.DiABluBTCONSTANTS.*;
 

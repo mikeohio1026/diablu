@@ -98,45 +98,6 @@ public class DiABluBC implements INWatcher {
         
     }
     
-/* DEPRECATED
-    public void newLog(String log) {
- 
-        DBui.newLog(log);
-    }
- */
-    // New Key Pressed
-    /*
-    public void newKey(DiABluKey newKey) {
-     
-        // log the action
-        DBui.newLog(0,"KeyIn:["+newKey.getID().getUUID()+"]["+newKey.getID().getFName()
-                     +"]["+newKey.getKeyPressed()+"]["+newKey.getGAction()+"]");
-     
-        // get the target address
-        InetSocketAddress addr = DBui.getSocketAddress();
-     
-        // forward the key
-        sendKeys(newKey,addr);
-     
-    }/*
-     
-    // New Message Arrived
-    /*
-    public void newMsg(DiABluMsg newMsg){
-     
-        // log the action
-        DBui.newLog(0,"MessageIn:["+newMsg.getID().getUUID()+"]["+newMsg.getID().getFName()+"]["+
-                       newMsg.getText()+"]");
-     
-        // Parse the msg
-     
-        // get the target address
-        InetSocketAddress addr = DBui.getSocketAddress();
-     
-        // forward the msg
-       // sendMsg(newMsg,addr);
-     
-    }*/
     
     /**
      * New Device List Arrived
@@ -723,10 +684,6 @@ public class DiABluBC implements INWatcher {
         System.out.println("servicename:xxxxx - This specifies the Bluetooth Service Server Name to xxxxx");
         System.out.println("address:xxx.xxx.xxx.xxx - Specify the Target Machine Address to xxx.xxx.xxx.xxx");
         System.out.println("port:xxxx - Specify the Target Machine Listening Port to xxxx");
-        
-        
-        
-        
     }
     
     
@@ -741,8 +698,6 @@ public class DiABluBC implements INWatcher {
         
         
         DiABluBC mainDiABlu = new DiABluBC(args);
-        
-        
     }
     
     

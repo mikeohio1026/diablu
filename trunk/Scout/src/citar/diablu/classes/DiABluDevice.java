@@ -52,8 +52,7 @@ public class DiABluDevice {
     private int minorDeviceClass;   // see BT assigned numbers
     
     DiABluID id;
-    DiABluMsg lastMessage;
-    DiABluKey lastKey;
+
     
     
     /** Creates a new instance of DiABluDevice */
@@ -61,8 +60,8 @@ public class DiABluDevice {
         
         status = 1;
         id = null;
-        lastMessage = null;
-        lastKey = null;
+
+        //lastKey = null;
         setMajorDeviceClass(0);
         setMinorDeviceClass(0);
     }
@@ -116,27 +115,8 @@ public class DiABluDevice {
         return this.id;
     }
     
-    // Last Message
-    public void setLastMessage(DiABluMsg newLastMessage) {
-        
-        this.lastMessage = newLastMessage;
-    }
     
-    public DiABluMsg getLastMessage() {
-        
-        return this.lastMessage;
-    }
-    
-    // Last Key
-    public void setLastKey(DiABluKey newKey) {
-        
-        this.lastKey = lastKey;
-    }
-    
-    public DiABluKey getLastKey() {
-        
-        return this.lastKey;
-    }
+
     
     
     /**

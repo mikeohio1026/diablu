@@ -29,6 +29,7 @@ import java.util.*;
 import java.nio.*;
 import java.nio.channels.*;
 import de.sciss.net.*;
+import java.util.logging.*;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -44,7 +45,8 @@ import citar.diablu.com.interfaces.*;
  *
  * @author  nrodrigues
  */
-public class DiABluUI extends javax.swing.JFrame {
+public class DiABluUI extends javax.swing.JFrame  {
+    private static Logger logger = Logger.getLogger("citar.diablu.scout");
     
     // Business core class
     DiABluBC DBbc;
@@ -64,7 +66,7 @@ public class DiABluUI extends javax.swing.JFrame {
         
         // Initialize graphics components
         initComponents();
-
+        Logger.getLogger("citar.diablu.scout").addHandler(new GUILogHandler(log_jta));
       
         // Customize components parameters
 
@@ -347,7 +349,17 @@ public class DiABluUI extends javax.swing.JFrame {
 
         logDetail_jl.setText("Log Detail:");
 
-        comboLog.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Simple", "Detailed", "Errors only" }));
+        comboLog.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SEVERE", "WARNING", "INFO", "CONFIG", "FINE", "FINER", "FINEST" }));
+        comboLog.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboLogItemStateChanged(evt);
+            }
+        });
+        comboLog.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                comboLogPropertyChange(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout log_jpLayout = new org.jdesktop.layout.GroupLayout(log_jp);
         log_jp.setLayout(log_jpLayout);
@@ -361,7 +373,7 @@ public class DiABluUI extends javax.swing.JFrame {
                         .add(logDetail_jl)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(comboLog, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 606, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 609, Short.MAX_VALUE)
                         .add(clearLog_jb)))
                 .addContainerGap())
         );
@@ -442,6 +454,17 @@ public class DiABluUI extends javax.swing.JFrame {
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void comboLogItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboLogItemStateChanged
+// TODO add your handling code here:
+        logger.setLevel(Level.parse((String)(comboLog.getSelectedItem())));
+        
+    }//GEN-LAST:event_comboLogItemStateChanged
+
+    private void comboLogPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_comboLogPropertyChange
+// TODO add your handling code here:
+        
+    }//GEN-LAST:event_comboLogPropertyChange
 
     private void delay_jtfPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_delay_jtfPropertyChange
 // TODO add your handling code here:
@@ -694,16 +717,8 @@ public class DiABluUI extends javax.swing.JFrame {
         // TODO: method vectorTOmodel in order to populate an entire screen list
         //addDevices(newDeviceList);
     }
-    
-    public void newMsg (DiABluMsg newMsg){
-    
-    }
-    
-    public void newKey (DiABluKey newKey){
-        
-        
-    
-    }
+
+
     
     /**
      * Prints Strings in the LOG Text Area
@@ -1178,15 +1193,15 @@ public class DiABluUI extends javax.swing.JFrame {
            // get the Device's info'
            Object fname0 = (Object) dd.getID().getFName();
            Object dtype0 = (Object) dd.getStringDevice();
-           Object lastm0 = (Object) dd.getLastMessage();
-           Object lastk0 = (Object) dd.getLastKey();
+           //Object lastm0 = (Object) dd.getLastMessage();
+          // Object lastk0 = (Object) dd.getLastKey();
            
            // get & set the current tablemodel
            DefaultTableModel currentTable = (DefaultTableModel) detectedTable_jt.getModel();
            currentTable.setValueAt(fname0,locatedRow,1);
            currentTable.setValueAt(dtype0,locatedRow,2);
-           currentTable.setValueAt(lastm0,locatedRow,3);
-           currentTable.setValueAt(lastk0,locatedRow,4);
+           //currentTable.setValueAt(lastm0,locatedRow,3);
+           //currentTable.setValueAt(lastk0,locatedRow,4);
            
            // update the table
            detectedTable_jt.setModel( (TableModel) currentTable );  
@@ -1257,49 +1272,7 @@ public class DiABluUI extends javax.swing.JFrame {
         // no device found
         return "";
     }
-    
-    /*
-     *  This method accepts an id and a msg and updates the table model "last message" columm
-     */
-    public void updateLastMsg(DiABluMsg dm) {
-        
-        String idT = dm.getID().getUUID();
-        int index = locateDevice(idT);
-        
-        if (index !=-1) {
-            
-            // we've found the device let's update the table model'
-            DefaultTableModel buffer = (DefaultTableModel) detectedTable_jt.getModel();    // our current data table
-            buffer.setValueAt(dm.getText(),index,3);
-            
-            // update the table
-            detectedTable_jt.setModel( (TableModel) buffer );                                                                        
-            
-        }
-                                       
-    }
-    
-    /*
-     * updates the last key/msg field in the table
-     *
-     */
-    public void updateLastKey(DiABluKey dk){
-        
-        String idT = dk.getID().getUUID();
-        int index = locateDevice(idT);
-        
-        if (index !=-1) {
-            
-            // we've found the device let's update the table model'
-            DefaultTableModel buffer = (DefaultTableModel) detectedTable_jt.getModel();    // our current data table
-            buffer.setValueAt(dk.toString(),index,4);
-            
-            // update the table
-            detectedTable_jt.setModel( (TableModel) buffer );                                                                        
-            
-        }                
-        
-    }
+
     
     /**
      * Converts a tablemodel object into a Vector of DiABlu Devices
@@ -1390,5 +1363,25 @@ public class DiABluUI extends javax.swing.JFrame {
     private javax.swing.JLabel uuid_jl;
     private javax.swing.JTextField uuid_jtf;
     // End of variables declaration//GEN-END:variables
+    
+}
+
+ class GUILogHandler extends  java.util.logging.Handler {
+    SimpleFormatter sf = new SimpleFormatter();
+    JTextArea logArea;
+    
+    GUILogHandler(JTextArea logArea) {
+        this.logArea = logArea;
+    }
+    public void publish(LogRecord record) {
+        logArea.append(sf.format(record));
+    }
+
+    public void flush() {
+    }
+
+    public void close() throws SecurityException {
+    }
+    
     
 }

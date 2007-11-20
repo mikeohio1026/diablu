@@ -26,6 +26,7 @@ package citar.diablu.com.bt;
 import java.lang.*;
 import java.io.*;
 import java.util.Vector;
+import java.util.logging.Logger;
 import javax.microedition.io.*;
 import javax.bluetooth.*;
 import citar.diablu.com.interfaces.INWatcher;
@@ -38,6 +39,7 @@ import citar.diablu.bc.DiABluBC;
  * @author nrodrigues
  */
 public class DiABluBTDeviceDiscovery implements DiscoveryListener {
+    private static Logger logger = Logger.getLogger("citar.diablu.scout");
     
     private DiscoveryAgent agent;               // Our Discovery Agent
     private static Vector <DiABluDevice>deviceList;           // List of Discovered Devices
@@ -69,7 +71,8 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
             
             try { 
                  
-                log(4,"Starting discovery...");
+                //log(4,"Starting discovery...");
+                logger.fine("(Re)Starting discovery...");
                 localDev = LocalDevice.getLocalDevice();
                 agent = localDev.getDiscoveryAgent();
                 agent.startInquiry(DiscoveryAgent.GIAC, this);
@@ -83,15 +86,15 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
                         
                     } catch (Exception e) {
                         
-                        log(2,"[ERROR WAITING BT INQUIRY]"+e.getLocalizedMessage());
-                        e.printStackTrace();
-                        
+                       // log(2,"[ERROR WAITING BT INQUIRY]"+e.getLocalizedMessage());
+                        logger.warning(e.getMessage());
+                        e.printStackTrace(); 
                     }
                 }
                                     
             } catch (BluetoothStateException e) {
-            
-                log(2,"[UNABLE TO FIND DEVICES!]" + e.getLocalizedMessage() );
+                logger.warning(e.getMessage());
+                //log(2,"[UNABLE TO FIND DEVICES!]" + e.getLocalizedMessage() );
                 e.printStackTrace();
               
             }
@@ -143,15 +146,14 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
         
         // get the device's uuid 
         uuidT = btDevice.getBluetoothAddress();      
-        log(4,"[FOUND DEVICE]@"+uuidT);
-        
-        
+
         // make sure it's not a duplicate
         int total = deviceList.size();
         for (int i = 0;i<total;i++){
             
             if (((DiABluDevice)deviceList.elementAt(i)).getID().getUUID().equalsIgnoreCase(uuidT)) { 
-                dbBC.newLog(4,"[DUPLICATE DEVICE FOUND @"+uuidT+"]");
+                //dbBC.newLog(4,"[DUPLICATE DEVICE FOUND @"+uuidT+"]");
+                logger.fine("Found Duplicate Device " + uuidT);
                 return; 
             }
         }
@@ -162,12 +164,12 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
             minor = cod.getMinorDeviceClass();
             major = cod.getMajorDeviceClass();
             
-            log(4,"[DEVICE FRIENDLY NAME]:"+fnameT);
-            log(4,"[MAJOR DEVICE CLASS CODE]:"+major);
-            log(4,"[MINOR DEVICE CLASS CODE]:"+minor);
-            log(4,"[/END OF DEVICE INFO]");
+            logger.info("Found Device " + uuidT + " " + fnameT +
+                    " " + major + " " + minor);
+            
         } catch (Exception e){
-            log(3,"[BT DEVICE EXCEPTION]:"+e);
+           // log(3,"[BT DEVICE EXCEPTION]:"+e);
+            logger.warning(e.getMessage());
         }        
         
         // create a new DiABlu ID
@@ -182,11 +184,8 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
     }
 
     public void inquiryCompleted(int discType){
-        
-        log(4,"[INQUIRY COMPLETED]:"+discType);
-         
-        // report the list of discovered devices
-        log(4,"Finished Discovery...");
+        logger.finer("Inquiriy Completed");
+                
         dbBC.newDeviceList(deviceList,BLUETOOTH_STATUS_CODE);
       
                         
@@ -195,18 +194,12 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
        
         synchronized (this) {
             try {
-                  log(4,"Sincronizing...");
                   this.notifyAll();
             }catch (Exception e)
             {
-                log(4,"[INQUIRY EXCEPTION]:"+e);
+                logger.warning(e.getMessage());
             }            
         }
-        log(4,"Sinc completed.Restarting search...");
-        
-        //STOPED for test purposes
-        //restartSearch();
-        
     }    
     
     public void searchDevices() {
@@ -214,8 +207,7 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
         while (delayBetweenInquirys!=-1) {
             
             try { 
-                 
-                log(0,"Starting discovery...");
+                logger.fine("Starting discovery...");
                 localDev = LocalDevice.getLocalDevice();
                 agent = localDev.getDiscoveryAgent();
                 agent.startInquiry(DiscoveryAgent.GIAC, this);
@@ -228,10 +220,8 @@ public class DiABluBTDeviceDiscovery implements DiscoveryListener {
                         this.wait();
                         
                     } catch (Exception e) {
-                        
-                        log(2,"[ERROR WAITING BT INQUIRY]"+e.getLocalizedMessage());
-                        e.printStackTrace();
-                        
+                        logger.warning(e.getMessage());
+                        e.printStackTrace(); 
                     }
                 }
                                     
