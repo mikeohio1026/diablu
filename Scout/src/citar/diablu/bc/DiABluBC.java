@@ -195,7 +195,7 @@ public class DiABluBC implements INWatcher {
             
         } else {
             
-            newLog(0,"Found "+newDeviceList.size()+" devices.");
+            newLog(4,"Found "+newDeviceList.size()+" devices.");
             // get the entire old DeviceList
             entireOldDeviceList = deviceList; //DBui.getDiABluList();
             newLog(4,"[DiABluBC-newDeviceList()]Got the entire old device list with "+entireOldDeviceList.size()+" elements");
@@ -525,7 +525,7 @@ public class DiABluBC implements INWatcher {
     
     public void sendDeviceCount(int dCount, InetSocketAddress addr){
         
-        newLog(0,"DeviceCount:["+dCount+"]");
+        newLog(4,"DeviceCount:["+dCount+"]");
         DBosc.sendDeviceCount(dCount,addr);
         
     }
