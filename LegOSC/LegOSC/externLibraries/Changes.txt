@@ -1,6 +1,0 @@
-DiABlu LegOSC 
-
---------------------------------------------------------
-Release 0.5 - 17 November 2007
-
-+ First public release.
