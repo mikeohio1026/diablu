@@ -1,5 +1,5 @@
 /*
- * LegoNXT.java
+ * LegoNXT.java version 0.91
  *
  * Created on 22 de Janeiro de 2007, 0:21
  *
@@ -173,6 +173,9 @@ public class LegoNXT {
         
         // make the speaker
         speaker = new NXTSpeaker(brick);
+        
+        // nxtcomm version info
+        System.out.println("NXTComm for Processing, beta version 0.91 by Jorge Cardoso");
     }
     
     
@@ -207,7 +210,7 @@ public class LegoNXT {
         } else if (power < -100) {
             power = -100;
         }
-        System.out.println("starting motor");
+       // System.out.println("starting motor");
         return motor[motorNumber].forward((byte)power);
     }
     
@@ -231,7 +234,7 @@ public class LegoNXT {
         } else if (power < -100) {
             power = -100;
         }
-        System.out.println("starting motor");
+       // System.out.println("starting motor");
         return motor[motorNumber].forwardLimit((byte)power, tachoLimit);
     }
     

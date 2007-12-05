@@ -95,7 +95,7 @@ public class NXTMotor extends NXTComponent {
             setOutputState.setTachoLimit(TACHO_LIMIT_FOREVER);
             
             // send command
-            System.out.println("Sending command");
+           // System.out.println("Sending command");
             brick.getChannel().sendCommand(setOutputState);
         } catch (IOException ex) {
             ex.printStackTrace();
