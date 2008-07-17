@@ -135,12 +135,6 @@ public class LegOSCWindow extends javax.swing.JFrame implements LegOSCServerObse
         taLog = new javax.swing.JTextArea();
         pAbout = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        development_jl = new javax.swing.JLabel();
-        version_jl1 = new javax.swing.JLabel();
-        citar_jl = new javax.swing.JLabel();
-        citar_jl1 = new javax.swing.JLabel();
-        citar_jl2 = new javax.swing.JLabel();
 
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -340,7 +334,7 @@ public class LegOSCWindow extends javax.swing.JFrame implements LegOSCServerObse
                     .add(jPanel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnStartStop, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 83, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(76, 76, 76))
+                .add(116, 116, 116))
         );
         pConnectionLayout.setVerticalGroup(
             pConnectionLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -357,7 +351,7 @@ public class LegOSCWindow extends javax.swing.JFrame implements LegOSCServerObse
                     .add(pConnectionLayout.createSequentialGroup()
                         .add(185, 185, 185)
                         .add(btnStartStop, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 78, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         tpPanel.addTab("Connection", pConnection);
 
@@ -414,7 +408,7 @@ public class LegOSCWindow extends javax.swing.JFrame implements LegOSCServerObse
                     .add(cbSensorType3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(cbSensorType2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(cbSensorType1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(450, Short.MAX_VALUE))
+                .addContainerGap(490, Short.MAX_VALUE))
         );
         pSensorConfigurationLayout.setVerticalGroup(
             pSensorConfigurationLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -435,7 +429,7 @@ public class LegOSCWindow extends javax.swing.JFrame implements LegOSCServerObse
                 .add(pSensorConfigurationLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cbSensorType4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel7))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         tpPanel.addTab("Sensor Configuration", pSensorConfiguration);
 
@@ -449,87 +443,33 @@ public class LegOSCWindow extends javax.swing.JFrame implements LegOSCServerObse
         pLog.setLayout(pLogLayout);
         pLogLayout.setHorizontalGroup(
             pLogLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
         );
         pLogLayout.setVerticalGroup(
             pLogLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
         );
         tpPanel.addTab("Log", pLog);
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LegOSCLogo230x165.gif")));
-
-        development_jl.setText("A project by Jorge Cardoso");
-
-        version_jl1.setText("DiABlu LegOSC version 0.5");
-
-        citar_jl.setText("Developed at:");
-
-        citar_jl1.setText("CITAR");
-
-        citar_jl2.setText("Research Center for Science and Technology  in Art");
-
-        org.jdesktop.layout.GroupLayout jPanel5Layout = new org.jdesktop.layout.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel5Layout.createSequentialGroup()
-                .add(jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(citar_jl2))
-                    .add(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(development_jl))
-                    .add(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(citar_jl1))
-                    .add(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(citar_jl))
-                    .add(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(version_jl1)))
-                .addContainerGap(73, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel5Layout.createSequentialGroup()
-                .add(version_jl1)
-                .add(36, 36, 36)
-                .add(development_jl)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 36, Short.MAX_VALUE)
-                .add(citar_jl)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(citar_jl1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(citar_jl2)
-                .addContainerGap())
-        );
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/about.png")));
 
         org.jdesktop.layout.GroupLayout pAboutLayout = new org.jdesktop.layout.GroupLayout(pAbout);
         pAbout.setLayout(pAboutLayout);
         pAboutLayout.setHorizontalGroup(
             pAboutLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, pAboutLayout.createSequentialGroup()
-                .addContainerGap()
+            .add(pAboutLayout.createSequentialGroup()
                 .add(jLabel4)
-                .add(20, 20, 20)
-                .add(jPanel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(382, 382, 382))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pAboutLayout.setVerticalGroup(
             pAboutLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(pAboutLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(pAboutLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(99, Short.MAX_VALUE))
+                .add(jLabel4)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         tpPanel.addTab("About LegOSC", pAbout);
 
-        getContentPane().add(tpPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 300));
+        getContentPane().add(tpPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 280));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -691,10 +631,6 @@ public class LegOSCWindow extends javax.swing.JFrame implements LegOSCServerObse
     private javax.swing.JComboBox cbSensorType2;
     private javax.swing.JComboBox cbSensorType3;
     private javax.swing.JComboBox cbSensorType4;
-    private javax.swing.JLabel citar_jl;
-    private javax.swing.JLabel citar_jl1;
-    private javax.swing.JLabel citar_jl2;
-    private javax.swing.JLabel development_jl;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -709,7 +645,6 @@ public class LegOSCWindow extends javax.swing.JFrame implements LegOSCServerObse
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pAbout;
     private javax.swing.JPanel pConnection;
@@ -722,7 +657,6 @@ public class LegOSCWindow extends javax.swing.JFrame implements LegOSCServerObse
     private javax.swing.JTextField tfTargetAddress;
     private javax.swing.JTextField tfTargetPort;
     private javax.swing.JTabbedPane tpPanel;
-    private javax.swing.JLabel version_jl1;
     // End of variables declaration//GEN-END:variables
     
 }
