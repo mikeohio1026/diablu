@@ -80,6 +80,10 @@ public class DiABluUI extends javax.swing.JFrame  {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         jPanel1 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        detectedTable_jt = new javax.swing.JTable();
         sim_jp = new javax.swing.JPanel();
         uuid_jl = new javax.swing.JLabel();
         uuid_jtf = new javax.swing.JTextField();
@@ -88,30 +92,23 @@ public class DiABluUI extends javax.swing.JFrame  {
         add_jb = new javax.swing.JButton();
         edit_jb = new javax.swing.JButton();
         remove_jb = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
         settings_jp = new javax.swing.JPanel();
         adress_jl = new javax.swing.JLabel();
         adress_jtf = new javax.swing.JTextField();
         port_jl = new javax.swing.JLabel();
         port_jtf = new javax.swing.JTextField();
+        settings_jp1 = new javax.swing.JPanel();
         delay_jl = new javax.swing.JLabel();
         delay_jtf = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        detected_jp = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        detectedTable_jt = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        log_jp = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        comboLog = new javax.swing.JComboBox();
+        logDetail_jl = new javax.swing.JLabel();
+        clearLog_jb = new javax.swing.JButton();
         log_jsp = new javax.swing.JScrollPane();
         log_jta = new javax.swing.JTextArea();
-        clearLog_jb = new javax.swing.JButton();
-        logDetail_jl = new javax.swing.JLabel();
-        comboLog = new javax.swing.JComboBox();
-        menubar_jmb = new javax.swing.JMenuBar();
-        about_jm = new javax.swing.JMenu();
-        credits_jmi = new javax.swing.JMenuItem();
-        exit_jm = new javax.swing.JMenu();
-        exit_jmi = new javax.swing.JMenuItem();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -125,15 +122,68 @@ public class DiABluUI extends javax.swing.JFrame  {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("DiABlu Scout 0.991");
+        setTitle("DiABlu Scout 0.992");
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(450, 32767));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(400, 404));
+        detectedTable_jt.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "UUID  ", "Friendly Name", "Major Class", "Minor Class", "Manufacturer"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        detectedTable_jt.setColumnSelectionAllowed(true);
+        detectedTable_jt.setMaximumSize(new java.awt.Dimension(450, 0));
+        //detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(310);
+        //detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);
+        //detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(80);
+        //detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(120);
+        //detectedTable_jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //Ask to be notified of selection changes.
+        ListSelectionModel rowSM = detectedTable_jt.getSelectionModel();
+        rowSM.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                //Ignore extra messages.
+                if (e.getValueIsAdjusting()) return;
+
+                ListSelectionModel lsm =
+                (ListSelectionModel)e.getSource();
+                if (lsm.isSelectionEmpty()) {
+                    //no rows are selected
+                } else {
+                    int selectedRow = lsm.getMinSelectionIndex();
+                    //selectedRow is selected
+                    setUUID(detectedTable_jt.getValueAt(selectedRow,0).toString());
+                    setFName(detectedTable_jt.getValueAt(selectedRow,1).toString());
+                }
+            }
+        });
+        jScrollPane1.setViewportView(detectedTable_jt);
+
         sim_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Simulated Devices", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
         uuid_jl.setText("UUID:");
 
-        uuid_jtf.setText("08002B0ECEF1");
+        uuid_jtf.setText("[uuid]");
 
         friendly_jl.setText("Friendly Name:");
 
-        friendly_jtf.setText("JC's PDA");
+        friendly_jtf.setText("[DeviceName]");
 
         add_jb.setText("Add");
         add_jb.addActionListener(new java.awt.event.ActionListener() {
@@ -164,12 +214,12 @@ public class DiABluUI extends javax.swing.JFrame  {
                 .addContainerGap()
                 .add(friendly_jl)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(friendly_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 307, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(friendly_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 155, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(12, 12, 12)
                 .add(uuid_jl)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(uuid_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 99, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 92, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 107, Short.MAX_VALUE)
                 .add(add_jb)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(edit_jb)
@@ -183,15 +233,36 @@ public class DiABluUI extends javax.swing.JFrame  {
                 .add(friendly_jl)
                 .add(friendly_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(uuid_jl)
-                .add(uuid_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(remove_jb)
                 .add(edit_jb)
-                .add(add_jb))
+                .add(add_jb)
+                .add(uuid_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
-        settings_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Settings", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
+        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
+                    .add(sim_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2Layout.createSequentialGroup()
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 213, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(sim_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jTabbedPane1.addTab("Detected Devices", jPanel2);
+
+        settings_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Your Application", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
         adress_jl.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        adress_jl.setText("Target Address:");
+        adress_jl.setText("Hostname/IP Address:");
 
         adress_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         adress_jtf.setText("127.0.0.1");
@@ -202,7 +273,36 @@ public class DiABluUI extends javax.swing.JFrame  {
         port_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         port_jtf.setText("10000");
 
-        delay_jl.setText("Delay between bluetooth discoverys(s):");
+        org.jdesktop.layout.GroupLayout settings_jpLayout = new org.jdesktop.layout.GroupLayout(settings_jp);
+        settings_jp.setLayout(settings_jpLayout);
+        settings_jpLayout.setHorizontalGroup(
+            settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(settings_jpLayout.createSequentialGroup()
+                .add(40, 40, 40)
+                .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(adress_jl)
+                    .add(port_jl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(port_jtf)
+                    .add(adress_jtf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+                .addContainerGap(429, Short.MAX_VALUE))
+        );
+        settings_jpLayout.setVerticalGroup(
+            settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(settings_jpLayout.createSequentialGroup()
+                .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(adress_jl)
+                    .add(adress_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(33, 33, 33)
+                .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(port_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(port_jl))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        settings_jp1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Bluetooth", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
+        delay_jl.setText("Delay between bluetooth discoverys (seconds):");
 
         delay_jtf.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         delay_jtf.setText("0");
@@ -212,142 +312,44 @@ public class DiABluUI extends javax.swing.JFrame  {
             }
         });
 
-        jLabel5.setText("[bluetooth]");
-
-        jLabel6.setText("[osc]");
-
-        org.jdesktop.layout.GroupLayout settings_jpLayout = new org.jdesktop.layout.GroupLayout(settings_jp);
-        settings_jp.setLayout(settings_jpLayout);
-        settings_jpLayout.setHorizontalGroup(
-            settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(settings_jpLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(jLabel6)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(adress_jl)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(adress_jtf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                .add(16, 16, 16)
-                .add(port_jl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(port_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 54, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(204, 204, 204)
-                .add(jLabel5)
-                .add(17, 17, 17)
+        org.jdesktop.layout.GroupLayout settings_jp1Layout = new org.jdesktop.layout.GroupLayout(settings_jp1);
+        settings_jp1.setLayout(settings_jp1Layout);
+        settings_jp1Layout.setHorizontalGroup(
+            settings_jp1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(settings_jp1Layout.createSequentialGroup()
+                .add(46, 46, 46)
                 .add(delay_jl)
+                .add(18, 18, 18)
+                .add(delay_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 61, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(349, Short.MAX_VALUE))
+        );
+        settings_jp1Layout.setVerticalGroup(
+            settings_jp1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 41, Short.MAX_VALUE)
+            .add(settings_jp1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(delay_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(delay_jl))
+        );
+
+        org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel4Layout.createSequentialGroup()
+                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(settings_jp1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(settings_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel4Layout.createSequentialGroup()
+                .add(settings_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(delay_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .add(settings_jp1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(83, Short.MAX_VALUE))
         );
-        settings_jpLayout.setVerticalGroup(
-            settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(settings_jpLayout.createSequentialGroup()
-                .add(settings_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel6)
-                    .add(adress_jl)
-                    .add(adress_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(delay_jl)
-                    .add(delay_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel5)
-                    .add(port_jtf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(port_jl))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        detected_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Detected Devices", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
-        jScrollPane1.setMaximumSize(new java.awt.Dimension(450, 32767));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(400, 404));
-        detectedTable_jt.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "UUID  ", "Friendly Name", "Major Class", "Minor Class", "Manufacturer"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        detectedTable_jt.setColumnSelectionAllowed(true);
-        //detectedTable_jt.getColumnModel().getColumn(0).setPreferredWidth(310);
-        //detectedTable_jt.getColumnModel().getColumn(1).setPreferredWidth(400);
-        //detectedTable_jt.getColumnModel().getColumn(2).setPreferredWidth(80);
-        //detectedTable_jt.getColumnModel().getColumn(3).setPreferredWidth(120);
-        //detectedTable_jt.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //Ask to be notified of selection changes.
-        ListSelectionModel rowSM = detectedTable_jt.getSelectionModel();
-        rowSM.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                //Ignore extra messages.
-                if (e.getValueIsAdjusting()) return;
-
-                ListSelectionModel lsm =
-                (ListSelectionModel)e.getSource();
-                if (lsm.isSelectionEmpty()) {
-                    //no rows are selected
-                } else {
-                    int selectedRow = lsm.getMinSelectionIndex();
-                    //selectedRow is selected
-                    setUUID(detectedTable_jt.getValueAt(selectedRow,0).toString());
-                    setFName(detectedTable_jt.getValueAt(selectedRow,1).toString());
-                }
-            }
-        });
-        jScrollPane1.setViewportView(detectedTable_jt);
-
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diablufinal.gif")));
-        jLabel1.setIconTextGap(0);
-        jLabel1.setMaximumSize(new java.awt.Dimension(255, 164));
-        jLabel1.setMinimumSize(new java.awt.Dimension(255, 164));
-        jLabel1.setPreferredSize(new java.awt.Dimension(255, 164));
-
-        org.jdesktop.layout.GroupLayout detected_jpLayout = new org.jdesktop.layout.GroupLayout(detected_jp);
-        detected_jp.setLayout(detected_jpLayout);
-        detected_jpLayout.setHorizontalGroup(
-            detected_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(detected_jpLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 551, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        detected_jpLayout.setVerticalGroup(
-            detected_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(detected_jpLayout.createSequentialGroup()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                .add(22, 22, 22))
-            .add(detected_jpLayout.createSequentialGroup()
-                .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 162, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        log_jp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Log", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), java.awt.Color.blue));
-        log_jta.setColumns(20);
-        log_jta.setRows(5);
-        log_jsp.setViewportView(log_jta);
-
-        clearLog_jb.setText("Clear ");
-        clearLog_jb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearLog_jbActionPerformed(evt);
-            }
-        });
-
-        logDetail_jl.setText("Log Detail:");
+        jTabbedPane1.addTab("Connection", jPanel4);
 
         comboLog.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SEVERE", "WARNING", "INFO", "CONFIG", "FINE", "FINER", "FINEST" }));
         comboLog.addItemListener(new java.awt.event.ItemListener() {
@@ -361,96 +363,68 @@ public class DiABluUI extends javax.swing.JFrame  {
             }
         });
 
-        org.jdesktop.layout.GroupLayout log_jpLayout = new org.jdesktop.layout.GroupLayout(log_jp);
-        log_jp.setLayout(log_jpLayout);
-        log_jpLayout.setHorizontalGroup(
-            log_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, log_jpLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(log_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, log_jsp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
-                    .add(log_jpLayout.createSequentialGroup()
+        logDetail_jl.setText("Log Detail:");
+
+        clearLog_jb.setText("Clear Log");
+        clearLog_jb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearLog_jbActionPerformed(evt);
+            }
+        });
+
+        log_jta.setColumns(20);
+        log_jta.setRows(5);
+        log_jsp.setViewportView(log_jta);
+
+        org.jdesktop.layout.GroupLayout jPanel5Layout = new org.jdesktop.layout.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel5Layout.createSequentialGroup()
+                .add(jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(log_jsp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE))
+                    .add(jPanel5Layout.createSequentialGroup()
+                        .add(33, 33, 33)
                         .add(logDetail_jl)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(comboLog, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 609, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 473, Short.MAX_VALUE)
                         .add(clearLog_jb)))
                 .addContainerGap())
         );
-        log_jpLayout.setVerticalGroup(
-            log_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(log_jpLayout.createSequentialGroup()
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(log_jsp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 200, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(log_jpLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(log_jsp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 217, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(21, 21, 21)
+                .add(jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(comboLog, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(logDetail_jl)
                     .add(clearLog_jb))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+        jTabbedPane1.addTab("Logging", jPanel5);
 
-        about_jm.setText("About");
-        about_jm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                about_jmActionPerformed(evt);
-            }
-        });
+        jPanel6.setLayout(new java.awt.BorderLayout());
 
-        credits_jmi.setText("About");
-        credits_jmi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                credits_jmiActionPerformed(evt);
-            }
-        });
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aboutScout.png")));
+        jPanel6.add(jLabel1, java.awt.BorderLayout.CENTER);
 
-        about_jm.add(credits_jmi);
-
-        menubar_jmb.add(about_jm);
-
-        exit_jm.setText("Exit");
-        exit_jm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exit_jmActionPerformed(evt);
-            }
-        });
-
-        exit_jmi.setText("Exit");
-        exit_jmi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exit_jmiActionPerformed(evt);
-            }
-        });
-
-        exit_jm.add(exit_jmi);
-
-        menubar_jmb.add(exit_jm);
-
-        setJMenuBar(menubar_jmb);
+        jTabbedPane1.addTab("About", jPanel6);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, log_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, settings_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, sim_jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(detected_jp, 0, 834, Short.MAX_VALUE))
-                .addContainerGap())
+            .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(detected_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(sim_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(settings_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(log_jp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 301, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -671,27 +645,7 @@ public class DiABluUI extends javax.swing.JFrame  {
         newLog(4,"[ADD SIMULATED DEVICE][OSC /devicecount]:"+ dc );
                
     }//GEN-LAST:event_add_jbActionPerformed
-            
-    private void credits_jmiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_credits_jmiActionPerformed
-    // TODO add your handling code here:
-       new DiABluCR(new javax.swing.JFrame(), true).setVisible(true);         
-    }//GEN-LAST:event_credits_jmiActionPerformed
-
-    private void exit_jmiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_jmiActionPerformed
-    // TODO add your handling code here:
-       System.exit(0);
-    }//GEN-LAST:event_exit_jmiActionPerformed
-
-    private void exit_jmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_jmActionPerformed
-    // TODO add your handling code here:
-
-    }//GEN-LAST:event_exit_jmActionPerformed
-
-    private void about_jmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_about_jmActionPerformed
-    // TODO add your handling code here:
-     
-    }//GEN-LAST:event_about_jmActionPerformed
- 
+             
     /**
      * Interface Methods
      */
@@ -1329,36 +1283,33 @@ public class DiABluUI extends javax.swing.JFrame  {
  }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu about_jm;
     private javax.swing.JButton add_jb;
     private javax.swing.JLabel adress_jl;
     private javax.swing.JTextField adress_jtf;
     private javax.swing.JButton clearLog_jb;
     private javax.swing.JComboBox comboLog;
-    private javax.swing.JMenuItem credits_jmi;
     private javax.swing.JLabel delay_jl;
     private javax.swing.JTextField delay_jtf;
     private javax.swing.JTable detectedTable_jt;
-    private javax.swing.JPanel detected_jp;
     private javax.swing.JButton edit_jb;
-    private javax.swing.JMenu exit_jm;
-    private javax.swing.JMenuItem exit_jmi;
     private javax.swing.JLabel friendly_jl;
     private javax.swing.JTextField friendly_jtf;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel logDetail_jl;
-    private javax.swing.JPanel log_jp;
     private javax.swing.JScrollPane log_jsp;
     private javax.swing.JTextArea log_jta;
-    private javax.swing.JMenuBar menubar_jmb;
     private javax.swing.JLabel port_jl;
     private javax.swing.JTextField port_jtf;
     private javax.swing.JButton remove_jb;
     private javax.swing.JPanel settings_jp;
+    private javax.swing.JPanel settings_jp1;
     private javax.swing.JPanel sim_jp;
     private javax.swing.JLabel uuid_jl;
     private javax.swing.JTextField uuid_jtf;

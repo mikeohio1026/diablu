@@ -164,6 +164,12 @@ You can check the news & download the latest version at:
 http://diablu.jorgecardoso.eu
 
 
+Known Issues
+------------
+- Log detail does not work
+- Manually removing devices sends wrong major, minor, manufacturer, etc.
+
+
 Thanks
 ------
 Hannz Holger Rutz for the NetUtil (OSC) library.

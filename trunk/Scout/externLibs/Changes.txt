@@ -1,5 +1,13 @@
 DiABlu Scout
 
+Release 0.992 - 17 July 2008
+
+[ changes ]
++ Remade interface to use tabs.
+
++ Remade about window.
+
+-----------------------------------------------------------
 Release 0.991 - 16 November 2007
 
 [ bug fixes ]
