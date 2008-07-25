@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="DiABlu_MailMan" default="default" basedir=".">
+    <description>Builds, tests, and runs the project DiABlu MailMan.</description>
+    <import file="nbproject/build-impl.xml"/>
+
+    <target name="-post-jar">
+        <delete file="${dist.dir}/README.txt" />
+        <delete file="${dist.dir}/mimetypes.txt" />
+        <delete file="${dist.dir}/oui.txt" />
+        <copy todir="dist">
+            <fileset dir="resources" includes="*mimetypes.txt" />
+            <fileset dir="resources" includes="*oui.txt" />
+            <fileset dir="resources" includes="*README.txt" />
+        </copy>
+    </target>
+    
+        
+</project>
