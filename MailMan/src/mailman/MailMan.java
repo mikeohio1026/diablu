@@ -17,6 +17,11 @@ public class MailMan {
 
     // Constants
     public static String LOG_FILE = "log.txt";
+    
+    // state
+    
+    private boolean hasOUI = false;
+    private boolean hasMimetypes = false;
 
    
     // Data Structures
@@ -54,7 +59,7 @@ public class MailMan {
     public MailMan() {
         
        
-        
+        logger = new MailManLogger(this, LOG_FILE);
         discovery = new MailManDiscovery(this);
         discoveryThread = new Thread(discovery);
         
@@ -67,7 +72,7 @@ public class MailMan {
         
         fileReader = new MailManFileReader(this);
         groupGetter = new MailManGroupGetter(this);
-        logger = new MailManLogger(this, LOG_FILE);
+        
         
         knownDevices = new MailManKnownDevices(this);
         //Hashtable<String, MailManDevice>();
@@ -89,10 +94,11 @@ public class MailMan {
             
             
             MailMan mailman = new MailMan();
+            mailman.g = new MailManGUI(mailman);
             mailman.fileReader.read();
             mailman.loadProperties();
             //mailman.gui = new MailManGUI(mailman);
-            mailman.g = new MailManGUI(mailman);
+            
             
 
             mailman.g.setVisible(true);
@@ -112,6 +118,27 @@ public class MailMan {
     public void setOscClientThread(Thread oscClientThread) {
         this.oscClientThread = oscClientThread;
     }
+
+    public void setOUI(boolean hasOUI) {
+        this.hasOUI = hasOUI;
+    }
+    
+    
+    public void setMimetypes(boolean hasMimetypes) {
+        this.hasMimetypes = hasMimetypes;
+    }
+    //Getter
+    
+    
+    public boolean hasOUI() {
+        return hasOUI;
+    }
+    
+    public boolean hasMimetypes() {
+        return hasMimetypes;
+    }
+    
+
     
     // Class instance getters
     
