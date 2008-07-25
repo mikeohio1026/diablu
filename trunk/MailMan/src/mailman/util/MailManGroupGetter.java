@@ -135,23 +135,29 @@ public class MailManGroupGetter {
             }
         }
     }
-
+    
+    
+    
     public void filterBrand(String brand) {
-        if (brand.compareTo("*") == 0) {
-            for (MailManDevice device : getFilteredMinor()) {
-                filtered.add(device);
-            }
-
-
-        } else {
-            for (MailManDevice device : getFilteredMinor()) {
-                String uuid = device.getUuid().substring(0, 6);
-                if (mailman.getManufacturerOUI().get(uuid.toLowerCase()).contains(brand.toLowerCase())) {
+        if (mailman.hasOUI()) {
+            if (brand.compareTo("*") == 0) {
+                for (MailManDevice device : getFilteredMinor()) {
                     filtered.add(device);
                 }
 
+
+            } else {
+                for (MailManDevice device : getFilteredMinor()) {
+                    String uuid = device.getUuid().substring(0, 6);
+                    if (mailman.getManufacturerOUI().get(uuid.toLowerCase()).contains(brand.toLowerCase())) {
+                        filtered.add(device);
+                    }
+
+                }
             }
         }
+        else
+            mailman.getLogger().log(MailManLogger.OTHER, "File \"oui.txt\" not found. Zero devices Returned");
     }
     public void clear()
     {

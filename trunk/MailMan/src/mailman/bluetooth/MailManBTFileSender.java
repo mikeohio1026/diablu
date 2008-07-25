@@ -153,7 +153,8 @@ public class MailManBTFileSender {
     private HeaderSet setHeaderSet(HeaderSet hs, File file, byte[] fileBytes)
     {
         hs.setHeader(HeaderSet.NAME, file.getName());
-        hs.setHeader(HeaderSet.TYPE, fileMimetype(file));
+        if(mailman.hasMimetypes())
+            hs.setHeader(HeaderSet.TYPE, fileMimetype(file));
         hs.setHeader(HeaderSet.LENGTH, new Long(fileBytes.length));
         return hs;
     }

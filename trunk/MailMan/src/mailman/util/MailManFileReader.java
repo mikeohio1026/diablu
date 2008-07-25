@@ -82,23 +82,23 @@ public class MailManFileReader {
                     }
                 }
 
-
+                mailman.setOUI(true);
             }
             buffRead.close();
         } catch (IOException ex) {
-            mailman.getLogger().log(MailManLogger.OTHER, "File not Found: \"oui.txt\"");
-            System.exit(-1);
+            mailman.getLogger().log(MailManLogger.OTHER, "File not Found: \"oui.txt\". Some features might not be available. Read \"README.txt\" for more info");
             
         } finally {
-            try {
-                filereader.close();
-            } catch (IOException ex) {
-                mailman.getLogger().log(MailManLogger.OTHER, "Error closing file: \"oui.txt\"");
-                System.exit(-1);
+            if(mailman.hasOUI())
+            {   try {
+                    filereader.close();
+                } catch (IOException ex) {
+                    mailman.getLogger().log(MailManLogger.OTHER, "Error closing file: \"oui.txt\"");
+                    System.exit(-1);
+                }
             }
         }
     }
-
     public void readMimetypes() {
         FileReader filereader = null;
         try {
@@ -115,13 +115,17 @@ public class MailManFileReader {
                 }
             }
             buffRead.close();
+            mailman.setMimetypes(true);
         } catch (IOException ex) {
-            Logger.getLogger(MailMan.class.getName()).log(Level.SEVERE, null, ex);
+            mailman.getLogger().log(MailManLogger.OTHER, "File not Found: \"mimetypes.txt\". Some features might not be available. Read \"README.txt\" for more info");
+            
         } finally {
-            try {
-                filereader.close();
-            } catch (IOException ex) {
-                Logger.getLogger(MailMan.class.getName()).log(Level.SEVERE, null, ex);
+            if (mailman.hasMimetypes()) {
+                try {
+                    filereader.close();
+                } catch (IOException ex) {
+                    mailman.getLogger().log(MailManLogger.OTHER, "Error closing file: \"mimetypes.txt\"");
+                }
             }
         }
 
