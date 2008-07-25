@@ -57,6 +57,8 @@ public class MailManOscListener implements OSCListener {
         mailman.getLogger().log(MailManLogger.OSC_MESSAGE, "Recieved OSC Message: " + msgRecieved);
 
         if (msg.getName().compareTo("/Diablu/Mailman/SendPath") == 0) {
+            if(!mailman.hasMimetypes())
+                mailman.getLogger().log(MailManLogger.OTHER, "File not Found: \"mimetypes.txt\". No mimetipe will be used");
             sendPath(msg);
         }
         
@@ -65,7 +67,9 @@ public class MailManOscListener implements OSCListener {
         }
 
          if (msg.getName().compareTo("/Diablu/Mailman/SendToGroup") == 0) {
-            sendPathToGroup(msg);
+           if(!mailman.hasMimetypes())
+                mailman.getLogger().log(MailManLogger.OTHER, "File not Found: \"mimetypes.txt\". No mimetipe will be used");
+           sendPathToGroup(msg);
         }
         
         if (msg.getName().compareTo("/Diablu/Mailman/SendPathWithMimeToGroup") == 0) {
@@ -84,11 +88,13 @@ public class MailManOscListener implements OSCListener {
         
         if (msg.getName().compareTo("/Diablu/Mailman/GetReceivedFiles") == 0)
         {
-            
+            getRecievedFiles(msg);
         }
         
         if (msg.getName().compareTo("/Diablu/Mailman/Broadcast") == 0)
         {
+            if(!mailman.hasMimetypes())
+                mailman.getLogger().log(MailManLogger.OTHER, "File not Found: \"mimetypes.txt\". No mimetipe will be used");
             MailManBroadcast bc = new MailManBroadcast(mailman, msg);
             bc.start();
         }
