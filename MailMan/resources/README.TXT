@@ -58,7 +58,7 @@ Messages your application can listen to:
 
 Messages that Mailman understans:
 
-/DiABlu/Mailman/SendPath - 
+/DiABlu/Mailman/SendPath -
 
 
 
