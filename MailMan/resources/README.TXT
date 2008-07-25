@@ -56,6 +56,11 @@ Messages your application can listen to:
 
 /Diablu/Mailman/SendFailed -
 
+Messages that Mailman understans:
+
+/DiABlu/Mailman/SendPath - 
+
+
 
 Download
 --------
