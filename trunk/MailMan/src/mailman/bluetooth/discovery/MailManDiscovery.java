@@ -25,6 +25,7 @@
 package mailman.bluetooth.discovery;
 
 import mailman.MailMan;
+import mailman.util.MailManGroupGetter;
 import mailman.util.datastructures.MailManDevice;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +35,7 @@ import javax.obex.*;
 import java.io.*;
 import java.util.Vector;
 
-public class MailManDiscovery implements Runnable {
+public class MailManDiscovery{
 
     private MailMan mailman;
     private DiscoveryAgent agent;
@@ -42,22 +43,27 @@ public class MailManDiscovery implements Runnable {
     private Vector<MailManDevice> currentDevices;
     private Object inquiryLock = new Object();
     private Object serviceLock = new Object();
+    private MailManGroupGetter groupGetter;
 
+    
     public MailManDiscovery(MailMan mailman) {
         this.mailman = mailman;
-        this.currentDevices = new Vector();
-        listner = new MailManDescoveryListner(mailman);
+        
         try {
             agent = LocalDevice.getLocalDevice().getDiscoveryAgent();
         } catch (BluetoothStateException ex) {
         }
     }
+    
+    public void setGroupGetter(MailManGroupGetter groupGetter)
+    {
+        this.groupGetter = groupGetter;
+    }
 
-    public void startDeviceInquiry() {
+    public void startDeviceInquiry(MailManGroupGetter groupGetter) {
 
         boolean started = false;
-
-        mailman.getDiscovery().getCurrentDevices().clear();
+        listner = new MailManDescoveryListner(mailman, groupGetter);
 
         try {
             started = agent.startInquiry(DiscoveryAgent.GIAC, listner);
@@ -69,10 +75,6 @@ public class MailManDiscovery implements Runnable {
             objectWait(inquiryLock);
         }
 
-    }
-
-    public void run() {
-        startDeviceInquiry();
     }
 
     public void notifyInquiry() {
@@ -95,6 +97,7 @@ public class MailManDiscovery implements Runnable {
 
             UUID[] uuids = new UUID[1];
             uuids[0] = new UUID(0x1105);
+            listner = new MailManDescoveryListner(mailman);
 
             agent.searchServices(attrSet, uuids, device.getRemoteDevice(), listner);
         } catch (BluetoothStateException ex) {
@@ -104,9 +107,6 @@ public class MailManDiscovery implements Runnable {
         objectWait(serviceLock);
     }
 
-    public Vector<MailManDevice> getCurrentDevices() {
-        return this.currentDevices;
-    }
 
     public void objectWait(Object object) {
         synchronized (object) {
