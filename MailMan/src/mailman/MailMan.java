@@ -49,7 +49,6 @@ public class MailMan {
     private Thread oscClientThread;
     
     private MailManFileReader fileReader;
-    private MailManGroupGetter groupGetter;
     private MailManLogger logger;
     
     private Properties properties;
@@ -61,8 +60,7 @@ public class MailMan {
        
         logger = new MailManLogger(this, LOG_FILE);
         discovery = new MailManDiscovery(this);
-        discoveryThread = new Thread(discovery);
-        
+                
         fileSender = new MailManBTFileSender(this);
         recieveFile = new MailManBTFileReceiver(this);
         recieveThread = new Thread(recieveFile);
@@ -71,8 +69,7 @@ public class MailMan {
         oscClient = new MailManOscClient(this);
         
         fileReader = new MailManFileReader(this);
-        groupGetter = new MailManGroupGetter(this);
-        
+      
         
         knownDevices = new MailManKnownDevices(this);
         //Hashtable<String, MailManDevice>();
@@ -170,11 +167,7 @@ public class MailMan {
     public Thread getOscClientThread() {
         return oscClientThread;
     }
-    
-    public MailManGroupGetter getGroupGetter() {
-        return groupGetter;
-    }
-    
+
     public MailManLogger getLogger() {
         return logger;
     }
