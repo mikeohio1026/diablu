@@ -44,7 +44,9 @@ public class MailManBTFileSender {
     
     public int send(String deviceUUID, String filepath)
     {
+        Connection connection;
         boolean newDevice = false;
+        System.out.println("CHEGOU1");
         try {
             File file = new File(filepath);
             if(mailman.getKnownDevices().get(deviceUUID) == null)
@@ -52,24 +54,28 @@ public class MailManBTFileSender {
                 newDevice = true;
                 mailman.getKnownDevices().add(deviceUUID);
             }
-            
+            System.out.println("CHEGOU2");
             MailManDevice device = mailman.getKnownDevices().get(deviceUUID);
             
             if(!device.isHasOBEX())
                 return -1;
-            
-            Connection connection = Connector.open(device.getBtgoepAdress());
-            
+            System.out.println("CHEGOU3");
+            connection = Connector.open(device.getBtgoepAdress());
+            System.out.println("CHEGOU4");
             ClientSession cs = (ClientSession) connection;
             HeaderSet hs = cs.createHeaderSet();
             cs.connect(hs);
-           
+            System.out.println("CHEGOU5");
             byte[] fileBytes = readFileBytes(file);
 
             hs = setHeaderSet(hs, file, fileBytes);
             
+            System.out.println("CHEGOU6");
+            
             sendFile(cs, hs, fileBytes);
             connection.close();
+            
+            System.out.println("CHEGOU7");
 
             mailman.getKnownDevices().getDevices().get(deviceUUID).getSentFiles().add(file.getName());
             mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Sent file " +  file.getName() + " to " + deviceUUID);

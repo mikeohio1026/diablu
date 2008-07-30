@@ -25,6 +25,7 @@
 package mailman.bluetooth.discovery;
 
 import mailman.*;
+import mailman.util.MailManGroupGetter;
 import mailman.util.datastructures.MailManDevice;
 import javax.bluetooth.*;
 
@@ -32,11 +33,19 @@ import javax.bluetooth.*;
 public class MailManDescoveryListner implements DiscoveryListener {
 
     MailMan mailman;
+    MailManGroupGetter groupGetter;
 
     public MailManDescoveryListner(MailMan mailman) {
         this.mailman = mailman;
     }
+    
+    public MailManDescoveryListner(MailMan mailman, MailManGroupGetter groupGetter) {
+        this.mailman = mailman;
+        this.groupGetter = groupGetter;
+    }
+    
 
+    
     public void servicesDiscovered(int transID, ServiceRecord[] serviceRecord) {
 
         for (ServiceRecord sr : serviceRecord) {
@@ -55,7 +64,8 @@ public class MailManDescoveryListner implements DiscoveryListener {
     }
 
     public void deviceDiscovered(RemoteDevice remoteDevice, DeviceClass deviceClass) {
-        mailman.getGroupGetter().getAllDevices().add(new MailManDevice(remoteDevice, deviceClass));
+        groupGetter.getAllDevices().add(new MailManDevice(remoteDevice, deviceClass));
+        //mailman.getGroupGetter().getAllDevices().add(new MailManDevice(remoteDevice, deviceClass));
     }
 
     public void inquiryCompleted(int discType) {

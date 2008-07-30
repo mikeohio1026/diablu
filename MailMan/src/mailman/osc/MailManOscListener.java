@@ -129,15 +129,16 @@ public class MailManOscListener implements OSCListener {
     public void getGroup(OSCMessage msg) {
 
         Vector<String> responses = new Vector<String>();
+        MailManGroupGetter groupGetter = new MailManGroupGetter(mailman);
 
         if (msg.getArgCount() != 3) {
             mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/WrongArguments"));
         }
-        mailman.getDiscovery().startDeviceInquiry();
+        mailman.getDiscovery().startDeviceInquiry(groupGetter);
 
-        mailman.getGroupGetter().filterDevices(msg.getArg(0), msg.getArg(1), msg.getArg(2));
+        groupGetter.filterDevices(msg.getArg(0), msg.getArg(1), msg.getArg(2));
 
-        for (MailManDevice d : mailman.getGroupGetter().getFiltered()) {
+        for (MailManDevice d : groupGetter.getFiltered()) {
             responses.add((String) d.getUuid());
         }
 
@@ -150,23 +151,24 @@ public class MailManOscListener implements OSCListener {
         }
         mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/GroupDefinition", msgArgs));
 
-        mailman.getGroupGetter().clear();
     }
 
     public void sendPathToGroup(OSCMessage msg) {
 
         Vector<String> responses = new Vector<String>();
         Vector<String> failedDevices = new Vector<String>();
+        MailManGroupGetter groupGetter = new MailManGroupGetter(mailman);
+
 
         if (msg.getArgCount() != 4) {
             mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/WrongArguments"));
         }
-        mailman.getDiscovery().startDeviceInquiry();
+        mailman.getDiscovery().startDeviceInquiry(groupGetter);
 
-        mailman.getGroupGetter().filterDevices(msg.getArg(1), msg.getArg(2), msg.getArg(3));
+        groupGetter.filterDevices(msg.getArg(1), msg.getArg(2), msg.getArg(3));
 
 
-        for (MailManDevice d : mailman.getGroupGetter().getFiltered()) {
+        for (MailManDevice d : groupGetter.getFiltered()) {
             responses.add((String) d.getUuid());
         }
 
@@ -188,9 +190,6 @@ public class MailManOscListener implements OSCListener {
                 responses.add((String) msg.getArg(i));
             }
         }
-
-        mailman.getGroupGetter().clear();
-
     }
 
     
@@ -228,16 +227,18 @@ public class MailManOscListener implements OSCListener {
 
         Vector<String> responses = new Vector<String>();
         Vector<String> failedDevices = new Vector<String>();
+        MailManGroupGetter groupGetter = new MailManGroupGetter(mailman);
+
 
         if (msg.getArgCount() != 5) {
             mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/WrongArguments"));
         }
-        mailman.getDiscovery().startDeviceInquiry();
+        mailman.getDiscovery().startDeviceInquiry(groupGetter);
 
-        mailman.getGroupGetter().filterDevices(msg.getArg(2), msg.getArg(3), msg.getArg(4));
+        groupGetter.filterDevices(msg.getArg(2), msg.getArg(3), msg.getArg(4));
 
 
-        for (MailManDevice d : mailman.getGroupGetter().getFiltered()) {
+        for (MailManDevice d : groupGetter.getFiltered()) {
             responses.add((String) d.getUuid());
         }
 
@@ -262,8 +263,6 @@ public class MailManOscListener implements OSCListener {
                 responses.add((String) msg.getArg(i));
             }
         }
-
-        mailman.getGroupGetter().clear();
 
     }
 

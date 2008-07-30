@@ -25,6 +25,7 @@
 package mailman.osc.commands;
 
 import mailman.MailMan;
+import mailman.util.MailManGroupGetter;
 import mailman.util.datastructures.MailManDevice;
 import mailman.util.datastructures.MailManRemoteDevice;
 import mailman.util.MailManLogger;
@@ -69,11 +70,13 @@ public class MailManBroadcast {
     }
 
     private void discovery() {
-        mailman.getDiscovery().startDeviceInquiry();
+        
+        MailManGroupGetter groupGetter = new MailManGroupGetter(mailman);
+        mailman.getDiscovery().startDeviceInquiry(groupGetter);
 
-        mailman.getGroupGetter().filterDevices(msg.getArg(1), msg.getArg(2), msg.getArg(3));
+        groupGetter.filterDevices(msg.getArg(1), msg.getArg(2), msg.getArg(3));
 
-        for (MailManDevice d : mailman.getGroupGetter().getFiltered()) {
+        for (MailManDevice d : groupGetter.getFiltered()) {
             System.out.println(d.getUuid());
 
             if (!responses.contains(d.getUuid())) {
@@ -83,7 +86,6 @@ public class MailManBroadcast {
             }
 
         }
-        mailman.getGroupGetter().clear();
     }
 
     public void addDevice(String deviceUUID) {
