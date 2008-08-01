@@ -171,6 +171,10 @@ public class MailManDevice {
         recievedFiles.add(filename);
     }
     
+    public void addSentDevice(String filename) {
+        sentFiles.add(filename);
+    }
+    
             
     
    
