@@ -38,6 +38,8 @@ In most cases just double click the DiABluMailman.jar file.
 
 You can also run it in the command line as "java -jar DiABluMailman.jar".
 
+To run without the GUI use the comand line "java -jar DiABluMailman.jar -hideGUI".
+
 
 
 
@@ -50,16 +52,34 @@ The list of currently implemented OSC messages that Mailman uses is the followin
 
 Messages your application can listen to:
 
-/Diablu/Mailman/Receive ssss - uuid, original file name, mimetype (may be empty), path to file.
+/Diablu/Mailman/ReceivePath ssss - uuid, original file name, mimetype (may be empty), path to file.
 
-/Diablu/Mailman/OK - no parameters. Sent in response to other messages to indicate success.
+/Diablu/Mailman/OK s - path. Sent in response to other messages to indicate success.
 
-/Diablu/Mailman/SendFailed -
+/Diablu/Mailman/SendFailed s[s...s] - path, list of devices. Sent in response to other messages. Indicates which devices didn't recieve the content.
+
+/Diablu/Mailman/WrongArguments. Sent in response to other messages to indicate that the message arguments are incorrect.
+
+/Diablu/Mailman/GroupDefinition sss[s...s] - major device class, minor device classe, brand, list of devices. Sent in response to the "/Diablu/Mailman/GetGroup" message and indicates a list of devices that belong to a certain the group.
+
 
 Messages that Mailman understans:
 
-/DiABlu/Mailman/SendPath -
+/Diablu/Mailman/SendPath -
 
+/Diablu/Mailman/SendPathToGroup -
+
+/Diablu/Mailman/SendPathWithMime -
+
+/Diablu/Mailman/SendPathWithMimeToGroup - 
+
+/Diablu/Mailman/Broadcast -
+
+/Diablu/Mailman/GetGroup - 
+
+/Diablu/Mailman/GetSentFiles -
+
+/Diablu/Mailman/GetRecievedFiles -
 
 
 Download

@@ -45,22 +45,11 @@ public class MailManBTFileSender {
     public int send(String deviceUUID, String filepath)
     {
         Connection connection;
-        boolean newDevice = false;
-        
+          
         try {
             File file = new File(filepath);
+            mailman.getKnownDevices().add(deviceUUID);
             
-            if(!file.exists())
-            {
-                mailman.getLogger().log(MailManLogger.OTHER, "File \"" + file.getCanonicalPath() + "\" does not exist");
-                return -1;
-            }
-            
-            if(mailman.getKnownDevices().get(deviceUUID) == null)
-            {
-                newDevice = true;
-                mailman.getKnownDevices().add(deviceUUID);
-            }
             
             MailManDevice device = mailman.getKnownDevices().get(deviceUUID);
             
@@ -87,10 +76,8 @@ public class MailManBTFileSender {
             
             
 
-            mailman.getKnownDevices().getDevices().get(deviceUUID).getSentFiles().add(file.getName());
+            mailman.getKnownDevices().addSentFiles(deviceUUID, file.getName());
             mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Sent file " +  file.getName() + " to " + deviceUUID);
-            if(newDevice)
-                mailman.getLogger().log(MailManLogger.DEVICE_DETECTED, "New bluetooth device detected: " + deviceUUID);
             mailman.updateDeviceFiles();
             return 0;
             
@@ -105,7 +92,9 @@ public class MailManBTFileSender {
     {
         try {
             File file = new File(filepath);
-            MailManDevice device = mailman.getKnownDevices().getDevices().get(deviceUUID);
+            mailman.getKnownDevices().add(deviceUUID);
+            
+            MailManDevice device = mailman.getKnownDevices().get(deviceUUID);
            
             if(!device.isHasOBEX())
                 return -1;

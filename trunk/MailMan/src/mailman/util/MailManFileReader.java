@@ -148,6 +148,7 @@ public class MailManFileReader {
         FileReader filereader = null;
         File f = new File(DEVICES_FILE);
         if (f.exists()) {
+            System.out.println("Existe");
             try {
                 filereader = new FileReader(DEVICES_FILE);
                 BufferedReader buffRead = new BufferedReader(filereader);
@@ -160,7 +161,7 @@ public class MailManFileReader {
                     line = buffRead.readLine();
                     st = new StringTokenizer(line);
                     while (st.hasMoreElements()) {
-                        mailman.getKnownDevices().get(uuid).getRecievedFiles().add(st.nextToken().trim());
+                        mailman.getKnownDevices().get(uuid).getSentFiles().add(st.nextToken().trim());
 
 
                     }
@@ -168,7 +169,7 @@ public class MailManFileReader {
                     line = buffRead.readLine();
                     st = new StringTokenizer(line);
                     while (st.hasMoreElements()) {
-                        mailman.getKnownDevices().get(uuid).getSentFiles().add(st.nextToken().trim());
+                        mailman.getKnownDevices().get(uuid).getRecievedFiles().add(st.nextToken().trim());
                     }
 
 
@@ -176,8 +177,7 @@ public class MailManFileReader {
 
                 }
                 buffRead.close();
-                mailman.updateDeviceFiles();
-
+                
             } catch (IOException ex) {
 
             } finally {

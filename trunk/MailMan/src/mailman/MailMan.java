@@ -52,8 +52,6 @@ public class MailMan {
     private MailManLogger logger;
     
     private Properties properties;
-    private boolean visible;
-    
     
     public MailMan() {
         
@@ -78,8 +76,7 @@ public class MailMan {
         
         majorDeviceClasses = MailManMajorDeviceClass.getVector();
         minorDeviceClasses = MailManMinorDeviceClass.getVector();
-        //majorDeviceClasses = new Vector<MailManDeviceClass>();
-        //minorDeviceClasses = new Vector<MailManDeviceClass>();
+
         properties = new Properties();
         
     }
@@ -94,11 +91,19 @@ public class MailMan {
             mailman.g = new MailManGUI(mailman);
             mailman.fileReader.read();
             mailman.loadProperties();
-            //mailman.gui = new MailManGUI(mailman);
             
             
-
-            mailman.g.setVisible(true);
+            if(args.length != 0)
+            {
+                if(args[0].compareToIgnoreCase("-hideGUI") != 0)
+                {
+                 mailman.g.setVisible(true);
+                }
+            }
+            else
+            {
+                 mailman.g.setVisible(true);
+            }
             mailman.recieveThread.start();
             mailman.osc.start();
             
