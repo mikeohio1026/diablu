@@ -44,6 +44,8 @@ public class MailManBTFileSender {
     
     public int send(String deviceUUID, String filepath)
     {
+        synchronized(mailman.getSendLock())
+        {
         Connection connection;
           
         try {
@@ -85,11 +87,14 @@ public class MailManBTFileSender {
             mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Failed trying to send " +  filepath + " to " + deviceUUID);
             return -1;
         }
+        }
         
     }
     
     public int sendWithMime(String deviceUUID, String filepath, String mimetype)
     {
+        synchronized(mailman.getSendLock())
+        {
         try {
             File file = new File(filepath);
             mailman.getKnownDevices().add(deviceUUID);
@@ -120,7 +125,7 @@ public class MailManBTFileSender {
             mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Failed trying to send " +  filepath + " to " + deviceUUID);
             return -1;
         }
-         
+        }
     }
         
     private byte[] readFileBytes(File file) throws IOException
