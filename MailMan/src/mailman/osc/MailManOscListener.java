@@ -96,8 +96,15 @@ public class MailManOscListener implements OSCListener {
         {
             if(!mailman.hasMimetypes())
                 mailman.getLogger().log(MailManLogger.OTHER, "File not Found: \"mimetypes.txt\". No mimetipe will be used");
-            MailManBroadcast bc = new MailManBroadcast(mailman, msg);
-            bc.start();
+            MailManBroadcast broadcast = new MailManBroadcast(mailman, msg);
+            Thread broadcastThread = new Thread(broadcast);
+            broadcastThread.start();
+        }
+        if (msg.getName().compareTo("/Diablu/Mailman/BroadcastWithMime") == 0)
+        {
+            MailManBroadcast broadcast = new MailManBroadcast(mailman, msg, (String) msg.getArg(1));
+            Thread broadcastThread = new Thread(broadcast);
+            broadcastThread.start();
         }
     }
     
@@ -175,7 +182,7 @@ public class MailManOscListener implements OSCListener {
             deviceAddress = ((String) msg.getArg(i)).toUpperCase();
             if(MailManUtil.validDeviceAddress(deviceAddress))
             {
-                int responseCode = mailman.getFileSender().send(deviceAddress, (String) msg.getArg(0));
+                int responseCode = mailman.getFileSender().sendWithMime(deviceAddress, (String) msg.getArg(0), (String) msg.getArg(1));
                 if (responseCode == -1) {
                     responses.add(deviceAddress);
                 }
@@ -228,6 +235,7 @@ public class MailManOscListener implements OSCListener {
     public void sendPathToGroup(OSCMessage msg) {
 
         Vector<String> responses = new Vector<String>();
+        Vector<String> devices = new Vector<String>();
         MailManGroupGetter groupGetter = new MailManGroupGetter(mailman);
 
 
@@ -240,26 +248,31 @@ public class MailManOscListener implements OSCListener {
 
 
         for (MailManDevice d : groupGetter.getFiltered()) {
-            responses.add((String) d.getUuid());
+            devices.add((String) d.getUuid());
         }
 
-        Object[] msgArgs = new Object[responses.size()];
-        for (int i = 0; i < responses.size(); i++) {
-            msgArgs[i] = responses.elementAt(i);
-            System.out.println((String) msgArgs[i]);
-
-
-        }
-       
-        String deviceAddress;
-        
-        for (int i = 1; i < msg.getArgCount(); i++) {
-            deviceAddress = (responses.elementAt(i)).toUpperCase();
-            mailman.getKnownDevices().add(deviceAddress);
-            int responseCode = mailman.getFileSender().send(deviceAddress, (String) msg.getArg(0));
-            if (responseCode == -1) {
-                responses.add((String) msg.getArg(i));
+        for(String deviceAddress : devices)
+        {
+            if(MailManUtil.validDeviceAddress(deviceAddress))
+            {
+                int responseCode = mailman.getFileSender().send(deviceAddress, (String) msg.getArg(0));
+                if (responseCode != -1) {
+                    responses.add(deviceAddress);
+                }
             }
+            
+        }
+
+        if (!responses.isEmpty()) {
+            Object[] msgArgs = new Object[responses.size()+1];
+            msgArgs[0] = (String) msg.getArg(0);
+            for (int i = 0; i < responses.size(); i++) {
+                msgArgs[i+1] = responses.elementAt(i);
+                mailman.getKnownDevices().getDevices().remove((String) msgArgs[i]);
+            }
+            mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/SentToDevices", msgArgs));
+        } else {            
+            mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/NoFilesSent"));
         }
     }
 
@@ -272,7 +285,7 @@ public class MailManOscListener implements OSCListener {
     public void sendPathWithMimeToGroup(OSCMessage msg) {
 
         Vector<String> responses = new Vector<String>();
-        Vector<String> failedDevices = new Vector<String>();
+        Vector<String> devices = new Vector<String>();
         MailManGroupGetter groupGetter = new MailManGroupGetter(mailman);
 
 
@@ -285,31 +298,32 @@ public class MailManOscListener implements OSCListener {
 
 
         for (MailManDevice d : groupGetter.getFiltered()) {
-            responses.add((String) d.getUuid());
+            devices.add((String) d.getUuid());
         }
 
-        Object[] msgArgs = new Object[responses.size()];
-        for (int i = 0; i < responses.size(); i++) {
-            msgArgs[i] = responses.elementAt(i);
-            System.out.println((String) msgArgs[i]);
-
-
-        }
-        mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/GroupDefinition", msgArgs));
-
-
-
-       String deviceAddress;
-        
-        for (int i = 1; i < msg.getArgCount(); i++) {
-            deviceAddress = (responses.elementAt(i)).toUpperCase();
-            mailman.getKnownDevices().add(deviceAddress);
-            int responseCode = mailman.getFileSender().send(deviceAddress, (String) msg.getArg(0));
-            if (responseCode == -1) {
-                responses.add((String) msg.getArg(i));
+        for(String deviceAddress : devices)
+        {
+            if(MailManUtil.validDeviceAddress(deviceAddress))
+            {
+                int responseCode = mailman.getFileSender().sendWithMime(deviceAddress, (String) msg.getArg(0), (String) msg.getArg(1));
+                if (responseCode != -1) {
+                    responses.add(deviceAddress);
+                }
             }
+            
         }
 
+        if (!responses.isEmpty()) {
+            Object[] msgArgs = new Object[responses.size()+1];
+            msgArgs[0] = (String) msg.getArg(0);
+            for (int i = 0; i < responses.size(); i++) {
+                msgArgs[i+1] = responses.elementAt(i);
+                mailman.getKnownDevices().getDevices().remove((String) msgArgs[i]);
+            }
+            mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/SentToDevices", msgArgs));
+        } else {            
+            mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/NoFilesSent"));
+        }
     }
 
     
@@ -369,6 +383,7 @@ public class MailManOscListener implements OSCListener {
         }
     }
 }
+
 
 
 

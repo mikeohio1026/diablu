@@ -17,6 +17,8 @@ public class MailMan {
 
     // Constants
     public static String LOG_FILE = "log.txt";
+    private Object discoveryLock = new Object();
+    private Object sendLock = new Object();
     
     // state
     
@@ -176,6 +178,16 @@ public class MailMan {
     public MailManLogger getLogger() {
         return logger;
     }
+
+    public Object getDiscoveryLock() {
+        return discoveryLock;
+    }
+
+    public Object getSendLock() {
+        return sendLock;
+    }
+    
+    
 
     // Data structures setters
     

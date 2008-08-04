@@ -21,7 +21,6 @@
  * if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
  * MA 02111-1307 USA
  */
-
 package mailman.bluetooth.discovery;
 
 import mailman.MailMan;
@@ -33,48 +32,44 @@ import javax.bluetooth.*;
 import javax.microedition.io.*;
 import javax.obex.*;
 import java.io.*;
-import java.util.Vector;
 
-public class MailManDiscovery{
+public class MailManDiscovery {
 
     private MailMan mailman;
     private DiscoveryAgent agent;
     private MailManDescoveryListner listner;
-    private Vector<MailManDevice> currentDevices;
     private Object inquiryLock = new Object();
     private Object serviceLock = new Object();
     private MailManGroupGetter groupGetter;
 
-    
     public MailManDiscovery(MailMan mailman) {
         this.mailman = mailman;
-        
+
         try {
             agent = LocalDevice.getLocalDevice().getDiscoveryAgent();
         } catch (BluetoothStateException ex) {
         }
     }
-    
-    public void setGroupGetter(MailManGroupGetter groupGetter)
-    {
+
+    public void setGroupGetter(MailManGroupGetter groupGetter) {
         this.groupGetter = groupGetter;
     }
 
     public void startDeviceInquiry(MailManGroupGetter groupGetter) {
+        synchronized (mailman.getDiscoveryLock()) {
+            boolean started = false;
+            listner = new MailManDescoveryListner(mailman, groupGetter);
 
-        boolean started = false;
-        listner = new MailManDescoveryListner(mailman, groupGetter);
+            try {
+                started = agent.startInquiry(DiscoveryAgent.GIAC, listner);
 
-        try {
-            started = agent.startInquiry(DiscoveryAgent.GIAC, listner);
-
-        } catch (BluetoothStateException ex) {
-            Logger.getLogger(MailManDiscovery.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (BluetoothStateException ex) {
+                Logger.getLogger(MailManDiscovery.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (started) {
+                objectWait(inquiryLock);
+            }
         }
-        if (started) {
-            objectWait(inquiryLock);
-        }
-
     }
 
     public void notifyInquiry() {
@@ -91,20 +86,22 @@ public class MailManDiscovery{
     }
 
     public void searchServices(MailManDevice device) {
-        try {
-            int[] attrSet = new int[1];
-            attrSet[0] = 0x0005;
+        synchronized (mailman.getDiscoveryLock()) {
+            try {
+                int[] attrSet = new int[1];
+                attrSet[0] = 0x0005;
 
-            UUID[] uuids = new UUID[1];
-            uuids[0] = new UUID(0x1105);
-            listner = new MailManDescoveryListner(mailman);
+                UUID[] uuids = new UUID[1];
+                uuids[0] = new UUID(0x1105);
+                listner = new MailManDescoveryListner(mailman);
 
-            agent.searchServices(attrSet, uuids, device.getRemoteDevice(), listner);
-        } catch (BluetoothStateException ex) {
-            Logger.getLogger(MailManDiscovery.class.getName()).log(Level.SEVERE, null, ex);
+                agent.searchServices(attrSet, uuids, device.getRemoteDevice(), listner);
+            } catch (BluetoothStateException ex) {
+                Logger.getLogger(MailManDiscovery.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            objectWait(serviceLock);
         }
-
-        objectWait(serviceLock);
     }
 
 

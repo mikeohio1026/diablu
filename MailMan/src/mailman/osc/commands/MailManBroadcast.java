@@ -40,7 +40,7 @@ import javax.bluetooth.RemoteDevice;
  *
  * @author Raspa
  */
-public class MailManBroadcast {
+public class MailManBroadcast implements Runnable{
 
     private MailMan mailman;
     private OSCMessage msg;
@@ -48,37 +48,67 @@ public class MailManBroadcast {
     private String file;
     private int totalTime;
     private int intervalTime;
-    private Vector<String> sentDevices = new Vector<String>();
     private Vector<String> devicesToSend = new Vector<String>();
     private Object lock = new Object();
     private boolean stop;
+    private boolean hasMimetype;
+    private String mimetype;
 
     public MailManBroadcast(MailMan mailman, OSCMessage msg) {
         this.mailman = mailman;
         this.msg = msg;
         this.stop = false;
+        this.hasMimetype = false;
+    }
+    
+    public MailManBroadcast(MailMan mailman, OSCMessage msg, String mimetype) {
+        this.mailman = mailman;
+        this.msg = msg;
+        this.stop = false;
+        this.mimetype = mimetype;
+        this.hasMimetype = true;
     }
 
-    private void parseMessage() {
-        if (msg.getArgCount() != 6) {
-            mailman.getOscClient().send(new OSCMessage("/WrongArguments"));
+    private int parseMessage() {
+        if (hasMimetype) {
+            if (msg.getArgCount() != 7) {
+                mailman.getOscClient().send(new OSCMessage("/WrongArguments"));
+                return -1;
+            } else {
+                file = (String) msg.getArg(0);
+                totalTime = Integer.parseInt((String) msg.getArg(5));
+                intervalTime = Integer.parseInt((String) msg.getArg(6));
+            }
         }
-
-        file = (String) msg.getArg(0);
-        totalTime = Integer.parseInt((String) msg.getArg(4));
-        intervalTime = Integer.parseInt((String) msg.getArg(5));
+        
+        else {
+            if (msg.getArgCount() != 6) {
+                mailman.getOscClient().send(new OSCMessage("/WrongArguments"));
+                return -1;
+            } else {
+                file = (String) msg.getArg(0);
+                totalTime = Integer.parseInt((String) msg.getArg(4));
+                intervalTime = Integer.parseInt((String) msg.getArg(5));
+            }
+        }
+        return 0;
     }
+
+
+    
 
     private void discovery() {
         
         MailManGroupGetter groupGetter = new MailManGroupGetter(mailman);
         mailman.getDiscovery().startDeviceInquiry(groupGetter);
-
-        groupGetter.filterDevices(msg.getArg(1), msg.getArg(2), msg.getArg(3));
+        
+        if(!hasMimetype)
+            groupGetter.filterDevices(msg.getArg(1), msg.getArg(2), msg.getArg(3));
+        else
+            groupGetter.filterDevices(msg.getArg(2), msg.getArg(3), msg.getArg(4));
+            
 
         for (MailManDevice d : groupGetter.getFiltered()) {
-            System.out.println(d.getUuid());
-
             if (!responses.contains(d.getUuid())) {
                 addDevice(d.getUuid());
                 responses.add(d.getUuid());
@@ -86,6 +116,7 @@ public class MailManBroadcast {
             }
 
         }
+        
     }
 
     public void addDevice(String deviceUUID) {
@@ -106,9 +137,13 @@ public class MailManBroadcast {
         
     }
 
-    public void start() {
-
-        parseMessage();
+    public void run() {
+        
+        
+        String newDevices = "";
+        if(parseMessage() < 0)
+            return;
+        
         Calendar cal = Calendar.getInstance();
 
         long initialTime = cal.getTimeInMillis() / 1000;
@@ -117,11 +152,26 @@ public class MailManBroadcast {
         long currentTime = initialTime;
 
         if (totalTime == 0) {
+            mailman.getLogger().log(MailManLogger.OTHER, "Searching for devices");
             discovery();
+            
+            newDevices = new String("");
+            if (devicesToSend.size() > 0) {
+                for (String d : devicesToSend) {
+                    newDevices += " " + d;
+                }
+                mailman.getLogger().log(MailManLogger.DEVICE_DETECTED, "Devices Found:" + newDevices);
+            } else {
+                mailman.getLogger().log(MailManLogger.DEVICE_DETECTED, "No devices were found");
+            }
 
             for (String deviceUUID : devicesToSend) {
-                mailman.getFileSender().send((String) deviceUUID, file);
                 mailman.getLogger().log(MailManLogger.OTHER, "Broadcasting: " + file);
+                if (hasMimetype)
+                    mailman.getFileSender().sendWithMime(deviceUUID, file, mimetype);
+                else
+                    mailman.getFileSender().send(deviceUUID, file);
+                
             }
             
             devicesToSend.clear();
@@ -131,14 +181,34 @@ public class MailManBroadcast {
             while (currentTime <= finalTime && !stop) {
                 cal = Calendar.getInstance();
                 intervalStart = cal.getTimeInMillis() / 1000;
+                mailman.getLogger().log(MailManLogger.OTHER, "Searching for devices");
                 discovery();
+                newDevices = new String("");
+                         
+                if(devicesToSend.size() > 0)
+                {
+                    for(String d: devicesToSend)
+                        newDevices += " " + d; 
+                        mailman.getLogger().log(MailManLogger.DEVICE_DETECTED, "Devices Found:" + newDevices);
+                }
+                else
+                {
+                    mailman.getLogger().log(MailManLogger.DEVICE_DETECTED, "No new devices were found");
+                }
+                
+                
                 
                
 
                 for (String deviceUUID : devicesToSend) {
-                    mailman.getKnownDevices().add(deviceUUID);
-                    mailman.getFileSender().send((String) deviceUUID, file);
-                    mailman.getLogger().log(MailManLogger.OTHER, "Broadcasting: " + file +" to " + deviceUUID);
+                    addDevice(deviceUUID);
+                    mailman.getLogger().log(MailManLogger.OTHER, "Broadcasting: " + file + " to " + deviceUUID);
+
+                    if (hasMimetype) {
+                        mailman.getFileSender().sendWithMime(deviceUUID, file, mimetype);
+                    } else {
+                        mailman.getFileSender().send(deviceUUID, file);
+                    }
                 }
                 devicesToSend.clear();
 
@@ -155,7 +225,6 @@ public class MailManBroadcast {
                 }
                 cal = Calendar.getInstance();
                 currentTime = cal.getTimeInMillis() / 1000;
-                System.out.println(currentTime + " " + finalTime);
             }
         }
     }
