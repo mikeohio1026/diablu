@@ -58,7 +58,7 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
                 directory.mkdirs();
             }
 
-            File file = getFinalFilename(mailman.getGui().getDirectory() + "\\" + originalFilename);
+            File file = getFinalFilename(mailman.getGui().getDirectory() + System.getProperty("file.separator") + originalFilename);
 
             String filename = writeFile(file, op);
 

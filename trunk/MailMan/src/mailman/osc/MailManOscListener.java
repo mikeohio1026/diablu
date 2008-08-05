@@ -318,7 +318,6 @@ public class MailManOscListener implements OSCListener {
             msgArgs[0] = (String) msg.getArg(0);
             for (int i = 0; i < responses.size(); i++) {
                 msgArgs[i+1] = responses.elementAt(i);
-                mailman.getKnownDevices().getDevices().remove((String) msgArgs[i]);
             }
             mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/SentToDevices", msgArgs));
         } else {            
