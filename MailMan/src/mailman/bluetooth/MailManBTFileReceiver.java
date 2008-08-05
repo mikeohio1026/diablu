@@ -30,6 +30,7 @@ import java.io.IOException;
 import javax.bluetooth.*;
 import javax.microedition.io.*;
 import javax.obex.SessionNotifier;
+import mailman.util.MailManUtil;
 
 public class MailManBTFileReceiver implements Runnable {
 
@@ -68,6 +69,7 @@ public class MailManBTFileReceiver implements Runnable {
                     mailman.getLogger().log(MailManLogger.OTHER, "Error accepting connection from remote device");
                 }
             }
+            
 
         } catch (BluetoothStateException ex) {
             mailman.getLogger().log(MailManLogger.OTHER, "Local Bluetooth device not found");
@@ -82,7 +84,8 @@ public class MailManBTFileReceiver implements Runnable {
 
 
     private ServiceRecord configureServiceRecord(ServiceRecord record) {
-        record.setDeviceServiceClasses(OBJECT_TRANSFER_SERVICE);
+        if(MailManUtil.useServiceDeviceClass())
+            record.setDeviceServiceClasses(OBJECT_TRANSFER_SERVICE);
 
         DataElement bluetoothProfileDescriptorList = new DataElement(DataElement.DATSEQ);
         DataElement obexPushProfileDescriptor = new DataElement(DataElement.DATSEQ);

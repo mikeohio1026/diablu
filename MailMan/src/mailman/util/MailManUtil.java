@@ -23,7 +23,10 @@
  */
 package mailman.util;
 
+import java.util.StringTokenizer;
+
 public class MailManUtil {
+   
 
     
 public static boolean validDeviceAddress(String deviceAddress)
@@ -47,6 +50,22 @@ private static boolean isHexDigit(char c)
     if((c >= 48 && c <= 57) || (c >=65 && c <= 70) || (c >= 97 && c <= 102))
         return true;
     return false;
+}
+
+public static boolean useServiceDeviceClass() {
+    String os = System.getProperty("os.name");
+    String version = System.getProperty("os.version");
+    
+    if(os.compareToIgnoreCase("Mac OS X") == 0)
+    {
+        StringTokenizer st = new StringTokenizer(version, ".", false);
+        if(Integer.parseInt(st.nextToken()) >= 10)
+            if(Integer.parseInt(st.nextToken()) > 4 )
+                return true;
+        return false;
+    }
+    
+    return true;
 }
 
 }
