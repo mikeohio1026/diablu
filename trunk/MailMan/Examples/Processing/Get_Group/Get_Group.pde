@@ -61,7 +61,7 @@ void mousePressed()
 
 void oscEvent(OscMessage theOscMessage)
 {
-  println("Recieved - " + theOscMessage.addrPattern());
+  println("Received - " + theOscMessage.addrPattern());
   
   if(theOscMessage.addrPattern().compareTo("/Diablu/Mailman/GroupDefinition") == 0)
   {

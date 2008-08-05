@@ -75,7 +75,7 @@ void mousePressed()
 void oscEvent(OscMessage theOscMessage)
 {
   int i;
-  println("Recieved - " + theOscMessage.addrPattern());
+  println("Received - " + theOscMessage.addrPattern());
   
   // Responses to "SendToGroup" Commands
   

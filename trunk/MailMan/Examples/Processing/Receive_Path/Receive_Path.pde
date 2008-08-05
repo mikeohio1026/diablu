@@ -22,10 +22,10 @@ void oscEvent(OscMessage theOscMessage)
     String mimetype = (String) theOscMessage.arguments()[2];
     String path = (String) theOscMessage.arguments()[3];
     
-    println("Recieved - " + theOscMessage.addrPattern());
+    println("Received - " + theOscMessage.addrPattern());
     println("Device   - " + device);
     println("Filename - " + filename);
     println("Mimetype - " + mimetype);
-    println("filepath - " + path);
+    println("Filepath - " + path);
   }
 }
