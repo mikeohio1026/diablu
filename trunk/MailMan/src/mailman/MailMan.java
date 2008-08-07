@@ -43,8 +43,8 @@ public class MailMan {
     private Thread discoveryThread;
     
     private MailManBTFileSender fileSender;
-    private MailManBTFileReceiver recieveFile;
-    private Thread recieveThread;
+    private MailManBTFileReceiver receiveFile;
+    private Thread receiveThread;
     
     private MailManOscServer osc;
     private MailManOscClient oscClient;
@@ -62,8 +62,8 @@ public class MailMan {
         discovery = new MailManDiscovery(this);
                 
         fileSender = new MailManBTFileSender(this);
-        recieveFile = new MailManBTFileReceiver(this);
-        recieveThread = new Thread(recieveFile);
+        receiveFile = new MailManBTFileReceiver(this);
+        receiveThread = new Thread(receiveFile);
         
         osc = new MailManOscServer(this);
         oscClient = new MailManOscClient(this);
@@ -106,7 +106,7 @@ public class MailMan {
             {
                  mailman.g.setVisible(true);
             }
-            mailman.recieveThread.start();
+            mailman.receiveThread.start();
             mailman.osc.start();
             
        

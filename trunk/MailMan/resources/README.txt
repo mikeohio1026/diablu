@@ -60,7 +60,7 @@ Description: Sent in response to other messages to indicate success.
 
 /Diablu/Mailman/SendFailed s[s...s] 
 Arguments: path, list of devices
-Description: Sent in response to other messages. Indicates which devices didn't recieve the content.
+Description: Sent in response to other messages. Indicates which devices didn't receive the content.
 
 /Diablu/Mailman/WrongArguments
 Description: Sent in response to other messages to indicate that the message arguments are incorrect.
@@ -169,7 +169,7 @@ Respones:
     - /Diablu/Mailman/UnknownDevice
     - /Diablu/Mailman/WrongArguments 
 
-/Diablu/Mailman/GetRecievedFiles s 
+/Diablu/Mailman/GetReceivedFiles s 
 Arguments: device
 Description: Returns all files received from a device
 Respones:
