@@ -1,0 +1,25 @@
+#N canvas 264 129 732 514 10;
+#X obj 271 307 sendOSC;
+#X msg 421 158 connect 127.0.0.1 12000;
+#X msg 287 226 send /Diablu/Mailman/SendPathToGroup c:/mailman.txt
+* * Nokia;
+#X obj 101 214 textfile;
+#X msg 145 150 add Hello from Mailman;
+#X msg 109 178 write c:/mailman.txt;
+#X obj 103 -51 bng 15 250 50 0 empty empty empty 0 -6 0 10 -262144
+-1 -1;
+#X obj 129 33 t b b b b;
+#X text 140 1 Note: A text file is created under c:/mailman.txt;
+#X text 140 -18 4 wait a few seconds and check your device;
+#X text 140 -33 3 Click bang;
+#X text 140 -49 2 Change 'Nokia' to whatever...;
+#X text 140 -64 1 Start Mailman;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 4 0 3 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 7 0 2 0;
+#X connect 7 1 5 0;
+#X connect 7 2 4 0;
+#X connect 7 3 1 0;
