@@ -179,6 +179,71 @@ Respones:
     - /Diablu/Mailman/WrongArguments 
 
 
+
+Device Classes
+--------
+
+The following are the possible values for "major" and "minor" parameters in the OSC messages. 
+This list was taken from the "Bluetooth for Java" book by Bruce Hopkins.
+
+Major Classes 
+	- Minor Class(es)
+
+"Simulated" 
+	- No minor class
+"Misc. major device" 
+	- No minor class
+"Computer"
+	- "Unassigned, misc"
+	- "Desktop"
+	- "Server"
+	- "Laptop"
+	- "Sub-laptop"
+	- "PDA"
+	- "Watch size"
+	- "Not classified"
+"Phone"
+	- "Unassigned, misc"
+	- "Cellular"
+	- "Household cordless"
+	- "Smartphone"
+	- "Not classified"
+"LAN/network acess point"
+	- "Fully available"
+	- "1-17% utilized"
+	- "17-33% utilized"
+	- "33-50% utilized"
+	- "50-76% utilized"
+	- "76-83% utilized"
+	- "83-99% utilized"
+	- "100% utilized, no service available"
+	- "Not classified"
+"Audio/video device"
+	- "Unassigned, misc"
+	- "Headset"
+	- "Hands-free device"
+	- "Microphone"
+	- "VCR"
+	- "Video game system"
+	- "Not classified"
+"Computer peripheral"
+	- "Keyboard"
+	- "Mouse, trackball, etc"
+	- "Remote control"
+	- "Not classified"
+"Imaging Device"
+	- "Display device"
+	- "Camera"
+	- "Scanner"
+	- "Printer"
+	- "Not classified"
+"Unclassified major device"
+	- No minor class
+"Not classified"
+	- No minor class
+
+
+
 Download
 --------
 
