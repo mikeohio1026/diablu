@@ -60,9 +60,9 @@ public class MailManKnownDevices {
         return knownDevices.get(deviceUUID);
     }
     
-    public void addRecievedFiles(String device, String filename)
+    public void addReceivedFiles(String device, String filename)
     {
-        knownDevices.get(device.toUpperCase()).getRecievedFiles().add(filename);
+        knownDevices.get(device.toUpperCase()).getReceivedFiles().add(filename);
     }
     
     public void addSentFiles(String device, String filename)

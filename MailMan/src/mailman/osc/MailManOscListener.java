@@ -48,14 +48,14 @@ public class MailManOscListener implements OSCListener {
 
     public void messageReceived(OSCMessage msg, SocketAddress sender, long time) {
         
-        String msgRecieved = msg.getName();
+        String msgReceived = msg.getName();
         
         for(int i = 0; i <msg.getArgCount(); i++)
         {
-            msgRecieved += " " + msg.getArg(i);
+            msgReceived += " " + msg.getArg(i);
         }
         
-        mailman.getLogger().log(MailManLogger.OSC_MESSAGE, "Recieved OSC Message: " + msgRecieved);
+        mailman.getLogger().log(MailManLogger.OSC_MESSAGE, "Received OSC Message: " + msgReceived);
 
         if (msg.getName().compareTo("/Diablu/Mailman/SendPath") == 0) {
             if(!mailman.hasMimetypes())
@@ -89,7 +89,7 @@ public class MailManOscListener implements OSCListener {
         
         if (msg.getName().compareTo("/Diablu/Mailman/GetReceivedFiles") == 0)
         {
-            getRecievedFiles(msg);
+            getReceivedFiles(msg);
         }
         
         if (msg.getName().compareTo("/Diablu/Mailman/Broadcast") == 0)
@@ -356,7 +356,7 @@ public class MailManOscListener implements OSCListener {
         }
     }
     
-    public void getRecievedFiles(OSCMessage msg) {
+    public void getReceivedFiles(OSCMessage msg) {
         
         if (msg.getArgCount() != 1) {
             mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/WrongArguments"));
@@ -367,13 +367,13 @@ public class MailManOscListener implements OSCListener {
         }
         else
         {
-            int argNum = mailman.getKnownDevices().get((String) msg.getArg(0)).getRecievedFiles().size();
+            int argNum = mailman.getKnownDevices().get((String) msg.getArg(0)).getReceivedFiles().size();
             Object[] msgArgs = new Object[argNum];
             if(argNum == 0)
                 mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/NoFilesReceived"));
             else {
                 int i = 0;
-                for(String receivedFile : mailman.getKnownDevices().get((String) msg.getArg(0)).getRecievedFiles()) {
+                for(String receivedFile : mailman.getKnownDevices().get((String) msg.getArg(0)).getReceivedFiles()) {
                     msgArgs[i] = receivedFile;
                     i++;
                 }

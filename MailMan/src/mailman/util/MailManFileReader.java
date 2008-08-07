@@ -169,7 +169,7 @@ public class MailManFileReader {
                     line = buffRead.readLine();
                     st = new StringTokenizer(line);
                     while (st.hasMoreElements()) {
-                        mailman.getKnownDevices().get(uuid).getRecievedFiles().add(st.nextToken().trim());
+                        mailman.getKnownDevices().get(uuid).getReceivedFiles().add(st.nextToken().trim());
                     }
 
 

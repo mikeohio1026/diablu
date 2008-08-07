@@ -44,7 +44,7 @@ public class MailManDevice {
     private String btgoepAdress;
     
     
-    private Vector<String> recievedFiles = new Vector<String>(); 
+    private Vector<String> receivedFiles = new Vector<String>(); 
     private Vector<String> sentFiles = new Vector<String>();
 
     
@@ -128,8 +128,8 @@ public class MailManDevice {
         this.btgoepAdress = btgoepAdress;
     }
 
-    public Vector<String> getRecievedFiles() {
-        return recievedFiles;
+    public Vector<String> getReceivedFiles() {
+        return receivedFiles;
     }
     
     public Vector<String> getSentFiles() {
@@ -148,9 +148,9 @@ public class MailManDevice {
                 
             }
             fw.write("\n");
-            for(String recieved: recievedFiles)
+            for(String received: receivedFiles)
             {
-                fw.write(recieved + " ");
+                fw.write(received + " ");
                 
             }
             fw.write("\n");
@@ -167,8 +167,8 @@ public class MailManDevice {
         
     }
     
-    public void addRecievedDevice(String filename) {
-        recievedFiles.add(filename);
+    public void addReceivedDevice(String filename) {
+        receivedFiles.add(filename);
     }
     
     public void addSentDevice(String filename) {

@@ -72,7 +72,7 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
                 
 
             if (fileSize == bytesRead) {
-                mailman.getKnownDevices().addRecievedFiles(address, filename);
+                mailman.getKnownDevices().addReceivedFiles(address, filename);
                 mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Received file \"" + filename + "\" from " + address);
                 mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/ReceivePath", new Object[]{address, originalFilename, mimetype, file.getAbsolutePath()}));
                 mailman.updateDeviceFiles();
