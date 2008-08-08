@@ -40,7 +40,7 @@ You can also run it in the command line as "java -jar DiABluMailman.jar".
 To run without the GUI use the comand line "java -jar DiABluMailman.jar -hideGUI".
 
 
-
+Mailman has been tested on Windows and Mac OS X.
 
 
 OSC Messages
@@ -249,6 +249,11 @@ Download
 
 You can check the news & download the latest version at:
 http://diablu.jorgecardoso.eu
+
+
+Known Issues
+------------
+Mailman isn't able to receive files that have illegal characters in the filename.
 
 
 Thanks
