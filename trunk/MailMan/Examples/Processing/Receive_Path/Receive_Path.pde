@@ -18,14 +18,16 @@ void oscEvent(OscMessage theOscMessage)
   if(theOscMessage.addrPattern().compareTo("/Diablu/Mailman/ReceivePath") == 0)
   {
     String device = (String) theOscMessage.arguments()[0];
-    String filename = (String) theOscMessage.arguments()[1];
-    String mimetype = (String) theOscMessage.arguments()[2];
-    String path = (String) theOscMessage.arguments()[3];
+    String friendlyName = (String) theOscMessage.arguments()[1];
+    String filename = (String) theOscMessage.arguments()[2];
+    String mimetype = (String) theOscMessage.arguments()[3];
+    String path = (String) theOscMessage.arguments()[4];
     
-    println("Received - " + theOscMessage.addrPattern());
-    println("Device   - " + device);
-    println("Filename - " + filename);
-    println("Mimetype - " + mimetype);
-    println("Filepath - " + path);
+    println("Received      - " + theOscMessage.addrPattern());
+    println("Device        - " + device);
+    println("Friendly Name - " + friendlyName);
+    println("Filename      - " + filename);
+    println("Mimetype      - " + mimetype);
+    println("Filepath      - " + path);
   }
 }

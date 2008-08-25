@@ -28,6 +28,10 @@ import pt.citar.mailman.MailMan;
 import pt.citar.mailman.util.MailManLogger;
 import de.sciss.net.OSCMessage;
 import java.io.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Random;
+import java.util.Vector;
 import javax.obex.*;
 
 public class MailManBTRequestHandler extends ServerRequestHandler {
@@ -57,10 +61,16 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
             if (!directory.exists()) {
                 directory.mkdirs();
             }
+            
+            String legalFilename = removeIllegalCharacters(originalFilename);
+            System.out.println(legalFilename);
 
-            File file = getFinalFilename(mailman.getGui().getDirectory() + System.getProperty("file.separator") + originalFilename);
-
-            String filename = writeFile(file, op);
+            String finalFilename = mailman.getGui().getDirectory() + System.getProperty("file.separator") + getFinalFilename(legalFilename);
+            
+            String filename = writeFile(finalFilename, op);
+            System.out.println(filename);
+            File file = new File(filename);
+            
 
             if (!hasAddress) {
                 waitingForAddress = true;
@@ -74,7 +84,8 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
             if (fileSize == bytesRead) {
                 mailman.getKnownDevices().addReceivedFiles(address, filename);
                 mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Received file \"" + filename + "\" from " + address);
-                mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/ReceivePath", new Object[]{address, originalFilename, mimetype, file.getAbsolutePath()}));
+                String friendlyName = mailman.getKnownDevices().get(address).getFriendlyName();
+                mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/ReceivePath", new Object[]{address, friendlyName, originalFilename, mimetype, file.getAbsolutePath()}));
                 mailman.updateDeviceFiles();
             } else {
                 mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Connection Interrupted while recieving \"" + filename + "\" from " + address);
@@ -118,28 +129,60 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
         mailman.getKnownDevices().add(address);
     }
 
-    private File getFinalFilename(String filename) {
+    private String getFinalFilename(String filename) {
         File file = new File(filename);
+        String path;
+        String extention = "";
+        
+        String []reserved = {"com1", "com2", "com3", "com4", "com5", "com6", "com7",
+                             "com8", "com9", "lpt1", "lpt2", "lpt3", "lpt4", "lpt5", 
+                             "lpt6", "lpt7", "lpt8", "lpt9", "con", "nul", "prn"};
+        
+        Vector r = new Vector(Arrays.asList(reserved));
+        
+        while(filename.indexOf(' ') == 0 || filename.indexOf('.') == 0)
+            filename = filename.substring(1);
+        
+        while(filename.lastIndexOf(' ') == filename.length() - 1 || filename.lastIndexOf('.') == filename.length() - 1)
+            filename = filename.substring(0, filename.length() - 1);
+        
+        
+        
+        if(filename.lastIndexOf('.') > -1)
+            extention = filename.substring(filename.lastIndexOf('.'), filename.length());
+        
+        if(r.contains(filename))
+        {
+            Random rand = new Random();
+            filename = Integer.toString(rand.nextInt(10000)) + extention;
+        }
+        
         int i = 0;
         while (file.exists()) {
             i++;
-            String extention;
-            String path;
-            extention = filename.substring(filename.lastIndexOf('.'), filename.length());
-            path = filename.substring(0, filename.lastIndexOf('.'));
-            path = path.concat("" + i).concat(extention);
-            file = new File(path);
+            if(filename.lastIndexOf('.') > -1)
+                path = filename.substring(0, filename.lastIndexOf('.'));
+            else
+                path = filename;
+            if(i > 1)
+                path = path.substring(0, path.length() - Integer.toString(i-1).length()).concat("" + i).concat(extention);
+            else
+                path = path.concat("" + i).concat(extention);
+            filename = path;
+            file = new File(filename);
         }
-        return file;
+        
+        
+        return filename;
     }
 
-    public String writeFile(File file, Operation op) throws IOException {
+    public String writeFile(String filename, Operation op) throws IOException {
 
         InputStream is = op.openInputStream();
+        FileOutputStream os; 
 
-        String filename = file.getName();
-
-        FileOutputStream os = new FileOutputStream(file);
+        os = new FileOutputStream(new File(filename));
+            
         int data;
 
         while (((data) = is.read()) != -1) {
@@ -153,6 +196,17 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
 
         return filename;
 
+    }
+    
+    public String removeIllegalCharacters(String filename)
+    {
+        String charsToRemove = "/?<>\\:*|\"";
+        
+        for(int i = 0; i < charsToRemove.length(); i++)
+        {
+            filename = filename.replace(charsToRemove.charAt(i), '_');
+        }
+        return filename;
     }
 }
 

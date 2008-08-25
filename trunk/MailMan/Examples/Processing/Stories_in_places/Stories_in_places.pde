@@ -76,8 +76,8 @@ void oscEvent(OscMessage theOscMessage)
 
 void recievePath(OscMessage theOscMessage)
 {
-  String filename = (String) theOscMessage.arguments()[3];
-  String mimetype = (String) theOscMessage.arguments()[2];
+  String filename = (String) theOscMessage.arguments()[4];
+  String mimetype = (String) theOscMessage.arguments()[3];
   
   int[] n = new int[2];
   

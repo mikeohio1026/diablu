@@ -52,7 +52,7 @@ The list of currently implemented OSC messages that Mailman uses is the followin
 Messages your application can listen to:
 
 /Diablu/Mailman/ReceivePath ssss
-Arguments: uuid, original file name, mimetype (may be empty), path to file.
+Arguments: uuid, friendly name, original file name, mimetype (may be empty), path to file.
 
 /Diablu/Mailman/OK s
 Atguments: path.
@@ -271,7 +271,7 @@ structure:
 
 
 devices.txt - This file contains the information about every device that interacted
-with the application, ass well as any files sent or recieved by them.
+with the application, ass well as any files sent or received by them.
 
 config.ini - This file contains the properties of the application and can be used
 to configure the followin parameters:
