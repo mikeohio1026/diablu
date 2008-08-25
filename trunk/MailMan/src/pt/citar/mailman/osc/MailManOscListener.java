@@ -226,9 +226,6 @@ public class MailManOscListener implements OSCListener {
         Object[] msgArgs = new Object[responses.size()];
         for (int i = 0; i < responses.size(); i++) {
             msgArgs[i] = responses.elementAt(i);
-            System.out.println((String) msgArgs[i]);
-
-
         }
         mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/GroupDefinition", msgArgs));
 
@@ -341,8 +338,6 @@ public class MailManOscListener implements OSCListener {
         }
         else
         {
-            for(String sentFile : mailman.getKnownDevices().get(deviceAddress).getSentFiles())
-                System.out.println(sentFile);
             int argNum = mailman.getKnownDevices().get(deviceAddress).getSentFiles().size();
             Object[] msgArgs = new Object[argNum];
             if(argNum == 0)

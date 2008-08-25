@@ -63,12 +63,9 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
             }
             
             String legalFilename = removeIllegalCharacters(originalFilename);
-            System.out.println(legalFilename);
-
             String finalFilename = mailman.getGui().getDirectory() + System.getProperty("file.separator") + getFinalFilename(legalFilename);
-            
             String filename = writeFile(finalFilename, op);
-            System.out.println(filename);
+            
             File file = new File(filename);
             
 

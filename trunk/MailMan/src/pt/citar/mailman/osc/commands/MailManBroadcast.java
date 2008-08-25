@@ -131,7 +131,7 @@ public class MailManBroadcast implements Runnable{
         }
         }catch(RuntimeException ex)
         {
-            System.out.println(ex.getMessage());
+            
         }
         
         

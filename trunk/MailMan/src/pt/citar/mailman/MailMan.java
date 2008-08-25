@@ -223,7 +223,6 @@ public class MailMan {
     {
         File file = new File("config.ini");
         FileInputStream fis = null;
-        System.out.println(file.getAbsolutePath());
         if (!file.exists()) {
             FileOutputStream fos = null;
             try {
