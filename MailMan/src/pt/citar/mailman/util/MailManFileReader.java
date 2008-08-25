@@ -138,7 +138,6 @@ public class MailManFileReader {
                 mailman.getKnownDevices().getDevices().put(deviceUUID, device);
             }
         } catch (RuntimeException ex) {
-            System.out.println(ex.getMessage());
             System.exit(-1);
         }
     }
@@ -148,7 +147,6 @@ public class MailManFileReader {
         FileReader filereader = null;
         File f = new File(DEVICES_FILE);
         if (f.exists()) {
-            System.out.println("Existe");
             try {
                 filereader = new FileReader(DEVICES_FILE);
                 BufferedReader buffRead = new BufferedReader(filereader);
