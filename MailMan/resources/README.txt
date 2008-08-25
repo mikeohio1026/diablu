@@ -243,6 +243,45 @@ Major Classes
 	- No minor class
 
 
+Files
+-----
+
+The following files are required for this application to work properly. The first
+three files are distributed with the aplication, others are created during runtime.
+
+mimetypes.txt - This file contais a list of mimetypes, and the coorrespondent file 
+extensions. If this file isn't present the default mimetype of a file will not be 
+present in the "SentPath" type of messages.
+
+oui.txt - This file contains a list of manufacturers of Bluetooth devices, as well
+as their assigned Bluetooth addresses. If this file is not present, the "SendtoGroup"
+type of messages will not work. The "GetGroup" message will allways return zero
+results.
+
+README.txt - This file.
+
+
+The following files are created by the application, if they are not present:
+
+log.txt - This file contains a registry of all events that took place while the
+application was working. Each line corresponds to an even and has the following
+structure:
+
+	logType [date@time] message.
+
+
+devices.txt - This file contains the information about every device that interacted
+with the application, ass well as any files sent or recieved by them.
+
+config.ini - This file contains the properties of the application and can be used
+to configure the followin parameters:
+	
+	- Repository directory
+	- Remote application hostname
+	- Remote application port
+	- Mailman port
+
+
 
 Download
 --------
