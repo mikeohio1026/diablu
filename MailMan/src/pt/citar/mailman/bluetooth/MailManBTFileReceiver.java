@@ -86,6 +86,7 @@ public class MailManBTFileReceiver implements Runnable {
     private ServiceRecord configureServiceRecord(ServiceRecord record) {
         if(MailManUtil.useServiceDeviceClass())
             record.setDeviceServiceClasses(OBJECT_TRANSFER_SERVICE);
+
         
         DataElement bluetoothProfileDescriptorList = new DataElement(DataElement.DATSEQ);
         DataElement obexPushProfileDescriptor = new DataElement(DataElement.DATSEQ);

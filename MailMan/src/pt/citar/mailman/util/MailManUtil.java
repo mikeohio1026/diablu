@@ -53,13 +53,14 @@ private static boolean isHexDigit(char c)
 }
 
 public static boolean useServiceDeviceClass() {
-    String os = System.getProperty("os.name");
+    String os = System.getProperty("os.name").toLowerCase();
     String version = System.getProperty("os.version");
-   
-    if(os.compareToIgnoreCase("Linux") == 0)
-        return false;
     
-    if(os.compareToIgnoreCase("Mac OS X") == 0)
+    if(os.indexOf("windows") > -1)
+        return true;
+
+    
+    if(os.compareTo("mac os x") == 0)
     {
         StringTokenizer st = new StringTokenizer(version, ".", false);
         if(Integer.parseInt(st.nextToken()) >= 10)
@@ -67,8 +68,7 @@ public static boolean useServiceDeviceClass() {
                 return true;
         return false;
     }
-    
-    return true;
+    return false;
 }
 
 }
