@@ -63,8 +63,8 @@ public class MailMan {
     private Properties properties;
     
     public MailMan() {
-        
-       
+        properties = new Properties();
+        loadProperties();
         logger = new MailManLogger(this, LOG_FILE);
         discovery = new MailManDiscovery(this);
                 
@@ -86,7 +86,7 @@ public class MailMan {
         majorDeviceClasses = MailManMajorDeviceClass.getVector();
         minorDeviceClasses = MailManMinorDeviceClass.getVector();
 
-        properties = new Properties();
+        
         
     }
     
@@ -99,7 +99,7 @@ public class MailMan {
             MailMan mailman = new MailMan();
             mailman.g = new MailManGUI(mailman);
             mailman.fileReader.read();
-            mailman.loadProperties();
+           // mailman.loadProperties();
             
             
             if(args.length != 0)
@@ -231,6 +231,7 @@ public class MailMan {
                 properties.setProperty("IncomingPort", "12000");
                 properties.setProperty("OutgoingPort", "12001");
                 properties.setProperty("Directory", new File(".").getCanonicalPath().toString());
+                properties.setProperty("UseLoopback", "true");
                 properties.store(fos, "Mailman Configuration");
                 
             } catch (FileNotFoundException ex) {
