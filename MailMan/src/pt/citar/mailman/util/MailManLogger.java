@@ -55,14 +55,13 @@ public class MailManLogger {
     private Vector<MailManLog> log = new Vector<MailManLog>();
     private MailManLogFIFO logs = new MailManLogFIFO(100);
     private String filename;
-
+    
     public MailManLogFIFO getLogs() {
         return logs;
     }
     private int level;
-       
-    public MailManLogger(MailMan mailman, String filename)
-    {
+    
+    public MailManLogger(MailMan mailman, String filename) {
         try {
             this.mailman = mailman;
             this.level = ALL;
@@ -70,22 +69,22 @@ public class MailManLogger {
             File f = new File(filename);
             f.createNewFile();
             readFile();
-            } catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(MailManLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public synchronized void log(int level, String msg) {
-
-
+        
+        
         Calendar calendar = Calendar.getInstance();
-
+        
         String date = String.format("%02d/%02d/%d",calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH),calendar.get(Calendar.YEAR));
-
+        
         String time = String.format("%02d:%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND));
-
+        
         String timedMsg = "["+date + "@" + time + "] " + msg;
-
+        
         log.add(new MailManLog(level, timedMsg));
         
         logs.add(new MailManLog(level, timedMsg));
@@ -93,7 +92,7 @@ public class MailManLogger {
         
         System.out.println(timedMsg);
         FileWriter fileWriter = null;
-
+        
         try {
             fileWriter = new FileWriter(filename, true);
             fileWriter.write(level + " " + timedMsg + "\n");
@@ -106,40 +105,38 @@ public class MailManLogger {
                 Logger.getLogger(MailManLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-
+        
+        
     }
-
+    
     public Vector<MailManLog> getLog() {
         return log;
     }
     
-    public boolean checkLevel(MailManLog log)
-    {
-        switch(log.getLevel())
-        {
+    public boolean checkLevel(MailManLog log) {
+        switch(log.getLevel()) {
             case 8: if((level & 0x08) > 0)
-                        return true;
-                    return false;
+                return true;
+            return false;
             case 4: if((level & 0x04) > 0)
-                        return true;
-                    return false;
+                return true;
+            return false;
             case 2: if((level & 0x02) > 0)
-                        return true;
-                    return false;
+                return true;
+            return false;
             case 1: if((level & 0x01) > 0)
-                        return true;
+                return true;
             default: return false;
             
         }
-                
+        
     }
-
+    
     public void setLevel(int level) {
         this.level = level;
         mailman.getGui().updateLogTextPane();
     }
-
+    
     private synchronized void readFile() {
         FileReader fileReader = null;
         try {
@@ -147,21 +144,23 @@ public class MailManLogger {
             BufferedReader buffRead = new BufferedReader(fileReader);
             String line;
             StringTokenizer st;
-            while((line = buffRead.readLine()) != null)
-            {
-                st = new StringTokenizer(line);
-                int logLevel = Integer.parseInt(st.nextToken());
-                String msg = "";
-                while(st.hasMoreTokens())
-                {
-                    msg += st.nextToken() + " ";
+            while((line = buffRead.readLine()) != null) {
+                try {
+                    st = new StringTokenizer(line);
+                    
+                    int logLevel = Integer.parseInt(st.nextToken());
+                    String msg = "";
+                    while(st.hasMoreTokens()) {
+                        msg += st.nextToken() + " ";
+                    }
+                    
+                    logs.add(new MailManLog(logLevel, msg));
+                } catch (Exception e) { 
+                    continue;  // make this resilient to bad logs...
                 }
-                
-                logs.add(new MailManLog(logLevel, msg));
-                
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MailManLogger.class.getName()).log(Level.SEVERE, null, ex);    
+            Logger.getLogger(MailManLogger.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(MailManLogger.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -176,5 +175,5 @@ public class MailManLogger {
     
     
     
-
+    
 }
