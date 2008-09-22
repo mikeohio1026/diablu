@@ -23,6 +23,9 @@
  */
 package pt.citar.mailman.util;
 
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import pt.citar.mailman.MailMan;
 import pt.citar.mailman.util.datastructures.MailManDevice;
 import pt.citar.mailman.util.datastructures.MailManRemoteDevice;
@@ -62,10 +65,11 @@ public class MailManFileReader {
     
     public void readOUI()
     {
-        FileReader filereader = null;
+        FileInputStream filereader = null;
         try {
-            filereader = new FileReader(OUI_FILE);
-            BufferedReader buffRead = new BufferedReader(filereader);
+            filereader = new FileInputStream(OUI_FILE);
+            InputStreamReader isr = new InputStreamReader(filereader, Charset.forName("US-ASCII"));
+            BufferedReader buffRead = new BufferedReader(isr);
             String line;
             StringTokenizer st;
             while ((line = buffRead.readLine())!= null) {
@@ -86,7 +90,8 @@ public class MailManFileReader {
             }
             buffRead.close();
         } catch (IOException ex) {
-            mailman.getLogger().log(MailManLogger.OTHER, "File not Found: \"oui.txt\". Some features might not be available. Read \"README.txt\" for more info");
+            ex.printStackTrace();
+            mailman.getLogger().log(MailManLogger.OTHER, "File not Found: \"oui.txt\". Some features might not be available. Read \"README.txt\" for more info\n" + ex.getMessage());
             
         } finally {
             if(mailman.hasOUI())
