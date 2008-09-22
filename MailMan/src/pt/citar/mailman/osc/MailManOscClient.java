@@ -42,7 +42,11 @@ public class MailManOscClient{
     {
         try {
             this.mailman = mailman;
-            oscClient = OSCClient.newUsing(OSCClient.UDP);
+            if (this.mailman.getProperties().getProperty("UseLoopback", "true").equalsIgnoreCase("true") ) {
+                oscClient = OSCClient.newUsing(OSCClient.UDP, 12345, true);
+            } else {
+                oscClient = OSCClient.newUsing(OSCClient.UDP);
+            }
             
         } catch (IOException ex) {
              mailman.getLogger().log(MailManLogger.OTHER, "Error Creating OSC Client");
@@ -57,8 +61,9 @@ public class MailManOscClient{
         }
         
         try {
-            
-            oscClient.setTarget(new InetSocketAddress(mailman.getGui().getIpAddress(), Integer.parseInt(mailman.getGui().getClientPort())));
+            InetSocketAddress isa = new InetSocketAddress(mailman.getGui().getIpAddress(), Integer.parseInt(mailman.getGui().getClientPort()));
+            mailman.getLogger().log(MailManLogger.OTHER, "Sending OSC message to: " + isa.toString());
+            oscClient.setTarget(isa);
             oscClient.start();
             oscClient.send(oscMessage);
             mailman.getLogger().log(MailManLogger.OSC_MESSAGE, "OSC message sent: " + message);
