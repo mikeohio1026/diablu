@@ -127,7 +127,7 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
     }
 
     private String getFinalFilename(String filename) {
-        File file = new File(filename);
+        File file = new File(mailman.getGui().getDirectory() + System.getProperty("file.separator") + filename);
         String path;
         String extention = "";
         
@@ -154,8 +154,11 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
             filename = Integer.toString(rand.nextInt(10000)) + extention;
         }
         
+
         int i = 0;
         while (file.exists()) {
+            mailman.getLogger().log(MailManLogger.OTHER, "File: " + file.getAbsolutePath() + " already exists. Creating new...");
+             
             i++;
             if(filename.lastIndexOf('.') > -1)
                 path = filename.substring(0, filename.lastIndexOf('.'));
@@ -166,9 +169,11 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
             else
                 path = path.concat("" + i).concat(extention);
             filename = path;
-            file = new File(filename);
+            file = new File(mailman.getGui().getDirectory() + System.getProperty("file.separator") + filename);
         }
-        
+        if (!file.exists()) {
+             mailman.getLogger().log(MailManLogger.OTHER, "File: " + file.getAbsolutePath() + " does not exist.");
+        }
         
         return filename;
     }
