@@ -24,6 +24,7 @@
 package pt.citar.diablu.mailman.util;
 
 import java.util.StringTokenizer;
+import pt.citar.diablu.mailman.MailMan;
 
 public class MailManUtil {
    
@@ -53,6 +54,13 @@ private static boolean isHexDigit(char c)
 }
 
 public static boolean useServiceDeviceClass() {
+    String use;
+    use = MailMan.getProperties().getProperty("UseServiceDeviceClass");
+    
+    if (use != null) {
+        return use.equalsIgnoreCase("true");
+    }
+        
     String os = System.getProperty("os.name").toLowerCase();
     String version = System.getProperty("os.version");
     
