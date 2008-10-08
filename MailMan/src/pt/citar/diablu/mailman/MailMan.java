@@ -60,7 +60,7 @@ public class MailMan {
     private MailManFileReader fileReader;
     private MailManLogger logger;
     
-    private Properties properties;
+    private static Properties properties;
     
     public MailMan() {
         properties = new Properties();
@@ -120,7 +120,7 @@ public class MailMan {
         
     }
 
-    public Properties getProperties() {
+    public static Properties getProperties() {
         return properties;
     }
 
