@@ -51,47 +51,90 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
 
             HeaderSet hs = op.getReceivedHeaders();
             originalFilename = (String) hs.getHeader(HeaderSet.NAME);
-            int fileSize = Integer.parseInt((String) hs.getHeader(HeaderSet.LENGTH).toString());
-            mimetype = (String) hs.getHeader(HeaderSet.TYPE);
+            if(hs.getHeader(HeaderSet.LENGTH) != null)
+            {
+                int fileSize = Integer.parseInt((String) hs.getHeader(HeaderSet.LENGTH).toString());
+                mimetype = (String) hs.getHeader(HeaderSet.TYPE);
             
-            if(mimetype == null)
-                mimetype = "";
+                if(mimetype == null)
+                    mimetype = "";
 
-            File directory = new File(mailman.getGui().getDirectory());
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-            
-            String legalFilename = removeIllegalCharacters(originalFilename);
-            String finalFilename = mailman.getGui().getDirectory() + System.getProperty("file.separator") + getFinalFilename(legalFilename);
-            String filename = writeFile(finalFilename, op);
-            
-            File file = new File(filename);
-            
-
-            if (!hasAddress) {
-                waitingForAddress = true;
-                synchronized (addressLock) {
-                    addressLock.wait();
+                File directory = new File(mailman.getGui().getDirectory());
+                if (!directory.exists()) {
+                    directory.mkdirs();
                 }
-            }
+            
+                String legalFilename = removeIllegalCharacters(originalFilename);
+                String finalFilename = mailman.getGui().getDirectory() + System.getProperty("file.separator") + getFinalFilename(legalFilename);
+                String filename = writeFile(finalFilename, op);
+            
+                File file = new File(filename);
+            
+
+                if (!hasAddress) {
+                    waitingForAddress = true;
+                    synchronized (addressLock) {
+                        addressLock.wait();
+                    }
+                }
 
                 
 
-            if (fileSize == bytesRead) {
-                mailman.getKnownDevices().addReceivedFiles(address, filename);
-                mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Received file \"" + filename + "\" from " + address);
-                String friendlyName = mailman.getKnownDevices().get(address).getFriendlyName();
-                mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/ReceivePath", new Object[]{address, friendlyName, originalFilename, mimetype, file.getAbsolutePath()}));
-                mailman.updateDeviceFiles();
-            } else {
-                mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Connection Interrupted while recieving \"" + filename + "\" from " + address);
-                file.delete();
+                if (fileSize == bytesRead) {
+                    mailman.getKnownDevices().addReceivedFiles(address, filename);
+                    mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Received file \"" + filename + "\" from " + address);
+                    String friendlyName = mailman.getKnownDevices().get(address).getFriendlyName();
+                    mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/ReceivePath", new Object[]{address, friendlyName, originalFilename, mimetype, file.getAbsolutePath()}));
+                    mailman.updateDeviceFiles();
+                } else {
+                    mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Connection Interrupted while recieving \"" + filename + "\" from " + address);
+                    file.delete();
+                }
+            
+
+
+                return ResponseCodes.OBEX_HTTP_OK;
             }
+            else
+            {
+                mimetype = (String) hs.getHeader(HeaderSet.TYPE);
+            
+                if(mimetype == null)
+                    mimetype = "";
+
+                File directory = new File(mailman.getGui().getDirectory());
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
+            
+                String legalFilename = removeIllegalCharacters(originalFilename);
+                String finalFilename = mailman.getGui().getDirectory() + System.getProperty("file.separator") + getFinalFilename(legalFilename);
+                String filename = writeFileNoLength(finalFilename, op);
+            
+                File file = new File(filename);
+            
+
+                if (!hasAddress) {
+                    waitingForAddress = true;
+                    synchronized (addressLock) {
+                        addressLock.wait();
+                    }
+                }
+
+                
+
+                
+                    mailman.getKnownDevices().addReceivedFiles(address, filename);
+                    mailman.getLogger().log(MailManLogger.BT_FILE_TRANSFER, "Received file \"" + filename + "\" from " + address);
+                    String friendlyName = mailman.getKnownDevices().get(address).getFriendlyName();
+                    mailman.getOscClient().send(new OSCMessage("/Diablu/Mailman/ReceivePath", new Object[]{address, friendlyName, originalFilename, mimetype, file.getAbsolutePath()}));
+                    mailman.updateDeviceFiles();
+                
+            
 
 
-
-            return ResponseCodes.OBEX_HTTP_OK;
+                return ResponseCodes.OBEX_HTTP_OK;
+            }
 
         } catch (InterruptedException ex) {
             mailman.getLogger().log(MailManLogger.OTHER, "File reception failed");
@@ -197,6 +240,34 @@ public class MailManBTRequestHandler extends ServerRequestHandler {
         op.close();
 
         return filename;
+
+    }
+    
+    public String writeFileNoLength(String filename, Operation op) {
+
+        try {
+        InputStream is = op.openInputStream();
+        FileOutputStream os; 
+
+        os = new FileOutputStream(new File(filename));
+            
+        int data;
+
+        while (((data) = is.read()) != -1) {
+            os.write(data);
+            bytesRead++;
+        }
+
+        is.close();
+        os.close();
+        op.close();
+        }
+        catch(IOException ex)
+        {
+            
+        }
+        return filename;
+        
 
     }
     
