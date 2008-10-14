@@ -1,0 +1,3 @@
+﻿
+http://jorgecardoso.eu/DiABlu/StoriesInPlace/add.php?story_num=1&contribution=Teste%0d&friendly_name=Rick&uuid=000FDE9EEB04
+http://jorgecardoso.eu/DiABlu/StoriesInPlace/add.php?story_num=1&contribution=1+gato%0d&friendly_name=JorgeSiemens&uuid=0001E33C596A
