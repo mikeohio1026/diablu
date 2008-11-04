@@ -19,18 +19,16 @@ public class S2OOscListener implements OSCListener {
     }
 
     public void messageReceived(OSCMessage msg, SocketAddress sender, long time) {
-        
-        String msgReceived = msg.getName();
-        
-        for(int i = 0; i <msg.getArgCount(); i++)
-        {
-            msgReceived += " " + msg.getArg(i);
-        }
-        System.out.println(msgReceived);
-        
+        System.out.println(msg.getName());
+        if(msg.getName().compareTo("/diablu/sms2osc/sendsms") == 0)
+            sendSms(msg);
+   }
+   
+    private void sendSms(OSCMessage msg)
+    {
+        s2o.getBtConnection().sendMessage((String) msg.getArg(0), (String) msg.getArg(1));  
+        System.out.println("sent message");
     }
-    
-    
 }
 
 
