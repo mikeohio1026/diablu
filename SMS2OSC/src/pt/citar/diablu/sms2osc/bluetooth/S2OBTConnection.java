@@ -1,6 +1,7 @@
 
 package pt.citar.diablu.sms2osc.bluetooth;
 
+import de.sciss.net.OSCMessage;
 import pt.citar.diablu.sms2osc.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -147,7 +148,7 @@ public class S2OBTConnection implements Runnable {
 
             if (msgType == MessageTypes.INBOUND) {
                 System.out.println(">>> New Inbound message detected from Gateway: " + gatewayId);
-                //s2o.getMessages().addMessage(msg.getOriginator(), msg.getText());
+                s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/sms", new Object[] { msg.getOriginator(), msg.getText()}));
                 System.out.println("Message: " + msg.getText());
                 
             } else if (msgType == MessageTypes.STATUSREPORT) {
