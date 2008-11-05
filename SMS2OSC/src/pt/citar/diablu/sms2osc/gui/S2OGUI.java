@@ -1,6 +1,8 @@
 
 package pt.citar.diablu.sms2osc.gui;
 
+import java.util.logging.Level;
+import javax.swing.JTextArea;
 import pt.citar.diablu.sms2osc.*;
 
 
@@ -46,7 +48,7 @@ public class S2OGUI extends javax.swing.JFrame {
         CommPortLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        logTextArea = new javax.swing.JTextArea();
         jComboBox1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -228,11 +230,16 @@ public class S2OGUI extends javax.swing.JFrame {
 
         S2OTabbedPane.addTab("Connection", ConnectionPanel);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        logTextArea.setColumns(20);
+        logTextArea.setRows(5);
+        jScrollPane1.setViewportView(logTextArea);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SEVERE", "WARNING", "INFO", "CONFIG", "FINE", "FINER", "FINEST"  }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -289,6 +296,20 @@ if(!s2o.getOscServer().isConnected())
         s2o.getOscServer().stop();
 }//GEN-LAST:event_OSCConnectButtonActionPerformed
 
+private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+
+    s2o.getLogger().setLevel(Level.parse((String) jComboBox1.getSelectedItem()));
+    
+        s2o.getLogger().log(Level.SEVERE, "SEVERE");
+        s2o.getLogger().log(Level.WARNING, "WARNING");
+        s2o.getLogger().log(Level.INFO, "INFO");
+        s2o.getLogger().log(Level.CONFIG, "CONFIG");
+        s2o.getLogger().log(Level.FINE, "FINE");
+        s2o.getLogger().log(Level.FINER, "FINER");
+        s2o.getLogger().log(Level.FINEST, "FINEST");
+
+}//GEN-LAST:event_jComboBox1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CommPortLabel;
@@ -310,7 +331,7 @@ if(!s2o.getOscServer().isConnected())
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea logTextArea;
     // End of variables declaration//GEN-END:variables
 
     public String getHostname() {
@@ -330,7 +351,11 @@ if(!s2o.getOscServer().isConnected())
             OSCConnectButton.setText("Stop Server");
         else
             OSCConnectButton.setText("Start Server");
-    } 
+    }
+
+    public JTextArea getLogTextArea() {
+        return logTextArea;
+    }
             
     
 
