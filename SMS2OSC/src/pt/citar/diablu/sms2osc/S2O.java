@@ -3,7 +3,6 @@ package pt.citar.diablu.sms2osc;
 import java.io.IOException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -11,6 +10,7 @@ import pt.citar.diablu.sms2osc.bluetooth.S2OBTConnection;
 import pt.citar.diablu.sms2osc.gui.S2OGUI;
 import pt.citar.diablu.sms2osc.osc.S2OOscClient;
 import pt.citar.diablu.sms2osc.osc.S2OOscServer;
+import pt.citar.diablu.sms2osc.parser.S2OSMSParser;
 import pt.citar.diablu.sms2osc.util.S2OCommPortList;
 import pt.citar.diablu.sms2osc.util.S2OProperties;
 import pt.citar.diablu.sms2osc.util.S2OTextAreaHandler;
@@ -26,14 +26,15 @@ public class S2O {
     
     private S2OGUI gui;
     private S2OTextAreaHandler textAreaHandler;
-    private ConsoleHandler consoleHandler;
     private FileHandler fileHandler;
     private S2OOscServer oscServer;
     private S2OOscClient oscClient;
     
     
+    private S2OSMSParser smsParser;
     private S2OBTConnection btConnection;
     public Thread btConnectionThread;
+    
     
     public S2O()
     {
@@ -47,6 +48,12 @@ public class S2O {
         oscServer = new S2OOscServer(this);
         oscClient = new S2OOscClient(this);
         
+        smsParser = new S2OSMSParser(this, properties.useParser());
+        if(smsParser.isActive())
+        {
+            System.out.println("lalala");
+            smsParser.getCommands(properties.getCommands());
+        }
         btConnection = new S2OBTConnection(this, properties.getGateway(), "COM6", 57600, "Siemens", "S65");
         
         
@@ -75,7 +82,6 @@ public class S2O {
         logger.setLevel(Level.ALL);
         
         textAreaHandler = new S2OTextAreaHandler(gui.getLogTextArea());
-        consoleHandler = new ConsoleHandler();
         try {
             fileHandler = new FileHandler("logs.txt");
         } catch (IOException ex) {
@@ -126,6 +132,12 @@ public class S2O {
     public Logger getLogger() {
         return logger;
     }
+
+    public S2OSMSParser getSmsParser() {
+        return smsParser;
+    }
+    
+    
             
     
     
