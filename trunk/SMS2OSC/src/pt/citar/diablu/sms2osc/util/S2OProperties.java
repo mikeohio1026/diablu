@@ -81,10 +81,33 @@ public class S2OProperties {
         return properties.getProperty("ComPort", s2o.getCommPortList().getFirst());
     }
     
-    public String getUseLoopback()
+    public boolean useLoopback()
     {
-        return properties.getProperty("UseLoopback", "true");
+        if(properties.getProperty("UseLoopback", "false").compareToIgnoreCase("true") == 1)
+            return true;
+        return false;
     }
+    
+    public boolean useParser()
+    {
+        if(properties.getProperty("UseParser", "false").compareToIgnoreCase("true") == 0)
+            return true;
+        return false;
+    }
+    
+    public String getCommands()
+    {
+        return properties.getProperty("Commands", "");
+    }
+    
+    public String getCommandString(String command)
+    {
+        return properties.getProperty(command, "");
+    }
+    
+    
+    
+    
             
 }
 

@@ -9,6 +9,7 @@ import pt.citar.diablu.sms2osc.*;
 public class S2OGUI extends javax.swing.JFrame {
 
     S2O s2o;
+    int rowNumber = 0;
     
     public S2OGUI(S2O s2o) {
         this.s2o = s2o;
@@ -46,6 +47,9 @@ public class S2OGUI extends javax.swing.JFrame {
         CommPorts = new javax.swing.JComboBox();
         Connect = new javax.swing.JButton();
         CommPortLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         logTextArea = new javax.swing.JTextArea();
@@ -230,6 +234,77 @@ public class S2OGUI extends javax.swing.JFrame {
 
         S2OTabbedPane.addTab("Connection", ConnectionPanel);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Number", "Direction", "Title 3"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(jTable1);
+        jTable1.getColumnModel().getColumn(0).setResizable(false);
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
+        jTable1.getColumnModel().getColumn(1).setResizable(false);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTable1.getColumnModel().getColumn(2).setResizable(false);
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(600);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        S2OTabbedPane.addTab("tab3", jPanel2);
+
         logTextArea.setColumns(20);
         logTextArea.setRows(5);
         jScrollPane1.setViewportView(logTextArea);
@@ -330,7 +405,10 @@ private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JPanel YourAppPane;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea logTextArea;
     // End of variables declaration//GEN-END:variables
 
@@ -356,8 +434,32 @@ private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     public JTextArea getLogTextArea() {
         return logTextArea;
     }
-            
     
+    public void addMessageRow(String number, String direction, String message)
+    {
+        if(rowNumber < 20)
+        {
+            jTable1.getModel().setValueAt(number, rowNumber,0);
+            jTable1.getModel().setValueAt(direction, rowNumber,1);
+            jTable1.getModel().setValueAt(message, rowNumber,2);
+            jTable1.changeSelection(rowNumber, 0, false, false);
+            rowNumber++;
+        }
+        else
+        {
+            for(int i = 0; i < 19; i++)
+            {
+                jTable1.getModel().setValueAt(jTable1.getModel().getValueAt(i+1, 0), i,0);
+                jTable1.getModel().setValueAt(jTable1.getModel().getValueAt(i+1, 1), i,1);
+                jTable1.getModel().setValueAt(jTable1.getModel().getValueAt(i+1, 2), i,2);
+            }
+            jTable1.getModel().setValueAt(number, 19,0);
+            jTable1.getModel().setValueAt(direction,19,1);
+            jTable1.getModel().setValueAt(message, 19,2);
+            jTable1.changeSelection(19, 0, false, false);
+            rowNumber++;
+        }
+    }
 
     
 }

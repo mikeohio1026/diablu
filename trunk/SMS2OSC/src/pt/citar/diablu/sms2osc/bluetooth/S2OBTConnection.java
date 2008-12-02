@@ -13,7 +13,6 @@ import org.smslib.IInboundMessageNotification;
 import org.smslib.IOutboundMessageNotification;
 import org.smslib.InboundMessage;
 import org.smslib.InboundMessage.MessageClasses;
-import org.smslib.Library;
 import org.smslib.Message.MessageTypes;
 import org.smslib.OutboundMessage;
 import org.smslib.SMSLibException;
@@ -21,10 +20,7 @@ import org.smslib.Service;
 import org.smslib.TimeoutException;
 import org.smslib.modem.SerialModemGateway;
 
-/**
- *
- * @author Raspa
- */
+
 public class S2OBTConnection implements Runnable {
 
     String id;
@@ -58,7 +54,6 @@ public class S2OBTConnection implements Runnable {
             OutboundNotification outboundNotification = new OutboundNotification();
             
 
-            System.out.println("Version: " + Library.getLibraryVersion());
             srv = new Service();
             SerialModemGateway gateway = new SerialModemGateway(id, port, baud, manufacturer, model);
             gateway.setInbound(true);
@@ -81,8 +76,7 @@ public class S2OBTConnection implements Runnable {
                 System.out.println(msg);
             }
             this.connected = true;
-            this.connecting = false;
-
+            
         } catch (TimeoutException ex) {
             Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
             this.connecting = false;
@@ -148,19 +142,25 @@ public class S2OBTConnection implements Runnable {
 
             if (msgType == MessageTypes.INBOUND) {
                 System.out.println(">>> New Inbound message detected from Gateway: " + gatewayId);
-                s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/sms", new Object[] { msg.getOriginator(), msg.getText()}));
-                System.out.println("Message: " + msg.getText());
-                
-            } else if (msgType == MessageTypes.STATUSREPORT) {
-                System.out.println(">>> New Inbound Status Report message detected from Gateway: " + gatewayId);
-            }
-            try {
-            
-            srv.deleteMessage(msg);
-            } catch (Exception e) {
+                s2o.getGui().addMessageRow(msg.getOriginator(), "Inbound", msg.getText());
+                if(s2o.getSmsParser().isActive())
+                {
+                    s2o.getSmsParser().parse(msg.getText());
+                }
+                else
+                {
+                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/sms", new Object[] { msg.getOriginator(), msg.getText()}));
+                    System.out.println("Message: " + msg.getText());
+                }
+                try {
+                    srv.deleteMessage(msg);
+                } catch (Exception e) {
+                    
                 System.out.println("Oops!!! Something gone bad...");
                 e.printStackTrace();
+                }
             }
+            
         }
     }
     
