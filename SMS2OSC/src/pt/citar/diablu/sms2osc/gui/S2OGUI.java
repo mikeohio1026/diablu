@@ -372,17 +372,7 @@ if(!s2o.getOscServer().isConnected())
 }//GEN-LAST:event_OSCConnectButtonActionPerformed
 
 private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-
     s2o.getLogger().setLevel(Level.parse((String) jComboBox1.getSelectedItem()));
-    
-        s2o.getLogger().log(Level.SEVERE, "SEVERE");
-        s2o.getLogger().log(Level.WARNING, "WARNING");
-        s2o.getLogger().log(Level.INFO, "INFO");
-        s2o.getLogger().log(Level.CONFIG, "CONFIG");
-        s2o.getLogger().log(Level.FINE, "FINE");
-        s2o.getLogger().log(Level.FINER, "FINER");
-        s2o.getLogger().log(Level.FINEST, "FINEST");
-
 }//GEN-LAST:event_jComboBox1ActionPerformed
 
 
