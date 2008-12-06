@@ -13,24 +13,42 @@ OscP5 oscServer;
 
 
 int lastInteraction = millis();
-boolean retry = false;
+boolean retry = true;
 
 int MAX_WORDS = 100;
 Vector words;
 
 void setup ()
 {
-
+  size(400, 400);
   frameRate(1);
-
+  xml = new XMLInOut(this);
   oscClient = new OscP5(this, "127.0.0.1", 12000, OscP5.UDP);
   oscServer = new OscP5(this, 12001, OscP5.UDP);
 
   myRemoteLocation = new NetAddress("127.0.0.1", 12000);
 
   words = new Vector();
+  
+  loadWords();
+  
+  // println(search("jorge"));
 }
 
+void loadWords() {
+  String [] wordsFile  = loadStrings(sketchPath("words.txt"));
+  for (int i = 0; i < wordsFile.length; i++) {
+    words.add(wordsFile[i]);
+  }
+}
+
+void saveWords() {
+  String []wordsFile = new String[words.size()];
+  for (int i = 0; i < wordsFile.length; i++) {
+    wordsFile[i] = (String)words.get(i);
+  }
+  saveStrings(sketchPath("words.txt"), wordsFile);
+}
 
 void draw()
 {
@@ -40,24 +58,37 @@ void draw()
       //println(year() + "-" + month() + "-" + day() + "@" + hour() + ":" +minute()+":" +second() + " ---- Using friendly name "+c);
       lastInteraction=millis();
       if (ping()) {
-        link(URLEncode("http://www.flickr.com/search/show/?q=\""+c+"\"")); 
-        retry = false;
-      } else {
-         showNetError();
+        if (search(c)) {
+          //println(c);
+          link(URLEncode("http://www.flickr.com/search/show/?q=\""+c+"\"")); 
+
+          retry = false;
+        } else {
+          showNumError();
+          retry = false;
+          lastInteraction = -1000*60*30;
+        }
+      } 
+      else {
+        //lastInteraction = 
+        showNetError();
       }
-      
+
     }
   }
   if (millis() > lastInteraction+1000*60*30) {
     if (words.size() > 0) {
       String c = (String)words.get((int)random(words.size()));
       println(year() + "-" + month() + "-" + day() + "@" + hour() + ":" +minute()+":" +second() + " ---- Reusing old tag "+c);
-      
+
       if (ping()) {
-        lastInteraction=millis();
-        link(URLEncode("http://www.flickr.com/search/show/?q=\""+c+"\"")); 
-      } else {
-         showNetError();
+        if (search(c)) {
+          lastInteraction=millis();
+          link(URLEncode("http://www.flickr.com/search/show/?q=\""+c+"\"")); 
+        }
+      } 
+      else {
+        showNetError();
         lastInteraction=lastInteraction+10*1000; // retry 10 sec later
       }
     }
@@ -109,12 +140,14 @@ void recievePath(OscMessage theOscMessage)
   else { //not supported
     lastInteraction=millis();
     words.add(fname);
+    
     if (words.size() > MAX_WORDS) {
       words.remove(0);
     }
-     println(year() + "-" + month() + "-" + day() + "@" + hour() + ":" +minute()+":" +second() + " fname " + uuid + " "+ fname + " " + originalFilename + " " + filename + " " + mimetype + " " + fname);
- 
-    
+    saveWords();
+    println(year() + "-" + month() + "-" + day() + "@" + hour() + ":" +minute()+":" +second() + " fname " + uuid + " "+ fname + " " + originalFilename + " " + filename + " " + mimetype + " " + fname);
+
+
     showNotSupported();
     retry = true; // show error, then retry last word
     return;
@@ -126,10 +159,19 @@ void recievePath(OscMessage theOscMessage)
     if (words.size() > MAX_WORDS) {
       words.remove(0);
     }
+    saveWords();
     println(year() + "-" + month() + "-" + day() + "@" + hour() + ":" +minute()+":" +second() + " content " +  uuid + " "+ fname + " " + originalFilename + " " + filename + " " + mimetype + " " + content);
     if (ping()) {
-      link(URLEncode("http://www.flickr.com/search/show/?q=\""+content+"\"")); 
-    } else {
+      if (search(content)) {
+        link(URLEncode("http://www.flickr.com/search/show/?q=\""+content+"\"")); 
+      } 
+      else {
+        showNumError();
+        lastInteraction = millis()-1000*60*30;
+        //retry = true;
+      }
+    } 
+    else {
       showNetError();
       retry = true;
     }
@@ -139,12 +181,14 @@ void recievePath(OscMessage theOscMessage)
 
 void showNotSupported() {
   link(sketchPath("notSupported.html"));
-  
+
 }
 void showNetError() {
   link(sketchPath("neterror.html"));
 }
-
+void showNumError() {
+  link(sketchPath("numerror.html"));
+}
 String parseTxt(String filename)
 {
   byte bytes[] = loadBytes(filename);
@@ -219,18 +263,19 @@ String parseVnt(String filename)
 
 void mousePressed() {
   println(ping());
-  
+
 }
 
 boolean ping() {
-  
+
   try {
     Socket s = new Socket("jorgecardoso.eu", 80);
-  } catch(Exception e) {
+  } 
+  catch(Exception e) {
     return false;
   }
   return true;
-  
+
 }
 
 
