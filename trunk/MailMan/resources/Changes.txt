@@ -1,6 +1,13 @@
 DiABlu Mailman
 
 --------------------------------------------------------
+Release 0.6 - 7 December 2008
+
+- Corrected some bugs in saving the files.
++ Added the friendly name parameter to the ReceivePath message.
+
+
+--------------------------------------------------------
 Release 0.5 - 0.8 August 2008
 
 + First public release.
