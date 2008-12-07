@@ -9,9 +9,8 @@
         <delete file="${dist.dir}/mimetypes.txt" />
         <delete file="${dist.dir}/oui.txt" />
         <copy todir="dist">
-            <fileset dir="resources" includes="*mimetypes.txt" />
-            <fileset dir="resources" includes="*oui.txt" />
-            <fileset dir="resources" includes="*README.txt" />
+            <fileset dir="resources" includes="*.txt" />
+            <fileset dir="resources" includes="*.TXT" />
         </copy>
     </target>
     
