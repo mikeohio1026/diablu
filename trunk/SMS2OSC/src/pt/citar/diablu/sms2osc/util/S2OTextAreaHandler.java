@@ -34,7 +34,7 @@ public class S2OTextAreaHandler extends Handler{
             {    if(i != 0)
                     textArea.append("\n");
                 textArea.append(logs.elementAt(i).getMessage());
-                textArea.setCaretPosition(textArea.getText().length() - 1);
+                textArea.setCaretPosition(textArea.getText().length());
             }   
         }
     }

@@ -16,6 +16,7 @@ public class S2OProperties {
     public S2OProperties(S2O s2o) {
         this.s2o = s2o;
         this.properties = new Properties();
+        this.loadProperties();
     }
 
     public void loadProperties() {
@@ -31,6 +32,7 @@ public class S2OProperties {
                 properties.setProperty("Gateway", "sms2osc");
                 properties.setProperty("ComPort", s2o.getCommPortList().getFirst());
                 properties.setProperty("UseLoopback", "true");
+                properties.setProperty("BaudRate", "57600");
                 properties.store(fos, "SMS2OSC Configuration");
 
             } catch (IOException ex) {
@@ -104,9 +106,31 @@ public class S2OProperties {
     {
         return properties.getProperty(command, "");
     }
-    
-    
-    
+
+    public void setProperty(String key, String value)
+    {
+
+        File file = new File("config.ini");
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            properties.setProperty(key, value);
+            properties.store(fos, "SMS2OSC Configuration");
+
+        } catch (IOException ex) {
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException ex) {
+            }
+        }
+
+    }
+
+    public String getBaudRate()
+    {
+        return properties.getProperty("BaudRate", "57600");
+    }
     
             
 }
