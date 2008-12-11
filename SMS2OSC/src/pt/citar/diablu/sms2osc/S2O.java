@@ -1,12 +1,12 @@
 package pt.citar.diablu.sms2osc;
 
 import java.io.IOException;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import pt.citar.diablu.sms2osc.bluetooth.S2OBTConnection;
+import pt.citar.diablu.sms2osc.gui.S2OConnectingPopUp;
 import pt.citar.diablu.sms2osc.gui.S2OGUI;
 import pt.citar.diablu.sms2osc.osc.S2OOscClient;
 import pt.citar.diablu.sms2osc.osc.S2OOscServer;
@@ -25,10 +25,13 @@ public class S2O {
     
     
     private S2OGUI gui;
+    private S2OConnectingPopUp connectionPopUpGui;
     private S2OTextAreaHandler textAreaHandler;
     private FileHandler fileHandler;
     private S2OOscServer oscServer;
     private S2OOscClient oscClient;
+
+
     
     
     private S2OSMSParser smsParser;
@@ -51,10 +54,9 @@ public class S2O {
         smsParser = new S2OSMSParser(this, properties.useParser());
         if(smsParser.isActive())
         {
-            System.out.println("lalala");
             smsParser.getCommands(properties.getCommands());
         }
-        btConnection = new S2OBTConnection(this, properties.getGateway(), "COM6", 57600, "Siemens", "S65");
+        btConnection = new S2OBTConnection(this, properties.getGateway(), this.getGui().getCommPort(), 57600, "", "");
         
         
     
@@ -66,15 +68,6 @@ public class S2O {
     
         S2O s2o = new S2O();
         s2o.gui.setVisible(true);
-        
-        s2o.logger.log(Level.SEVERE, "SEVERE");
-        s2o.logger.log(Level.WARNING, "WARNING");
-        s2o.logger.log(Level.INFO, "INFO");
-        s2o.logger.log(Level.CONFIG, "CONFIG");
-        s2o.logger.log(Level.FINE, "FINE");
-        s2o.logger.log(Level.FINER, "FINER");
-        s2o.logger.log(Level.FINEST, "FINEST");
-        
     }
     
     private void setupLogger()
@@ -136,6 +129,24 @@ public class S2O {
     public S2OSMSParser getSmsParser() {
         return smsParser;
     }
+
+    public void setBtConnectionThread(Thread btConnectionThread) {
+        this.btConnectionThread = btConnectionThread;
+    }
+
+    public S2OConnectingPopUp getConnectionPopUpGui() {
+        return connectionPopUpGui;
+    }
+
+    public void setConnectionPopUpGui(S2OConnectingPopUp connectionPopUpGui) {
+        this.connectionPopUpGui = connectionPopUpGui;
+    }
+
+    public void setBtConnection(S2OBTConnection btConnection) {
+        this.btConnection = btConnection;
+    }
+
+
     
     
             

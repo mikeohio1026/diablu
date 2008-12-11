@@ -30,12 +30,13 @@ public class S2OOscServer {
             oscServer.start();
             connected = true;
             s2o.getGui().serverButtonStop(connected);
-            
+            s2o.getProperties().setProperty("RemoteIP", s2o.getGui().getHostname());
+            s2o.getProperties().setProperty("IncomingPort", s2o.getGui().getClientPort());
+            s2o.getProperties().setProperty("OutgoingPort", s2o.getGui().getServerPort());
         } catch (IOException ex) {
-
             oscServer.dispose();
             connected = false;
-            s2o.getGui().serverButtonStop(connected);
+            s2o.getGui().serverButtonStop(!connected);
         }
     }
 

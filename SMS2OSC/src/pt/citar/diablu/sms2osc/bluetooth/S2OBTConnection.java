@@ -32,6 +32,7 @@ public class S2OBTConnection implements Runnable {
     S2O s2o;
     boolean connected;
     boolean connecting;
+    SerialModemGateway gateway;
     
     public S2OBTConnection(S2O s2o, String id, String port, int baud, String manufacturer, String model) {
         this.s2o = s2o;
@@ -55,14 +56,14 @@ public class S2OBTConnection implements Runnable {
             
 
             srv = new Service();
-            SerialModemGateway gateway = new SerialModemGateway(id, port, baud, manufacturer, model);
+            gateway = new SerialModemGateway(id, port, baud, manufacturer, model);
             gateway.setInbound(true);
             gateway.setOutbound(true);
-            gateway.setOutboundNotification(outboundNotification);
-            gateway.setInboundNotification(inboundNotification);
+            srv.setOutboundNotification(outboundNotification);
+            srv.setInboundNotification(inboundNotification);
             srv.addGateway(gateway);
             srv.startService();
-            System.out.println("Modem Information: build2");
+            System.out.println("  Modem Information: build2");
             System.out.println("  Manufacturer: " + gateway.getManufacturer());
             System.out.println("  Model: " + gateway.getModel());
             System.out.println("  Serial No: " + gateway.getSerialNo());
@@ -114,7 +115,9 @@ public class S2OBTConnection implements Runnable {
 
     public void stopConnection() {
         try {
+
             srv.stopService();
+            gateway.stopGateway();
         } catch (TimeoutException ex) {
             Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
         } catch (GatewayException ex) {
@@ -166,9 +169,11 @@ public class S2OBTConnection implements Runnable {
     
     public void connect()
     {
-        Thread to = new Thread(new S2OBTConnectionTimeout(s2o, Thread.currentThread(), 15));
+        S2OBTConnectionTimeout timeout = new S2OBTConnectionTimeout(s2o, 15);
+        Thread to = new Thread(timeout);
         to.start();
         this.startConnection();
+        timeout.setConnected(true);
         to.interrupt();
     }
 
@@ -182,6 +187,10 @@ public class S2OBTConnection implements Runnable {
 
     public boolean isConnected() {
         return connected;
+    }
+
+    public String getPort() {
+        return port;
     }
     
     

@@ -1,20 +1,37 @@
 
 package pt.citar.diablu.sms2osc.gui;
 
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import javax.swing.JTextArea;
 import pt.citar.diablu.sms2osc.*;
-
+import pt.citar.diablu.sms2osc.bluetooth.S2OBTConnection;
 
 public class S2OGUI extends javax.swing.JFrame {
 
     S2O s2o;
     int rowNumber = 0;
+    boolean isGatewayConnected = false;
     
     public S2OGUI(S2O s2o) {
         this.s2o = s2o;
         initComponents();
         setCommPorts();
+
+        jTable1.addMouseListener(new MouseAdapter(){
+            @Override
+     public void mouseClicked(MouseEvent e){
+      if (e.getClickCount() == 2){
+         Point p = e.getPoint();
+         int row = jTable1.rowAtPoint(p);
+         System.out.println((String)jTable1.getValueAt(row,0));
+         System.out.println((String)jTable1.getValueAt(row,1));
+         System.out.println((String)jTable1.getValueAt(row,2));
+         }
+      }
+     } );
     }
     
     private void setCommPorts()
@@ -47,6 +64,8 @@ public class S2OGUI extends javax.swing.JFrame {
         CommPorts = new javax.swing.JComboBox();
         Connect = new javax.swing.JButton();
         CommPortLabel = new javax.swing.JLabel();
+        CommPortLabel1 = new javax.swing.JLabel();
+        BaudRateFormatedTextField = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -54,6 +73,7 @@ public class S2OGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         logTextArea = new javax.swing.JTextArea();
         jComboBox1 = new javax.swing.JComboBox();
+        jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,10 +124,12 @@ public class S2OGUI extends javax.swing.JFrame {
                 .addGroup(YourAppPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(YAPortjLabel)
                     .addComponent(YAPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         OSCConnectButton.setText("Start Server");
+        OSCConnectButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        OSCConnectButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         OSCConnectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OSCConnectButtonActionPerformed(evt);
@@ -139,7 +161,7 @@ public class S2OGUI extends javax.swing.JFrame {
                 .addGroup(SMS2OSCPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(S2OPortLabel)
                     .addComponent(S2OPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout OSCPanelLayout = new javax.swing.GroupLayout(OSCPanel);
@@ -163,10 +185,10 @@ public class S2OGUI extends javax.swing.JFrame {
         OSCPanelLayout.setVerticalGroup(
             OSCPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(OSCPanelLayout.createSequentialGroup()
-                .addGroup(OSCPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(YourAppPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SMS2OSCPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(24, 24, 24)
+                .addGroup(OSCPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(YourAppPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SMS2OSCPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(OSCConnectButton)
                 .addContainerGap())
         );
@@ -176,6 +198,7 @@ public class S2OGUI extends javax.swing.JFrame {
         GatewayPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Gateway"));
 
         Connect.setText("Connect");
+        Connect.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         Connect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ConnectActionPerformed(evt);
@@ -184,19 +207,29 @@ public class S2OGUI extends javax.swing.JFrame {
 
         CommPortLabel.setText("Port:");
 
+        CommPortLabel1.setText("Baud Rate:");
+
+        BaudRateFormatedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
         javax.swing.GroupLayout GatewayPanelLayout = new javax.swing.GroupLayout(GatewayPanel);
         GatewayPanel.setLayout(GatewayPanelLayout);
         GatewayPanelLayout.setHorizontalGroup(
             GatewayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GatewayPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(CommPortLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CommPorts, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(GatewayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(GatewayPanelLayout.createSequentialGroup()
+                        .addComponent(CommPortLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CommPorts, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GatewayPanelLayout.createSequentialGroup()
+                        .addComponent(CommPortLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BaudRateFormatedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GatewayPanelLayout.createSequentialGroup()
-                .addContainerGap(81, Short.MAX_VALUE)
-                .addComponent(Connect)
+                .addContainerGap(73, Short.MAX_VALUE)
+                .addComponent(Connect, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         GatewayPanelLayout.setVerticalGroup(
@@ -206,10 +239,16 @@ public class S2OGUI extends javax.swing.JFrame {
                 .addGroup(GatewayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CommPortLabel)
                     .addComponent(CommPorts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(GatewayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CommPortLabel1)
+                    .addComponent(BaudRateFormatedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                 .addComponent(Connect)
                 .addContainerGap())
         );
+
+        BaudRateFormatedTextField.setText(s2o.getProperties().getBaudRate());
 
         javax.swing.GroupLayout ConnectionPanelLayout = new javax.swing.GroupLayout(ConnectionPanel);
         ConnectionPanel.setLayout(ConnectionPanelLayout);
@@ -218,18 +257,18 @@ public class S2OGUI extends javax.swing.JFrame {
             .addGroup(ConnectionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(OSCPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(10, 10, 10)
                 .addComponent(GatewayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ConnectionPanelLayout.setVerticalGroup(
             ConnectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ConnectionPanelLayout.createSequentialGroup()
+            .addGroup(ConnectionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(ConnectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(OSCPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(GatewayPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(ConnectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(GatewayPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(OSCPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         S2OTabbedPane.addTab("Connection", ConnectionPanel);
@@ -258,7 +297,7 @@ public class S2OGUI extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Number", "Direction", "Title 3"
+                "Number", "Direction", "Message"
             }
         ) {
             Class[] types = new Class [] {
@@ -299,11 +338,11 @@ public class S2OGUI extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        S2OTabbedPane.addTab("tab3", jPanel2);
+        S2OTabbedPane.addTab("SMSs", jPanel2);
 
         logTextArea.setColumns(20);
         logTextArea.setRows(5);
@@ -332,12 +371,25 @@ public class S2OGUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         S2OTabbedPane.addTab("Log", jPanel1);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 654, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 216, Short.MAX_VALUE)
+        );
+
+        S2OTabbedPane.addTab("Test", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -347,21 +399,32 @@ public class S2OGUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(S2OTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+            .addComponent(S2OTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 private void ConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnectActionPerformed
-if(s2o.getBtConnection().isConnected())
-    {
+    if (isGatewayConnected) {
+        this.setVisible(false);
         s2o.getBtConnection().stopConnection();
+        s2o.getConnectionPopUpGui().connectionStopped();
+    } else {
+        
+        s2o.setBtConnection(new S2OBTConnection(s2o, "lala", CommPorts.getSelectedItem().toString(), 57600, "", ""));
+        s2o.setBtConnectionThread(new Thread(s2o.getBtConnection()));
+        s2o.getBtConnection().setPort(CommPorts.getSelectedItem().toString());
+        s2o.getProperties().setProperty("ComPort", CommPorts.getSelectedItem().toString());
+        s2o.getProperties().setProperty("BaudRate", BaudRateFormatedTextField.getText());
+
+        s2o.setConnectionPopUpGui(new S2OConnectingPopUp(s2o, CommPorts.getSelectedItem().toString()));
+        s2o.getConnectionPopUpGui().setVisible(true);
+
+        s2o.setBtConnectionThread(new Thread(s2o.getBtConnection()));
+        s2o.getBtConnectionThread().start();
+        this.setVisible(false);
     }
-    s2o.getBtConnection().setPort(CommPorts.getSelectedItem().toString());
-    
-    Thread btT = new Thread(s2o.getBtConnection());
-    btT.start();
 }//GEN-LAST:event_ConnectActionPerformed
 
 private void OSCConnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OSCConnectButtonActionPerformed
@@ -377,7 +440,9 @@ private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFormattedTextField BaudRateFormatedTextField;
     private javax.swing.JLabel CommPortLabel;
+    private javax.swing.JLabel CommPortLabel1;
     private javax.swing.JComboBox CommPorts;
     private javax.swing.JButton Connect;
     private javax.swing.JPanel ConnectionPanel;
@@ -396,11 +461,13 @@ private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea logTextArea;
     // End of variables declaration//GEN-END:variables
+
 
     public String getHostname() {
         return YAHostnameTextField.getText();
@@ -450,6 +517,29 @@ private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             rowNumber++;
         }
     }
+
+    public String getCommPort()
+    {
+        return CommPorts.getSelectedItem().toString();
+    }
+
+    public void setGatewayConnectionState(boolean state)
+    {
+        this.isGatewayConnected = state;
+        if(state)
+        {
+            this.Connect.setText("Stop Connection");
+            System.out.println("true");
+        }
+        else
+        {
+            this.Connect.setText("Connect");
+            System.out.println("false");
+        }
+    }
+
+
+
 
     
 }
