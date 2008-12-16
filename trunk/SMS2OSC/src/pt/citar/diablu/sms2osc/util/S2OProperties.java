@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Level;
 import pt.citar.diablu.sms2osc.S2O;
 
 public class S2OProperties {
@@ -36,10 +37,12 @@ public class S2OProperties {
                 properties.store(fos, "SMS2OSC Configuration");
 
             } catch (IOException ex) {
+                s2o.getLogger().log(Level.SEVERE, ex.getMessage());
             } finally {
                 try {
                     fos.close();
                 } catch (IOException ex) {
+                    s2o.getLogger().log(Level.SEVERE, ex.getMessage());
                 }
             }
         } else {
@@ -47,68 +50,63 @@ public class S2OProperties {
                 fis = new FileInputStream(file);
                 properties.load(fis);
             } catch (FileNotFoundException ex) {
+                s2o.getLogger().log(Level.SEVERE, ex.getMessage());
             } catch (IOException ex) {
+                s2o.getLogger().log(Level.SEVERE, ex.getMessage());
             } finally {
                 try {
                     fis.close();
                 } catch (IOException ex) {
+                    s2o.getLogger().log(Level.SEVERE, ex.getMessage());
                 }
             }
         }
 
     }
-    
-    public String getRemoteIP()
-    {
+
+    public String getRemoteIP() {
         return properties.getProperty("RemoteIP", "127.0.0.1");
     }
-    
-    public String getIncomingPort()
-    {
+
+    public String getIncomingPort() {
         return properties.getProperty("IncomingPort", "12000");
     }
 
-    public String getOutgoingPort()
-    {
+    public String getOutgoingPort() {
         return properties.getProperty("OutgoingPort", "12001");
     }
-    
-    public String getGateway()
-    {
+
+    public String getGateway() {
         return properties.getProperty("Gateway", "sms2osc");
     }
 
-    public String getComPort()
-    {
+    public String getComPort() {
         return properties.getProperty("ComPort", s2o.getCommPortList().getFirst());
     }
-    
-    public boolean useLoopback()
-    {
-        if(properties.getProperty("UseLoopback", "false").compareToIgnoreCase("true") == 1)
+
+    public boolean useLoopback() {
+        if (properties.getProperty("UseLoopback", "false").compareToIgnoreCase("true") == 1) {
             return true;
+        }
         return false;
     }
-    
-    public boolean useParser()
-    {
-        if(properties.getProperty("UseParser", "false").compareToIgnoreCase("true") == 0)
+
+    public boolean useParser() {
+        if (properties.getProperty("UseParser", "false").compareToIgnoreCase("true") == 0) {
             return true;
+        }
         return false;
     }
-    
-    public String getCommands()
-    {
+
+    public String getCommands() {
         return properties.getProperty("Commands", "");
     }
-    
-    public String getCommandString(String command)
-    {
+
+    public String getCommandString(String command) {
         return properties.getProperty(command, "");
     }
 
-    public void setProperty(String key, String value)
-    {
+    public void setProperty(String key, String value) {
 
         File file = new File("config.ini");
         FileOutputStream fos = null;
@@ -118,21 +116,20 @@ public class S2OProperties {
             properties.store(fos, "SMS2OSC Configuration");
 
         } catch (IOException ex) {
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
         } finally {
             try {
                 fos.close();
             } catch (IOException ex) {
+                s2o.getLogger().log(Level.SEVERE, ex.getMessage());
             }
         }
 
     }
 
-    public String getBaudRate()
-    {
+    public String getBaudRate() {
         return properties.getProperty("BaudRate", "57600");
     }
-    
-            
 }
 
 

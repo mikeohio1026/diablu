@@ -1,4 +1,3 @@
-
 package pt.citar.diablu.sms2osc.bluetooth;
 
 import de.sciss.net.OSCMessage;
@@ -7,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.smslib.GatewayException;
 import org.smslib.IInboundMessageNotification;
 import org.smslib.IOutboundMessageNotification;
@@ -20,7 +18,6 @@ import org.smslib.Service;
 import org.smslib.TimeoutException;
 import org.smslib.modem.SerialModemGateway;
 
-
 public class S2OBTConnection implements Runnable {
 
     String id;
@@ -31,9 +28,8 @@ public class S2OBTConnection implements Runnable {
     Service srv;
     S2O s2o;
     boolean connected;
-    boolean connecting;
     SerialModemGateway gateway;
-    
+
     public S2OBTConnection(S2O s2o, String id, String port, int baud, String manufacturer, String model) {
         this.s2o = s2o;
         this.id = id;
@@ -42,18 +38,18 @@ public class S2OBTConnection implements Runnable {
         this.manufacturer = manufacturer;
         this.model = model;
         this.connected = false;
-        this.connecting = false;
+
     }
 
     public void startConnection() {
         try {
-            
-            this.connecting = true;
+
+
             List<InboundMessage> msgList;
-           
+
             InboundNotification inboundNotification = new InboundNotification();
             OutboundNotification outboundNotification = new OutboundNotification();
-            
+
 
             srv = new Service();
             gateway = new SerialModemGateway(id, port, baud, manufacturer, model);
@@ -63,13 +59,15 @@ public class S2OBTConnection implements Runnable {
             srv.setInboundNotification(inboundNotification);
             srv.addGateway(gateway);
             srv.startService();
-            System.out.println("  Modem Information: build2");
+
+
+            /*System.out.println("  Modem Information: build2");
             System.out.println("  Manufacturer: " + gateway.getManufacturer());
             System.out.println("  Model: " + gateway.getModel());
             System.out.println("  Serial No: " + gateway.getSerialNo());
             System.out.println("  SIM IMSI: " + gateway.getImsi());
             System.out.println("  Signal Level: " + gateway.getSignalLevel() + "%");
-            System.out.println("  Battery Level: " + gateway.getBatteryLevel() + "%");
+            System.out.println("  Battery Level: " + gateway.getBatteryLevel() + "%");*/
 
             msgList = new ArrayList<InboundMessage>();
             srv.readMessages(msgList, MessageClasses.ALL);
@@ -77,55 +75,67 @@ public class S2OBTConnection implements Runnable {
                 System.out.println(msg);
             }
             this.connected = true;
-            
+            s2o.getConnectionPopUpGui().connected();
+
         } catch (TimeoutException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
-            this.connecting = false;
+            s2o.getLogger().log(Level.WARNING, ex.getMessage());
+            this.stopConnection();
+            s2o.getConnectionPopUpGui().connectionFailed();
         } catch (GatewayException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
-            this.connecting = false;
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
+            this.stopConnection();
+            
+            s2o.getConnectionPopUpGui().connectionFailed();
+
         } catch (SMSLibException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
-            this.connecting = false;
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
+            
+            s2o.getConnectionPopUpGui().connectionFailed();
+
         } catch (IOException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
-            this.connecting = false;
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
+            
+            s2o.getConnectionPopUpGui().connectionFailed();
+
         } catch (InterruptedException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
-            this.connecting = false;
+            s2o.getLogger().log(Level.WARNING, ex.getMessage());
+            this.stopConnection();
+            s2o.getConnectionPopUpGui().connectionStopped();
+
         }
     }
 
     public void sendMessage(String smsRecipient, String smsBody) {
         try {
+            s2o.getGui().addMessageRow(smsRecipient, "Outbound", smsBody);
             OutboundMessage msg;
             msg = new OutboundMessage(smsRecipient, smsBody);
             srv.sendMessage(msg);
 
         } catch (TimeoutException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
+            s2o.getLogger().log(Level.WARNING, ex.getMessage());
         } catch (GatewayException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
         } catch (InterruptedException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
         }
     }
 
     public void stopConnection() {
         try {
-
+            this.connected = false;
             srv.stopService();
             gateway.stopGateway();
         } catch (TimeoutException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
         } catch (GatewayException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
         } catch (InterruptedException ex) {
-            Logger.getLogger(S2OBTConnection.class.getName()).log(Level.SEVERE, null, ex);
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
         }
     }
 
@@ -135,7 +145,7 @@ public class S2OBTConnection implements Runnable {
             System.out.println("Sending message through: " + gatewayId);
             System.out.println("To: " + msg.getRecipient());
             System.out.println("Body:\n" + msg);
-            
+
         }
     }
 
@@ -146,39 +156,31 @@ public class S2OBTConnection implements Runnable {
             if (msgType == MessageTypes.INBOUND) {
                 System.out.println(">>> New Inbound message detected from Gateway: " + gatewayId);
                 s2o.getGui().addMessageRow(msg.getOriginator(), "Inbound", msg.getText());
-                if(s2o.getSmsParser().isActive())
-                {
+                if (s2o.getSmsParser().isActive()) {
                     s2o.getSmsParser().parse(msg.getText());
-                }
-                else
-                {
-                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/sms", new Object[] { msg.getOriginator(), msg.getText()}));
+                } else {
+                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/sms", new Object[]{msg.getOriginator(), msg.getText()}));
                     System.out.println("Message: " + msg.getText());
                 }
                 try {
                     srv.deleteMessage(msg);
                 } catch (Exception e) {
-                    
-                System.out.println("Oops!!! Something gone bad...");
-                e.printStackTrace();
+
+                    System.out.println("Oops!!! Something gone bad...");
+                    e.printStackTrace();
                 }
+
             }
-            
+
         }
-    }
-    
-    public void connect()
-    {
-        S2OBTConnectionTimeout timeout = new S2OBTConnectionTimeout(s2o, 15);
-        Thread to = new Thread(timeout);
-        to.start();
-        this.startConnection();
-        timeout.setConnected(true);
-        to.interrupt();
     }
 
     public void run() {
-        connect();
+        S2OBTConnectionTimeout timeout = new S2OBTConnectionTimeout(s2o, 20000);
+        Thread to = new Thread(timeout);
+        to.start();
+        this.startConnection();
+        to.interrupt();
     }
 
     public void setPort(String port) {
@@ -192,7 +194,4 @@ public class S2OBTConnection implements Runnable {
     public String getPort() {
         return port;
     }
-    
-    
-    
 }
