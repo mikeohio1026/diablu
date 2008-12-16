@@ -1,39 +1,24 @@
-/*
- *
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * S2OConnectingPopUp.java
- *
- * Created on 9/Dez/2008, 11:08:11
- */
 
 package pt.citar.diablu.sms2osc.gui;
 
-//import javax.swing.JFrame;
+import java.util.logging.Level;
+import javax.swing.JFrame;
 import pt.citar.diablu.sms2osc.S2O;
 
-/**
- *
- * @author Raspa
- */
+
 public class S2OConnectingPopUp extends javax.swing.JFrame {
 
     S2O s2o;
     String commPort;
 
-    /** Creates new form S2OConnectingPopUp */
     public S2OConnectingPopUp(S2O s2o, String commPort) {
         this.s2o = s2o;
         this.commPort = commPort;
         initComponents();
-        //this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         messageLabel.setText("Establishing Connection on port " + commPort);
         okButton.setVisible(false);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -97,7 +82,7 @@ public class S2OConnectingPopUp extends javax.swing.JFrame {
         s2o.getGui().setVisible(true);
         this.setVisible(false);
         s2o.getGui().setGatewayConnectionState(false);
-        
+
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
@@ -105,39 +90,37 @@ public class S2OConnectingPopUp extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_okButtonActionPerformed
 
-    public void connected()
-    {
+    public void connected() {
         cancelButton.setVisible(false);
         okButton.setVisible(true);
         messageLabel.setText("Connection established on port " + commPort);
         s2o.getGui().setGatewayConnectionState(true);
+        s2o.getLogger().log(Level.WARNING, "Connection established on port " +  commPort);
+
 
     }
 
-    public void connectionFailed()
-    {
+    public void connectionFailed() {
         cancelButton.setVisible(false);
         okButton.setVisible(true);
         messageLabel.setText("Connection failed on port " + commPort);
         s2o.getGui().setGatewayConnectionState(false);
+        s2o.getLogger().log(Level.WARNING, "Connection failed on port " +  commPort);
 
     }
 
-    public void connectionStopped()
-    {
+    public void connectionStopped() {
         this.setVisible(true);
         cancelButton.setVisible(false);
         okButton.setVisible(true);
         messageLabel.setText("Connection stopped port " + s2o.getBtConnection().getPort());
         s2o.getGui().setGatewayConnectionState(false);
+        s2o.getLogger().log(Level.WARNING, "Connection stopped on port " +  commPort);
 
     }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel messageLabel;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
-
 }

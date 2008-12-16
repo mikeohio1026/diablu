@@ -5,6 +5,7 @@ package pt.citar.diablu.sms2osc.osc;
 
 import de.sciss.net.OSCServer;
 import java.io.IOException;
+import java.util.logging.Level;
 import pt.citar.diablu.sms2osc.S2O;
 
 
@@ -30,13 +31,13 @@ public class S2OOscServer {
             oscServer.start();
             connected = true;
             s2o.getGui().serverButtonStop(connected);
-            s2o.getProperties().setProperty("RemoteIP", s2o.getGui().getHostname());
-            s2o.getProperties().setProperty("IncomingPort", s2o.getGui().getClientPort());
             s2o.getProperties().setProperty("OutgoingPort", s2o.getGui().getServerPort());
+            s2o.getLogger().log(Level.INFO, "OSC Server started on port " + s2o.getGui().getServerPort());
         } catch (IOException ex) {
             oscServer.dispose();
             connected = false;
             s2o.getGui().serverButtonStop(!connected);
+            s2o.getLogger().log(Level.SEVERE, ex.getMessage());
         }
     }
 
@@ -49,6 +50,7 @@ public class S2OOscServer {
             s2o.getGui().serverButtonStop(connected);
             break;
         }
+        s2o.getLogger().log(Level.INFO, "OSC Server stopped");
     }
 
     public boolean isConnected() {

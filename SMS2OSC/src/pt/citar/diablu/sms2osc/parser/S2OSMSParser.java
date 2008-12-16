@@ -3,6 +3,7 @@ package pt.citar.diablu.sms2osc.parser;
 import de.sciss.net.OSCMessage;
 import java.util.HashMap;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 import pt.citar.diablu.sms2osc.S2O;
 
 public class S2OSMSParser {
@@ -28,7 +29,6 @@ public class S2OSMSParser {
         String command;
         while (st.hasMoreTokens()) {
             command = st.nextToken();
-            System.out.println(s2o.getProperties().getCommandString(command));
             commands.put(command, s2o.getProperties().getCommandString(command));
         }
     }
@@ -48,22 +48,23 @@ public class S2OSMSParser {
             if (value.length() == 0) {
                 if (!st.hasMoreTokens()) {
                     s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/" + command));
+                    s2o.getLogger().log(Level.INFO, "OSC Message Sent: /diablu/sms2osc/" + command);
                 } else {
-                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/commandError1", new Object[]{msg}));
+                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/argumentsError", new Object[]{msg}));
+                    s2o.getLogger().log(Level.INFO, "OSC Message Sent: /diablu/sms2osc/argumentsError" + msg);
                 }
             } else {
                 for (int i = 0; i < value.length(); i++) {
-                    System.out.println("lsls");
                     if (st.hasMoreTokens()) {
                         c = value.charAt(i);
                         switch (c) {
                             case 'i': {
                                 try {
                                     arguments[i] = Integer.parseInt(st.nextToken());
-                                    System.out.println(arguments[i]);
                                     break;
                                 } catch (NumberFormatException ex) {
-                                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/commandError2", new Object[]{msg}));
+                                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/argumentsError", new Object[]{msg}));
+                                    s2o.getLogger().log(Level.INFO, "OSC Message Sent: /diablu/sms2osc/argumentsError" + msg);
                                     return;
                                 }
                             }
@@ -75,21 +76,21 @@ public class S2OSMSParser {
                                         String decimal = floatSt.nextToken();
                                         f += Integer.parseInt(decimal) / (Math.pow(10.0, decimal.length()));
                                         arguments[i] = f;
-                                        System.out.println(arguments[i]);
                                         break;
                                     }
                                 } catch (NumberFormatException ex) {
-                                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/commandError3", new Object[]{msg}));
+                                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/argumentsError", new Object[]{msg}));
+                                    s2o.getLogger().log(Level.INFO, "OSC Message Sent: /diablu/sms2osc/argumentsError" + msg);
                                     return;
                                 }
                             }
                             case 'w': {
                                 if (st.hasMoreTokens()) {
                                     arguments[i] = st.nextToken();
-                                    System.out.println(arguments[i]);
                                     break;
                                 } else {
-                                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/commandError4", new Object[]{msg}));
+                                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/argumentsError", new Object[]{msg}));
+                                    s2o.getLogger().log(Level.INFO, "OSC Message Sent: /diablu/sms2osc/argumentsError" + msg);
                                     return;
                                 }
                             }
@@ -105,7 +106,6 @@ public class S2OSMSParser {
                                     }
                                 }
                                 arguments[i] = s;
-                                System.out.println(arguments[i]);
                                 break;
                             }
                             case 'c': {
@@ -114,14 +114,15 @@ public class S2OSMSParser {
                                     if (s.length() == 1) {
                                         String l = "" + s.charAt(0);
                                         arguments[i] = l;
-                                        System.out.println(arguments[i]);
                                         break;
                                     } else {
-                                        s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/commandError5", new Object[]{msg}));
+                                        s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/argumentsError", new Object[]{msg}));
+                                        s2o.getLogger().log(Level.INFO, "OSC Message Sent: /diablu/sms2osc/argumentsError" + msg);
                                         return;
                                     }
                                 } else {
-                                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/commandError", new Object[]{msg}));
+                                    s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/argumentsError", new Object[]{msg}));
+                                    s2o.getLogger().log(Level.INFO, "OSC Message Sent: /diablu/sms2osc/argumentsError" + msg);
                                     return;
                                 }
                             }
@@ -129,10 +130,11 @@ public class S2OSMSParser {
                     }
                 }
                 s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/" + command, arguments));
+                s2o.getLogger().log(Level.INFO, "OSC Message Sent: /diablu/sms2osc/" + command + " " + msg.substring(command.length() + 1, msg.length()));
             }
         } else {
-            System.out.println("Command does not exist: " + command);
-            s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/commandNotFounf", new Object[] {command, msg}));
+            s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/commandNotFound", new Object[]{command}));
+            s2o.getLogger().log(Level.INFO, "OSC Message Sent: /diablu/sms2osc/commandNotFound" + command);
         }
     }
 }
