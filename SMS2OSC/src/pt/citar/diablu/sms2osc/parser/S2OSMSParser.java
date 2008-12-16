@@ -133,7 +133,7 @@ public class S2OSMSParser {
                 s2o.getLogger().log(Level.INFO, "OSC Message Sent: /diablu/sms2osc/" + command + " " + msg.substring(command.length() + 1, msg.length()));
             }
         } else {
-            s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/commandNotFound", new Object[]{command}));
+            s2o.getOscClient().send(new OSCMessage("/diablu/sms2osc/commandNotFound", new Object[]{message}));
             s2o.getLogger().log(Level.INFO, "OSC Message Sent: /diablu/sms2osc/commandNotFound" + command);
         }
     }
