@@ -34,8 +34,9 @@ public class S2O {
 
     public S2O() {
         logger = Logger.getLogger("pt.citar.diablu.sms2osc");
-        properties = new S2OProperties(this);
         commPortList = new S2OCommPortList();
+        properties = new S2OProperties(this);
+        
         gui = new S2OGUI(this);
         setupLogger();
 
