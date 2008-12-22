@@ -1,3 +1,27 @@
+/*
+ * DiABlu SMS2OSC
+ * Copyright (C) 2008-2009, CITAR (Research Centre for Science and Technology in Art)
+ *
+ * This is part of the DiABlu Project, created by Jorge Cardoso - http://diablu.jorgecardoso.eu
+ *
+ *
+ * Contributors:
+ * - Pedro Santos <psantos@porto.ucp.pt>
+ * - Jorge Cardoso <jccardoso@porto.ucp.pt>
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+ * MA 02111-1307 USA
+ */
+
 package pt.citar.diablu.sms2osc.util;
 
 import java.io.File;
@@ -34,6 +58,9 @@ public class S2OProperties {
                 properties.setProperty("ComPort", s2o.getCommPortList().getFirst());
                 properties.setProperty("UseLoopback", "true");
                 properties.setProperty("BaudRate", "57600");
+                properties.setProperty("Level", "SEVERE");
+                properties.setProperty("TableSize", "20");
+                properties.setProperty("LogSize", "20");
                 properties.store(fos, "SMS2OSC Configuration");
 
             } catch (IOException ex) {
@@ -104,6 +131,18 @@ public class S2OProperties {
 
     public String getCommandString(String command) {
         return properties.getProperty(command, "");
+    }
+
+    public int getTableSize() {
+        return Integer.parseInt(properties.getProperty("TableSize", "20"));
+    }
+
+    public int getLogSize() {
+        return Integer.parseInt(properties.getProperty("LogSize", "20"));
+    }
+
+    public Level getLevel() {
+        return Level.parse(properties.getProperty("Level", "SEVERE"));
     }
 
     public void setProperty(String key, String value) {
