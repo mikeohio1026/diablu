@@ -1,8 +1,31 @@
+/*
+ * DiABlu SMS2OSC
+ * Copyright (C) 2008-2009, CITAR (Research Centre for Science and Technology in Art)
+ *
+ * This is part of the DiABlu Project, created by Jorge Cardoso - http://diablu.jorgecardoso.eu
+ *
+ *
+ * Contributors:
+ * - Pedro Santos <psantos@porto.ucp.pt>
+ * - Jorge Cardoso <jccardoso@porto.ucp.pt>
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+ * MA 02111-1307 USA
+ */
+
 package pt.citar.diablu.sms2osc.gui;
 
 import de.sciss.net.OSCMessage;
 import java.util.logging.Level;
-import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import pt.citar.diablu.sms2osc.*;
@@ -74,8 +97,11 @@ public class S2OGUI extends javax.swing.JFrame {
         sendButton = new javax.swing.JButton();
         numberLabel = new javax.swing.JLabel();
         numberTextField = new javax.swing.JTextField();
+        AboutPanel = new javax.swing.JPanel();
+        Imagem = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("DiABlu SMS2OSC");
 
         OSCPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("OSC"));
 
@@ -217,18 +243,16 @@ public class S2OGUI extends javax.swing.JFrame {
             .addGroup(GatewayPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GatewayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(GatewayPanelLayout.createSequentialGroup()
-                        .addComponent(CommPortLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CommPorts, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GatewayPanelLayout.createSequentialGroup()
-                        .addComponent(CommPortLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BaudRateFormatedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GatewayPanelLayout.createSequentialGroup()
-                .addContainerGap(73, Short.MAX_VALUE)
-                .addComponent(Connect, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(GatewayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(GatewayPanelLayout.createSequentialGroup()
+                            .addComponent(CommPortLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(CommPorts, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GatewayPanelLayout.createSequentialGroup()
+                            .addComponent(CommPortLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(BaudRateFormatedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(Connect, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
                 .addContainerGap())
         );
         GatewayPanelLayout.setVerticalGroup(
@@ -272,29 +296,8 @@ public class S2OGUI extends javax.swing.JFrame {
 
         S2OTabbedPane.addTab("Connection", ConnectionPanel);
 
-        SMSTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
+        Object[][] to = new Object[s2o.getProperties().getTableSize()][3];
+        SMSTable.setModel(new javax.swing.table.DefaultTableModel(to,
             new String [] {
                 "Number", "Direction", "Message"
             }
@@ -353,6 +356,7 @@ public class S2OGUI extends javax.swing.JFrame {
                 LevelComboBoxActionPerformed(evt);
             }
         });
+        LevelComboBox.setSelectedItem(s2o.getProperties().getLevel().getName());
 
         javax.swing.GroupLayout logPannelLayout = new javax.swing.GroupLayout(logPannel);
         logPannel.setLayout(logPannelLayout);
@@ -448,6 +452,30 @@ public class S2OGUI extends javax.swing.JFrame {
 
         S2OTabbedPane.addTab("Test", TestPanel);
 
+        Imagem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Imagem.setText("Imagem");
+
+        javax.swing.GroupLayout AboutPanelLayout = new javax.swing.GroupLayout(AboutPanel);
+        AboutPanel.setLayout(AboutPanelLayout);
+        AboutPanelLayout.setHorizontalGroup(
+            AboutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AboutPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Imagem, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        AboutPanelLayout.setVerticalGroup(
+            AboutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AboutPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Imagem, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        Imagem.getAccessibleContext().setAccessibleName("Imagem");
+
+        S2OTabbedPane.addTab("About", AboutPanel);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -494,6 +522,7 @@ private void OSCConnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//
 
 private void LevelComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LevelComboBoxActionPerformed
     s2o.getLogger().setLevel(Level.parse((String) LevelComboBox.getSelectedItem()));
+    s2o.getProperties().setProperty("Level", (String) LevelComboBox.getSelectedItem());
 }//GEN-LAST:event_LevelComboBoxActionPerformed
 
 private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
@@ -517,6 +546,7 @@ private void inRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_inRadioButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel AboutPanel;
     private javax.swing.JFormattedTextField BaudRateFormatedTextField;
     private javax.swing.JLabel CommPortLabel;
     private javax.swing.JLabel CommPortLabel1;
@@ -524,6 +554,7 @@ private void inRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JButton Connect;
     private javax.swing.JPanel ConnectionPanel;
     private javax.swing.JPanel GatewayPanel;
+    private javax.swing.JLabel Imagem;
     private javax.swing.JComboBox LevelComboBox;
     private javax.swing.JButton OSCConnectButton;
     private javax.swing.JPanel OSCPanel;
@@ -579,22 +610,22 @@ private void inRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     }
 
     public void addMessageRow(String number, String direction, String message) {
-        if (rowNumber < 20) {
+        if (rowNumber < s2o.getProperties().getTableSize()) {
             SMSTable.getModel().setValueAt(number, rowNumber, 0);
             SMSTable.getModel().setValueAt(direction, rowNumber, 1);
             SMSTable.getModel().setValueAt(message, rowNumber, 2);
             SMSTable.changeSelection(rowNumber, 0, false, false);
             rowNumber++;
         } else {
-            for (int i = 0; i < 19; i++) {
+            for (int i = 0; i < s2o.getProperties().getTableSize() - 1; i++) {
                 SMSTable.getModel().setValueAt(SMSTable.getModel().getValueAt(i + 1, 0), i, 0);
                 SMSTable.getModel().setValueAt(SMSTable.getModel().getValueAt(i + 1, 1), i, 1);
                 SMSTable.getModel().setValueAt(SMSTable.getModel().getValueAt(i + 1, 2), i, 2);
             }
-            SMSTable.getModel().setValueAt(number, 19, 0);
-            SMSTable.getModel().setValueAt(direction, 19, 1);
-            SMSTable.getModel().setValueAt(message, 19, 2);
-            SMSTable.changeSelection(19, 0, false, false);
+            SMSTable.getModel().setValueAt(number, s2o.getProperties().getTableSize(), 0);
+            SMSTable.getModel().setValueAt(direction, s2o.getProperties().getTableSize(), 1);
+            SMSTable.getModel().setValueAt(message, s2o.getProperties().getTableSize(), 2);
+            SMSTable.changeSelection(s2o.getProperties().getTableSize(), 0, false, false);
             rowNumber++;
         }
     }
