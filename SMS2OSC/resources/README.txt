@@ -29,10 +29,20 @@ MA 02111-1307 USA
 
 
 
+Installing
+----------
+
+Follow the instructions on http://smslib.org/doc/installation/ to install:
+
+	- Java Communications Library
+	- Apache Ant
+	- Apache log4j
+
 
 
 Running
 -------
+
 In most cases just double click the SMS2OSC.jar file.
 
 You can also run it in the command line as "java -jar SMS2OSC.jar".
