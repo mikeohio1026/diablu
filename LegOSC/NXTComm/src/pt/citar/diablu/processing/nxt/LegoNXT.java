@@ -107,6 +107,11 @@ public class LegoNXT {
     private NXTSpeaker speaker;
     
     /**
+     * The NXT Message Box.
+     */
+    private NXTMsgBox msgbox;
+    
+    /**
      * The NXT motors.
      */
     private NXTMotor motor[];
@@ -174,6 +179,9 @@ public class LegoNXT {
         // make the speaker
         speaker = new NXTSpeaker(brick);
         
+        // make the messagebox
+        msgbox = new NXTMsgBox(brick);
+        
         // nxtcomm version info
         System.out.println("NXTComm for Processing, beta version 0.91 by Jorge Cardoso");
     }
@@ -190,6 +198,16 @@ public class LegoNXT {
         return speaker.playTone(frequency, duration);
     }
     
+    /**
+     * Sends a BT message to the NXT.
+     *
+     * @param mailbox number
+     * @param message The message string
+     * @return True if all went ok. False otherwise.
+     */
+    public boolean sendMsg(int mailbox, String message) {
+        return msgbox.sendMsg(mailbox, message);
+    }
     
     /**
      * Sets the power to the specified motor.
